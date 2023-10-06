@@ -78,7 +78,7 @@ public abstract class Pez {
     public void showStatus() {
         System.out.println("--------------- " + pc.getNombre() + " ---------------");
         System.out.println("Edad: " + edad + " días");
-        System.out.println("Sexo: " + sexo);
+        System.out.println("Sexo: " + (getSexo() ? "H" : "M"));
         System.out.println("Vivo: " + (estaVivo ? "Si" : "No"));
         System.out.println("Alimentado: " + (alimentado ? "Si" : "No"));
         System.out.println("Adulto: " + (adulto ? "Si" : "No"));

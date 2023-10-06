@@ -63,7 +63,7 @@ public abstract class Tanque {
                 "Peces adultos: " + contador + "/" + contadorVivos + " (" + ((contador / contadorVivos) * 100) + ")");
         contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo() && peces.get(i).isSexo()) {
+            if (peces.get(i).isEstaVivo() && peces.get(i).getSexo()) {
                 contador++;
             }
         }
