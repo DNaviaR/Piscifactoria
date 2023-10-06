@@ -30,7 +30,15 @@ public abstract class Piscifactoria {
 
     @Override
     public String toString() {
-        return "=============== "+this.nombrePiscifactoria+" ===============\nTanques: "+tanques.size()+"\nOcupacion: \nPeces vivos: \nPeces alimentados: \nPeces adultos: \nHembras / Machos: /\nFertiles: \nAlmacen de comida: ";
+        return "=============== "+this.nombrePiscifactoria+" ===============\n" +
+            "Tanques: "+tanques.size()+"\n" +
+            "Ocupacion: \n" +
+            "Peces vivos: \n" + 
+            "Peces alimentados: \n" +
+            "Peces adultos: \n" +
+            "Hembras / Machos: /\n" +
+            "Fertiles: \n" +
+            "Almacen de comida: ";
     }
 
 }
