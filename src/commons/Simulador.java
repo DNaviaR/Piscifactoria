@@ -16,7 +16,6 @@ public class Simulador {
     private int dias;
     ArrayList<Piscifactoria> piscifactorias=new ArrayList<>();
     private String nombrePartida;
-    private String primeraPiscifactoria;
     
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
@@ -44,7 +43,7 @@ public class Simulador {
     public static void main(String[] args) throws Exception {
         //Simulador simulador=new Simulador();
         //simulador.logica();
-        CarpaPlateada cp=new CarpaPlateada('M', AlmacenPropiedades.CARPA_PLATEADA);
+        CarpaPlateada cp=new CarpaPlateada(true);
         cp.showStatus();
     }
 }
