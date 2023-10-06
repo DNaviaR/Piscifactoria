@@ -7,8 +7,8 @@ import propiedades.PecesDatos;
 
 public abstract class Pez {
     PecesDatos pc;
-    private String nombreComun;
-    private String nombreCientifico;
+    private String nombre;
+    private String cientifico;
     private int edad;
     private char sexo;
     private boolean estaVivo=true;
@@ -18,15 +18,17 @@ public abstract class Pez {
 
     public Pez(char sexo, PecesDatos pc) {
         this.sexo=sexo;
-
+        this.pc=pc;
+        this.nombre=pc.getNombre();
+        this.cientifico=pc.getCientifico();
     }
 
-    public String getNombreComun() {
-        return nombreComun;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getNombreCientifico() {
-        return nombreCientifico;
+    public String getCientifico() {
+        return cientifico;
     }
 
     public int getEdad() {
@@ -75,13 +77,13 @@ public abstract class Pez {
 
     @Override
     public String toString() {
-        return "Pez [nombreComun=" + nombreComun + ", nombreCientifico=" + nombreCientifico + ", edad=" + edad
+        return "Pez [nombre=" + nombre + ", cientifico=" + cientifico + ", edad=" + edad
                 + ", sexo=" + sexo + ", estaVivo=" + estaVivo + ", alimentado=" + alimentado + ", adulto=" + adulto
                 + ", esFertil=" + esFertil + "]";
     }
 
     public void showStatus() {
-        System.out.println("--------------- " + nombreComun + " ---------------");
+        System.out.println("--------------- " + nombre + " ---------------");
         System.out.println("Edad: " + edad + " días");
         System.out.println("Sexo: " + sexo);
         System.out.println("Vivo: " + (estaVivo ? "Si" : "No"));

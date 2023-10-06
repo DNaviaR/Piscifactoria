@@ -2,7 +2,7 @@ package pez;
 
 public class PezMar extends Pez{
 
-    public PezMar(String nombreComun, String nombreCientifico, char sexo) {
-        super(nombreComun, nombreCientifico, sexo);
+    public PezMar(String nombre, String cientifico, char sexo) {
+        super(nombre, cientifico, sexo);
     }
 }

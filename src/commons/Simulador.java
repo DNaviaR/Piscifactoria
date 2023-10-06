@@ -7,6 +7,8 @@ import pez.CarpaPlateada;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
 import piscifactoria.Tanque;
+import propiedades.AlmacenPropiedades;
+import propiedades.PecesDatos;
 
 public class Simulador {
     Estadisticas estadisticas;
@@ -40,7 +42,9 @@ public class Simulador {
     }
 
     public static void main(String[] args) throws Exception {
-        Simulador simulador=new Simulador();
-        simulador.logica();
+        //Simulador simulador=new Simulador();
+        //simulador.logica();
+        CarpaPlateada cp=new CarpaPlateada('M', AlmacenPropiedades.CARPA_PLATEADA);
+        cp.showStatus();
     }
 }
