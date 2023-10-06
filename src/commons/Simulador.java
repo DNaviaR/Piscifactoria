@@ -8,6 +8,7 @@ import pez.CarpaPlateada;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
 import piscifactoria.Tanque;
+import piscifactoria.TanqueRio;
 import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
 
@@ -44,7 +45,7 @@ public class Simulador {
     public static void main(String[] args) throws Exception {
         // Simulador simulador=new Simulador();
         // simulador.logica();
-        CarpaPlateada cp = new CarpaPlateada(true);
-        cp.showStatus();
+        TanqueRio tanque=new TanqueRio(1);
+        tanque.showStatus();
     }
 }

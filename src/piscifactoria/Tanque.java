@@ -10,7 +10,7 @@ public abstract class Tanque {
     int numeroTanque;
 
     public Tanque(int numeroTanque) {
-        this.numeroTanque=numeroTanque;
+        this.numeroTanque = numeroTanque;
     }
 
     public int getEspacio() {
@@ -37,44 +37,63 @@ public abstract class Tanque {
     public void showStatus() {// Deberia funcionar
         System.out.println("--------------- Tanque" + numeroTanque + " ---------------");
         System.out.println("Ocupación " + peces.size() + "/" + espacio + " (" + ((peces.size() / espacio) * 100) + ")");
+        System.out.println("Peces vivos " + getVivos() + "/" + peces.size() + " ("
+                +(peces.size()==0?"0/0":((getVivos() / peces.size()) * 100))  + ")");
+        System.out.println("Peces alimentados: " + getAlimentados() + "/" + getVivos() + " ("
+                + (peces.size()==0?"0/0":((getAlimentados()/getVivos())*100)) + ")");
+        System.out.println("Peces adultos: " + getAdultos() + "/" + getVivos() + " (" + (peces.size()==0?"0/0":(getAdultos() / getVivos()) * 100) + ")");
+        System.out.println("Hembras/Machos: " + getHembras() + "/" + (getVivos() - getHembras()));
+        System.out.println("Fértiles: " +getFertiles() + "/" + getVivos());
+    }
+
+    public int getVivos() {
         int contadorVivos = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isEstaVivo()) {
                 contadorVivos++;
             }
         }
-        System.out.println("Peces vivos " + contadorVivos + "/" + peces.size() + " ("
-                + ((contadorVivos / peces.size()) * 100) + ")");
+        return contadorVivos;
+    }
+
+    public int getAlimentados() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isAlimentado()) {
                 contador++;
             }
         }
-        System.out.println("Peces alimentados: " + contador + "/" + contadorVivos + " ("
-                + ((contador / contadorVivos) * 100) + ")");
-        contador = 0;
-        for (int i = 0; i < peces.size(); i++) {
+        return contador;
+    }
+
+    public int getAdultos(){
+        int contador = 0;
+        for (int i = 0; i <  peces.size(); i++) {
             if (peces.get(i).isAdulto()) {
                 contador++;
             }
         }
-        System.out.println(
-                "Peces adultos: " + contador + "/" + contadorVivos + " (" + ((contador / contadorVivos) * 100) + ")");
-        contador = 0;
+        return contador;
+    }
+
+    public int getHembras(){
+        int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isEstaVivo() && peces.get(i).getSexo()) {
                 contador++;
             }
         }
-        System.out.println("Hembras/Machos: " + contador + "/" + (contadorVivos - contador));
-        contador = 0;
+        return contador;
+    }
+
+    public int getFertiles(){
+        int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isEsFertil()) {
                 contador++;
             }
         }
-        System.out.println("Fértiles: " +contador + "/" + contadorVivos);
+        return contador;
     }
 
     /**
@@ -90,8 +109,9 @@ public abstract class Tanque {
     }
 
     public void showCapacity() {// Deberia funcionar
-        System.out.println("Tanque " + numeroTanque + " de la piscifactoria x al " + ((this.peces.size() / espacio) * 100)
-                + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
+        System.out
+                .println("Tanque " + numeroTanque + " de la piscifactoria x al " + ((this.peces.size() / espacio) * 100)
+                        + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
     }
 
     public void nextDay() {
