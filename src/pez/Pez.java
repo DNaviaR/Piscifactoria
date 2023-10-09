@@ -83,7 +83,7 @@ public abstract class Pez {
         System.out.println("Fértil: " + (esFertil ? "Si" : "No"));
     }
 
-    public void grow() {
+    public void grow(int comida) {
         if (estaVivo) {
             // Simular la alimentación (50% de probabilidad de alimentarse).
             Random random = new Random();

@@ -109,16 +109,16 @@ public abstract class Tanque {
         }
     }
 
-    public void showCapacity() {// Deberia funcionar pero falta nombre piscifactoria
+    public void showCapacity(String nombrePiscifactoria) {// Deberia funcionar pero falta nombre piscifactoria
         System.out
-                .println("Tanque " + numeroTanque + " de la piscifactoria x al "
+                .println("Tanque " + numeroTanque + " de la piscifactoria "+nombrePiscifactoria+" al "
                         + ((float) (this.peces.size() * 100) / espacio)
                         + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
     }
 
-    public void nextDay() {
+    public void nextDay(int comida) {
         for (Pez pez : peces) {
-            pez.grow();
+            pez.grow(comida);
         }
     }
 
@@ -129,4 +129,5 @@ public abstract class Tanque {
     public void setPeces(ArrayList<Pez> peces) {
         this.peces = peces;
     }
+
 }
