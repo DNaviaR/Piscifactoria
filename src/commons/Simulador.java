@@ -6,6 +6,7 @@ import java.util.Scanner;
 import estadisticas.Estadisticas;
 import pez.CarpaPlateada;
 import pez.Pez;
+import pez.PezRio;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
 import piscifactoria.Tanque;
@@ -59,7 +60,7 @@ public class Simulador {
     public static void main(String[] args) throws Exception {
         // Simulador simulador=new Simulador();
         // simulador.logica();
-        TanqueRio tanque = new TanqueRio(1);
+        /*TanqueRio tanque = new TanqueRio(1);
         ArrayList<Pez> peces = new ArrayList<>();
         peces.add(0, new CarpaPlateada(true));
 
@@ -67,6 +68,12 @@ public class Simulador {
 
         tanque.showStatus();
         tanque.showFishStatus();
-        tanque.showCapacity();
+        tanque.showCapacity();*/
+        /*PezRio pez=new PezRio(false, AlmacenPropiedades.CARPA_PLATEADA);
+        pez.showStatus();
+        pez.grow();
+        pez.showStatus();
+        pez.grow();
+        pez.showStatus();*/
     }
 }

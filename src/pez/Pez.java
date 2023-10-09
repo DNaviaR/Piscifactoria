@@ -87,11 +87,11 @@ public abstract class Pez {
         if (estaVivo) {
             // Simular la alimentación (50% de probabilidad de alimentarse).
             Random random = new Random();
-            alimentado = random.nextBoolean();
-            if (!alimentado) {
+            if (!alimentado) {//Cambiar cando teña metodo para alimentar
                 double probabilidadMuerte = random.nextDouble();
                 if (probabilidadMuerte <= 0.5) {
                     estaVivo = false;
+                    return;
                 }
             }
 
@@ -103,6 +103,7 @@ public abstract class Pez {
                 adulto = true;
                 esFertil = true;
             }           
+            //Añadir reproduçao dos peixiños
         }
     }
 
