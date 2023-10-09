@@ -38,12 +38,13 @@ public abstract class Tanque {
         System.out.println("--------------- Tanque" + numeroTanque + " ---------------");
         System.out.println("Ocupación " + peces.size() + "/" + espacio + " (" + ((peces.size() / espacio) * 100) + ")");
         System.out.println("Peces vivos " + getVivos() + "/" + peces.size() + " ("
-                +(peces.size()==0?"0/0":((getVivos() / peces.size()) * 100))  + ")");
+                + (peces.size() == 0 ? "0/0" : ((getVivos() / peces.size()) * 100)) + ")");
         System.out.println("Peces alimentados: " + getAlimentados() + "/" + getVivos() + " ("
-                + (peces.size()==0?"0/0":((getAlimentados()/getVivos())*100)) + ")");
-        System.out.println("Peces adultos: " + getAdultos() + "/" + getVivos() + " (" + (peces.size()==0?"0/0":(getAdultos() / getVivos()) * 100) + ")");
+                + (peces.size() == 0 ? "0/0" : ((getAlimentados() / getVivos()) * 100)) + ")");
+        System.out.println("Peces adultos: " + getAdultos() + "/" + getVivos() + " ("
+                + (peces.size() == 0 ? "0/0" : (getAdultos() / getVivos()) * 100) + ")");
         System.out.println("Hembras/Machos: " + getHembras() + "/" + (getVivos() - getHembras()));
-        System.out.println("Fértiles: " +getFertiles() + "/" + getVivos());
+        System.out.println("Fértiles: " + getFertiles() + "/" + getVivos());
     }
 
     public int getVivos() {
@@ -66,9 +67,9 @@ public abstract class Tanque {
         return contador;
     }
 
-    public int getAdultos(){
+    public int getAdultos() {
         int contador = 0;
-        for (int i = 0; i <  peces.size(); i++) {
+        for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isAdulto()) {
                 contador++;
             }
@@ -76,7 +77,7 @@ public abstract class Tanque {
         return contador;
     }
 
-    public int getHembras(){
+    public int getHembras() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isEstaVivo() && peces.get(i).getSexo()) {
@@ -86,7 +87,7 @@ public abstract class Tanque {
         return contador;
     }
 
-    public int getFertiles(){
+    public int getFertiles() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
             if (peces.get(i).isEsFertil()) {
@@ -108,9 +109,10 @@ public abstract class Tanque {
         }
     }
 
-    public void showCapacity() {// Deberia funcionar
+    public void showCapacity() {// Deberia funcionar pero falta nombre piscifactoria
         System.out
-                .println("Tanque " + numeroTanque + " de la piscifactoria x al " + ((this.peces.size() / espacio) * 100)
+                .println("Tanque " + numeroTanque + " de la piscifactoria x al "
+                        + ((float) (this.peces.size() * 100) / espacio)
                         + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
     }
 

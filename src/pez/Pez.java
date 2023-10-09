@@ -1,8 +1,6 @@
 package pez;
 
 import java.util.Random;
-
-import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
 
 public abstract class Pez {
@@ -104,10 +102,7 @@ public abstract class Pez {
             if (edad == pc.getMadurez()) {
                 adulto = true;
                 esFertil = true;
-            }
-
-            // Verificar si el pez muere (50% de probabilidad si no está alimentado).
-            
+            }           
         }
     }
 
