@@ -1,9 +1,11 @@
-package pez;
+package pez.pecesRio;
 
+import pez.Pez;
+import pez.PezRio;
 import propiedades.AlmacenPropiedades;
-import propiedades.PecesDatos;
 
-public class CarpaPlateada extends Pez {
+
+public class CarpaPlateada extends Pez implements PezRio {
     public CarpaPlateada(boolean sexo) {
         super(sexo, AlmacenPropiedades.CARPA_PLATEADA);
     }

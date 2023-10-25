@@ -1,13 +1,17 @@
 package commons;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JButton;
+
 import estadisticas.Estadisticas;
-import pez.CarpaPlateada;
 import pez.Pez;
 import pez.PezRio;
+
 import piscifactoria.Piscifactoria;
+import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
 import piscifactoria.Tanque;
 import piscifactoria.TanqueRio;
@@ -15,14 +19,16 @@ import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
 
 public class Simulador {
-    Estadisticas estadisticas;
+    protected Estadisticas estadisticas;
     Scanner sc = new Scanner(System.in);
-    private int dias;
-    ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
+    protected int dias;
+    protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
 
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
         piscifactorias.add(0, new PiscifactoriaRio(primeraPiscifactoria));
+        piscifactorias.add(0, new PiscifactoriaRio("pepe"));
+        piscifactorias.add(0, new PiscifactoriaMar("lo"));
 
     }
 
@@ -44,8 +50,40 @@ public class Simulador {
                             "12. Mejorar\n" +
                             "13. Pasar varios días\n" +
                             "14. Salir\n");
+            System.out.println("Seleccione una opcion: ");
             condition = sc.nextInt();
+            opcion(condition);
         } while (condition != 14);
+    }
+
+    void opcion(int condicion) {
+        switch (condicion) {
+            case 1:
+                ApoyoMenu.menuPisc(piscifactorias);
+                break;
+            case 2:
+                
+                break;
+            case 3:
+
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void showGeneralStatus() {
+
+    }
+
+    void showSpecificStatus() {
+
     }
 
     void logica() {
@@ -58,22 +96,7 @@ public class Simulador {
     }
 
     public static void main(String[] args) throws Exception {
-        // Simulador simulador=new Simulador();
-        // simulador.logica();
-        /*TanqueRio tanque = new TanqueRio(1);
-        ArrayList<Pez> peces = new ArrayList<>();
-        peces.add(0, new CarpaPlateada(true));
-
-        tanque.setPeces(peces);
-
-        tanque.showStatus();
-        tanque.showFishStatus();
-        tanque.showCapacity();*/
-        /*PezRio pez=new PezRio(false, AlmacenPropiedades.CARPA_PLATEADA);
-        pez.showStatus();
-        pez.grow();
-        pez.showStatus();
-        pez.grow();
-        pez.showStatus();*/
+        Simulador simulador = new Simulador();
+        simulador.logica();
     }
 }

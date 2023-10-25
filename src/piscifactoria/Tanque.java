@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import pez.Pez;
 
 public abstract class Tanque {
-    ArrayList<Pez> peces = new ArrayList<>();
-    int espacio;
-    int numeroTanque;
+    protected ArrayList<Pez> peces = new ArrayList<>();
+    protected int espacio;
+    private int numeroTanque;
 
     public Tanque(int numeroTanque) {
         this.numeroTanque = numeroTanque;

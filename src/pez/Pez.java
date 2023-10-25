@@ -4,13 +4,13 @@ import java.util.Random;
 import propiedades.PecesDatos;
 
 public abstract class Pez {
-    PecesDatos pc;
-    private int edad;
-    private boolean sexo; // True=H / False=M
-    private boolean estaVivo = true;
-    private boolean alimentado = false;
-    private boolean adulto = false;
-    private boolean esFertil;
+    protected PecesDatos pc;
+    protected int edad;
+    protected boolean sexo; // True=H / False=M
+    protected boolean estaVivo = true;
+    protected boolean alimentado = false;
+    protected boolean adulto = false;
+    protected boolean esFertil;
 
     public Pez(boolean sexo, PecesDatos pc) {
         this.sexo = sexo;

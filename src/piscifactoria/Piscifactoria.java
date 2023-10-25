@@ -2,9 +2,12 @@ package piscifactoria;
 
 import java.util.ArrayList;
 
+import almacen.Almacen;
+
 public abstract class Piscifactoria {
-    ArrayList<Tanque> tanques = new ArrayList<Tanque>();
-    String nombrePiscifactoria;
+    protected ArrayList<Tanque> tanques = new ArrayList<Tanque>(); //ArrayList<Tanque<? extends Pez>> tanques
+    private String nombrePiscifactoria;
+    protected Almacen almacen;
 
     public Piscifactoria(String nombrePiscifactoria) {
         this.nombrePiscifactoria = nombrePiscifactoria;
@@ -39,13 +42,13 @@ public abstract class Piscifactoria {
     public String showStatus() {
         return "=============== " + this.nombrePiscifactoria + " ===============\n" +
                 "Tanques: " + tanques.size() + "\n" +
-                "Ocupacion: "+peces()+" / "+pecesMax()+" ("+(float)((peces()*100)/pecesMax())+"%)\n" +
-                "Peces vivos: "+pecesVivos()+" / "+peces()+" ("+(float)((pecesVivos()*100)/peces())+"%)\n" +
-                "Peces alimentados: "+pecesAlimentados()+" / "+pecesVivos()+" ("+(float)((pecesAlimentados()*100)/pecesVivos())+"%)\n" +
-                "Peces adultos: "+pecesAdultos()+" / "+pecesVivos()+" ("+(float)((pecesAdultos()*100)/pecesVivos())+"%)\n" +
+                "Ocupacion: "+peces()+" / "+pecesMax()+" ("+(pecesMax()<0?(float)((peces()*100)/pecesMax()):0)+"%)\n" +
+                "Peces vivos: "+pecesVivos()+" / "+peces()+" ("+(pecesVivos()<0?(float)((pecesVivos()*100)/peces()):0)+"%)\n" +
+                "Peces alimentados: "+pecesAlimentados()+" / "+pecesVivos()+" ("+(pecesVivos()<0?+(float)((pecesAlimentados()*100)/pecesVivos()):0)+"%)\n" +
+                "Peces adultos: "+pecesAdultos()+" / "+pecesVivos()+" ("+(pecesVivos()<0?(float)((pecesAdultos()*100)/pecesVivos()):0)+"%)\n" +
                 "Hembras / Machos: "+pecesHembras()+" / "+(pecesVivos()-pecesHembras())+"\n" +
                 "Fertiles: "+pecesFertiles()+" / "+pecesVivos()+"\n" +
-                "Almacen de comida: ";
+                "Almacen de comida: "+almacen.getEspacio();
     }
     /**
      * Calcula es espacio total de los tanques de la piscifactoria
