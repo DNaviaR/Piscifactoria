@@ -1,22 +1,12 @@
 package commons;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.JButton;
-
 import estadisticas.Estadisticas;
-import pez.Pez;
-import pez.PezRio;
-
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
-import piscifactoria.Tanque;
-import piscifactoria.TanqueRio;
-import propiedades.AlmacenPropiedades;
-import propiedades.PecesDatos;
+
 
 public class Simulador {
     protected Estadisticas estadisticas;
@@ -24,6 +14,11 @@ public class Simulador {
     protected int dias;
     protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
 
+    
+    /** 
+     * @param nombrePartida
+     * @param primeraPiscifactoria
+     */
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
         piscifactorias.add(0, new PiscifactoriaRio(primeraPiscifactoria));
@@ -56,34 +51,36 @@ public class Simulador {
         } while (condition != 14);
     }
 
+    
+    /** 
+     * @param condicion
+     */
     void opcion(int condicion) {
         switch (condicion) {
             case 1:
-                ApoyoMenu.menuPisc(piscifactorias);
+                ApoyoMenu.showGeneralStatus(piscifactorias);
                 break;
             case 2:
-                
+                System.out.println(ApoyoMenu.selectPisc(piscifactorias).showStatus());
                 break;
             case 3:
-
+                ApoyoMenu.selectTank(piscifactorias).showStatus();
                 break;
             case 4:
+                ApoyoMenu.menuPisc(piscifactorias);
                 break;
             case 5:
+                ApoyoMenu.showSpecificStatus(piscifactorias);
                 break;
             case 6:
+                ApoyoMenu.showTankStatus(piscifactorias);
+                break;
+            case 7:
+                ApoyoMenu.showIctio();
                 break;
             default:
                 break;
         }
-    }
-
-    void showGeneralStatus() {
-
-    }
-
-    void showSpecificStatus() {
-
     }
 
     void logica() {
@@ -95,6 +92,11 @@ public class Simulador {
         menu();
     }
 
+    
+    /** 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         Simulador simulador = new Simulador();
         simulador.logica();

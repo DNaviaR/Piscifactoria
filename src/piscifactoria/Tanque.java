@@ -4,37 +4,100 @@ import java.util.ArrayList;
 
 import pez.Pez;
 
+/**
+ * Clase abstracta que representa un tanque de una piscifactoría.
+ */
 public abstract class Tanque {
+    /**
+     * Lista de peces del tanque.
+     */
     protected ArrayList<Pez> peces = new ArrayList<>();
+    /**
+     * Espacio del tanque para peces.
+     */
     protected int espacio;
+    /**
+     * Número del tanque.
+     */
     private int numeroTanque;
 
+    /**
+     * Constructor de la clase.
+     *
+     * @param numeroTanque El número del tanque.
+     */
     public Tanque(int numeroTanque) {
         this.numeroTanque = numeroTanque;
     }
 
+    /**
+     * Devuelve el espacio del tanque en litros.
+     *
+     * @return El espacio del tanque en litros.
+     */
     public int getEspacio() {
         return espacio;
     }
 
+    /**
+     * Establece el espacio del tanque en litros.
+     *
+     * @param espacio El espacio del tanque en litros.
+     */
     public void setEspacio(int espacio) {
         this.espacio = espacio;
     }
 
+    /**
+     * Devuelve el número del tanque.
+     *
+     * @return El número del tanque.
+     */
     public int getNumeroTanque() {
         return numeroTanque;
     }
 
+    /**
+     * Establece el número del tanque.
+     *
+     * @param numeroTanque El número del tanque.
+     */
     public void setNumeroTanque(int numeroTanque) {
         this.numeroTanque = numeroTanque;
     }
 
-    @Override
-    public String toString() {
-        return "Tanque [peces=" + peces + ", espacio=" + espacio + ", numeroTanque=" + numeroTanque + "]";
+    /**
+     * Devuelve la lista de peces del tanque.
+     *
+     * @return La lista de peces del tanque.
+     */
+    public ArrayList<Pez> getPeces() {
+        return peces;
     }
 
-    public void showStatus() {// Deberia funcionar
+    /**
+     * Establece la lista de peces del tanque.
+     *
+     * @param peces La lista de peces del tanque.
+     */
+    public void setPeces(ArrayList<Pez> peces) {
+        this.peces = peces;
+    }
+
+    /**
+     * Devuelve una representación en cadena del tanque.
+     *
+     * @return Una cadena con información del tanque.
+     */
+    @Override
+    public String toString() {
+        return "Tanque " + numeroTanque;
+    }
+
+    /**
+     * Muestra la información del tanque
+     */
+    public void showStatus() {
         System.out.println("--------------- Tanque" + numeroTanque + " ---------------");
         System.out.println("Ocupación " + peces.size() + "/" + espacio + " (" + ((peces.size() / espacio) * 100) + ")");
         System.out.println("Peces vivos " + getVivos() + "/" + peces.size() + " ("
@@ -47,6 +110,11 @@ public abstract class Tanque {
         System.out.println("Fértiles: " + getFertiles() + "/" + getVivos());
     }
 
+    /**
+     * Calcula el número de peces vivos del tanque
+     * 
+     * @return El número de peces vivos del tanque
+     */
     public int getVivos() {
         int contadorVivos = 0;
         for (int i = 0; i < peces.size(); i++) {
@@ -57,6 +125,11 @@ public abstract class Tanque {
         return contadorVivos;
     }
 
+    /**
+     * Calcula el número de peces alimentados del tanque
+     * 
+     * @return El número de peces alimentados del tanque
+     */
     public int getAlimentados() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
@@ -67,6 +140,11 @@ public abstract class Tanque {
         return contador;
     }
 
+    /**
+     * Calcula el número de peces adultos del tanque
+     * 
+     * @return El número de peces adultos del tanque
+     */
     public int getAdultos() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
@@ -77,6 +155,11 @@ public abstract class Tanque {
         return contador;
     }
 
+    /**
+     * Calcula el número de hembras del tanque
+     * 
+     * @return El número de hembras del tanque
+     */
     public int getHembras() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
@@ -87,6 +170,11 @@ public abstract class Tanque {
         return contador;
     }
 
+    /**
+     * Calcula el número de peces fértiles del tanque
+     * 
+     * @return El número de peces fértiles del tanque
+     */
     public int getFertiles() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
@@ -103,31 +191,36 @@ public abstract class Tanque {
      * la edad en días, el sexo, si esta vivo, si esta alimentado,
      * si es adulto y si es fertil
      */
-    public void showFishStatus() {// done
+    public void showFishStatus() {
         for (Pez pez : peces) {
             pez.showStatus();
         }
     }
 
-    public void showCapacity(String nombrePiscifactoria) {// Deberia funcionar pero falta nombre piscifactoria
-        System.out
-                .println("Tanque " + numeroTanque + " de la piscifactoria "+nombrePiscifactoria+" al "
-                        + ((float) (this.peces.size() * 100) / espacio)
-                        + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
+    /**
+     * Muestra la ocupación del tanque.
+     * 
+     * @param nombrePiscifactoria El nombre de la piscifactoria a la que pertenece
+     *                            el tanque
+     * @return Una cadena con la información de capacidad del tanque
+     */
+    public String showCapacity(String nombrePiscifactoria) {
+        return ("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
+                + ((float) (this.peces.size() * 100) / espacio)
+                + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
     }
 
+    /**
+     * Hace crecer todos los peces del tanque, luego realiza el proceso de
+     * reproducción y, por último, vende aquellos que hayan llegado a la edad
+     * óptima.
+     * 
+     * @param comida La comida que se utiliza
+     */
     public void nextDay(int comida) {
         for (Pez pez : peces) {
             pez.grow(comida);
         }
-    }
-
-    public ArrayList<Pez> getPeces() {
-        return peces;
-    }
-
-    public void setPeces(ArrayList<Pez> peces) {
-        this.peces = peces;
     }
 
 }
