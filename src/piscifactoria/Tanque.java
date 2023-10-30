@@ -111,6 +111,44 @@ public abstract class Tanque {
     }
 
     /**
+     * Método que llama al método showStatus de cada uno de los peces
+     * para mostrar el estado de estos. Se muestra el nombre
+     * la edad en días, el sexo, si esta vivo, si esta alimentado,
+     * si es adulto y si es fertil
+     */
+    public void showFishStatus() {
+        for (Pez pez : peces) {
+            pez.showStatus();
+        }
+    }
+
+    /**
+     * Muestra la ocupación del tanque.
+     * 
+     * @param nombrePiscifactoria El nombre de la piscifactoria a la que pertenece
+     *                            el tanque
+     * @return Una cadena con la información de capacidad del tanque
+     */
+    public String showCapacity(String nombrePiscifactoria) {
+        return ("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
+                + ((float) (this.peces.size() * 100) / espacio)
+                + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
+    }
+
+    /**
+     * Hace crecer todos los peces del tanque, luego realiza el proceso de
+     * reproducción y, por último, vende aquellos que hayan llegado a la edad
+     * óptima.
+     * 
+     * @param comida La comida que se utiliza
+     */
+    public void nextDay(int comida) {
+        for (Pez pez : peces) {
+            pez.grow(comida);
+        }
+    }
+
+    /**
      * Calcula el número de peces vivos del tanque
      * 
      * @return El número de peces vivos del tanque
@@ -184,43 +222,4 @@ public abstract class Tanque {
         }
         return contador;
     }
-
-    /**
-     * Método que llama al método showStatus de cada uno de los peces
-     * para mostrar el estado de estos. Se muestra el nombre
-     * la edad en días, el sexo, si esta vivo, si esta alimentado,
-     * si es adulto y si es fertil
-     */
-    public void showFishStatus() {
-        for (Pez pez : peces) {
-            pez.showStatus();
-        }
-    }
-
-    /**
-     * Muestra la ocupación del tanque.
-     * 
-     * @param nombrePiscifactoria El nombre de la piscifactoria a la que pertenece
-     *                            el tanque
-     * @return Una cadena con la información de capacidad del tanque
-     */
-    public String showCapacity(String nombrePiscifactoria) {
-        return ("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
-                + ((float) (this.peces.size() * 100) / espacio)
-                + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
-    }
-
-    /**
-     * Hace crecer todos los peces del tanque, luego realiza el proceso de
-     * reproducción y, por último, vende aquellos que hayan llegado a la edad
-     * óptima.
-     * 
-     * @param comida La comida que se utiliza
-     */
-    public void nextDay(int comida) {
-        for (Pez pez : peces) {
-            pez.grow(comida);
-        }
-    }
-
 }

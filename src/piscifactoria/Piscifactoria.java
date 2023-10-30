@@ -112,7 +112,65 @@ public abstract class Piscifactoria {
                 + (pecesVivos() < 0 ? (float) ((pecesAdultos() * 100) / pecesVivos()) : 0) + "%)\n" +
                 "Hembras / Machos: " + pecesHembras() + " / " + (pecesVivos() - pecesHembras()) + "\n" +
                 "Fertiles: " + pecesFertiles() + " / " + pecesVivos() + "\n" +
-                "Almacen de comida: " + almacen.getEspacio();
+                "Almacen de comida: " + almacen.getEspacioOcupado()+"/"+almacen.getEspacioMaximo()+" ("+((almacen.getEspacioOcupado()/almacen.getEspacioMaximo())*100)+"%)";
+    }
+
+    /**
+     * Muestra la información de cada tanque
+     */
+    public void showTankStatus() {
+        for (Tanque tanque : tanques) {
+            tanque.showCapacity(this.nombrePiscifactoria);
+        }
+    }
+
+    /**
+     * Muestra la información de todos los peces de un tanque determinado.
+     * 
+     * @param posicionTanque El tanque que queremos observar
+     */
+    public void showFishStatus(int posicionTanque) {
+        tanques.get(posicionTanque).showFishStatus();
+    }
+
+    /**
+     * Muestra la ocupación de un tanque determinado
+     * 
+     * @param posicionTanque El tanque que queremos observar
+     */
+    public void showCapacity(int posicionTanque) {
+        tanques.get(posicionTanque).showCapacity(nombrePiscifactoria);
+    }
+
+    /**
+     * Muestra el estado del almacén de comida
+     */
+    public void showFood() {
+        System.out.println("Depósito de comida de la piscifactoria "+nombrePiscifactoria+" al "+((almacen.getEspacioOcupado()/almacen.getEspacioMaximo())*100)+"% de su capacidad. ["+almacen.getEspacioOcupado()+"/"+almacen.getEspacioMaximo()+"]");
+    }
+
+    /**
+     * Hace la lógica de pasar de día de todos los peces de la piscifactoría.
+     */
+    public void nextDay() {
+        int comida=almacen.getEspacioOcupado();
+        for (Tanque tanque : tanques) {
+            tanque.nextDay(comida);
+        }
+    }
+
+    /**
+     * Vende todos los peces de la piscifactoría que sean adultos y estén vivos.
+     */
+    public void sellFish() {// Pendiente
+
+    }
+
+    /**
+     * Mejora el almacén de comida
+     */
+    public void upgradeFood() {// Pendiente
+
     }
 
     /**
@@ -206,63 +264,6 @@ public abstract class Piscifactoria {
             pecesFertiles += tanques.get(i).getFertiles();
         }
         return pecesFertiles;
-    }
-
-    /**
-     * Muestra la información de cada tanque
-     */
-    public void showTankStatus() {
-        for (Tanque tanque : tanques) {
-            tanque.showCapacity(this.nombrePiscifactoria);
-        }
-    }
-
-    /**
-     * Muestra la información de todos los peces de un tanque determinado.
-     * 
-     * @param posicionTanque El tanque que queremos observar
-     */
-    public void showFishStatus(int posicionTanque) {
-        tanques.get(posicionTanque).showFishStatus();
-    }
-
-    /**
-     * Muestra la ocupación de un tanque determinado
-     * 
-     * @param posicionTanque El tanque que queremos observar
-     */
-    public void showCapacity(int posicionTanque) {
-        tanques.get(posicionTanque).showCapacity(nombrePiscifactoria);
-    }
-
-    /**
-     * Muestra el estado del almacén de comida
-     */
-    public void showFood() {// Pendiente
-
-    }
-
-    /**
-     * Hace la lógica de pasar de día de todos los peces de la piscifactoría.
-     */
-    public void nextDay(int comida) {
-        for (Tanque tanque : tanques) {
-            tanque.nextDay(comida);
-        }
-    }
-
-    /**
-     * Vende todos los peces de la piscifactoría que sean adultos y estén vivos.
-     */
-    public void sellFish() {// Pendiente
-
-    }
-
-    /**
-     * Mejora el almacén de comida
-     */
-    public void upgradeFood() {// Pendiente
-        
     }
 
 }

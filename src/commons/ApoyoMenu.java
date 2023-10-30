@@ -3,8 +3,13 @@ package commons;
 import java.util.List;
 import java.util.Scanner;
 
+import pez.pecesMar.Abadejo;
+import pez.pecesRio.Carpa;
 import piscifactoria.Piscifactoria;
 import piscifactoria.Tanque;
+import propiedades.AlmacenPropiedades;
+import propiedades.PecesDatos;
+import propiedades.PecesProps;
 
 /**
  * Una clase que proporciona soporte al método menú de Simulador.
@@ -103,14 +108,29 @@ public class ApoyoMenu {
         ApoyoMenu.selectTank(piscifactorias).showFishStatus();
     }
 
+    public static void showStats() {
+        
+    }
+
     public static void showIctio() {
 
     }
 
+    /**
+     * Método que avanza un día en todas las piscifactorías, realizando el
+     * crecimiento, reproducción
+     * y venta de peces óptimos
+     * 
+     * @param piscifactorias Una lista de piscifactorias
+     */
     public static void nextDay(List<Piscifactoria> piscifactorias) {
         for (Piscifactoria piscifactoria : piscifactorias) {
-            piscifactoria.nextDay(0);
+            piscifactoria.nextDay();
         }
+    }
+
+    public static void addFood() {
+
     }
 
     public static void addFish() {
