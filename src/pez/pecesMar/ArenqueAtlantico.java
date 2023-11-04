@@ -5,7 +5,18 @@ import pez.PezMar;
 import pez.Alimentación.Filtrador;
 import propiedades.AlmacenPropiedades;
 
+/**
+ * Clase que representa el tipo de pez Arenque Atlantico
+ * Extiende de la clase Filtrador, que representa a los peces filtradores, e
+ * implementa
+ * la interfaz PezMar, que representa a los peces de mar
+ */
 public class ArenqueAtlantico extends Filtrador implements PezMar {
+    /**
+     * Crea un nuevo pez ArenqueAtlantico con el sexo especificado
+     *
+     * @param sexo El sexo del pez.
+     */
     public ArenqueAtlantico(boolean sexo) {
         super(sexo, AlmacenPropiedades.ARENQUE_ATLANTICO);
     }

@@ -5,33 +5,54 @@ import java.util.List;
 import pez.Pez;
 import propiedades.PecesDatos;
 
+/**
+ * Clase abstracta que representa a los peces carnívoros.
+ * Se pueden alimentar de peces muertos del tanque. 50% de eliminar al pez
+ * muerto tras comer.
+ *
+ * Extiende a la clase Pez, que representa a los peces en general.
+ */
 public abstract class Carnivoro extends Pez {
-
+    /**
+     * Crea un nuevo pez carnívoro con el sexo especificado y los datos de peces
+     * proporcionados.
+     *
+     * @param sexo El sexo del pez.
+     * @param pc   Los datos de peces del pez.
+     */
     public Carnivoro(boolean sexo, PecesDatos pc) {
         super(sexo, pc);
-        // TODO Auto-generated constructor stub
     }
 
-    public void comer() {
-        // Genera un número aleatorio entre 0 y 1.
-        double aleatorio = Math.random();
+    /**
+     * Hace que el pez coma de la cantidad total de comida.
+     *
+     * @param peces  Una lista de peces en el tanque.
+     * @param comida La cantidad de comida disponible.
+     */
+    public void comer(List<Pez> peces, int comida) {
+        Pez pezMuerto = buscarPezMuertoEnTanque(peces);
 
-        // Si el número aleatorio es menor o igual a 0.5, el pez carnivoro comerá un pez
-        // muerto.
-        if (aleatorio <= 0.5) {
-            // Busca un pez muerto en el tanque.
-            Pez pezMuerto = buscarPezMuertoEnTanque();
-
-            // Si encuentra un pez muerto, lo come.
-            if (pezMuerto != null) {
-                comerPezMuerto(pezMuerto);
+        // Si encuentra un pez muerto, lo come.
+        if (pezMuerto != null) {
+            comerPezMuerto(pezMuerto);
+        }
+        // Si no hay pez muerto, consume comida
+        else {
+            if (comida > 0) {
+                comida--;
+                this.setAlimentado(true);
             }
-        } else {
-            // El pez carnivoro no consumió la comida.
         }
     }
 
-    private Pez buscarPezMuertoEnTanque(List<Pez> peces) {
+    /**
+     * Busca un pez muerto en el tanque.
+     *
+     * @param peces Una lista de peces en el tanque.
+     * @return El primer pez muerto encontrado, o null si no hay ninguno.
+     */
+    protected Pez buscarPezMuertoEnTanque(List<Pez> peces) {
         for (Pez pez : peces) {
             if (!pez.isEstaVivo()) {
                 return pez;
@@ -40,10 +61,15 @@ public abstract class Carnivoro extends Pez {
         return null;
     }
 
-    private void comerPezMuerto(Pez pezMuerto) {
-        // ...
-
-        // Elimina el pez muerto del tanque.
-        pezMuerto.eliminarDelTanque();
+    /**
+     * Hace que el pez coma un pez muerto.
+     *
+     * @param pezMuerto El pez muerto que el pez va a comer.
+     */
+    protected void comerPezMuerto(Pez pezMuerto) {
+        double aleatorio = Math.random();
+        if (aleatorio <= 0.5) {
+            pezMuerto = null;
+        }
     }
 }

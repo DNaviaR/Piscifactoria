@@ -1,5 +1,6 @@
 package pez;
 
+import java.util.List;
 import java.util.Random;
 import propiedades.PecesDatos;
 
@@ -38,8 +39,9 @@ public abstract class Pez {
 
     /**
      * Constructor de la clase
+     * 
      * @param sexo El sexo del pez
-     * @param pc Los datos del tipo de pez
+     * @param pc   Los datos del tipo de pez
      */
     public Pez(boolean sexo, PecesDatos pc) {
         this.sexo = sexo;
@@ -75,6 +77,15 @@ public abstract class Pez {
     }
 
     /**
+     * Obtiene los datos del pez.
+     *
+     * @return Los datos del pez.
+     */
+    public PecesDatos getPc() {
+        return pc;
+    }
+
+    /**
      * Obtiene el sexo del pez.
      *
      * @return El sexo del pez.
@@ -90,6 +101,10 @@ public abstract class Pez {
      */
     public boolean isEstaVivo() {
         return estaVivo;
+    }
+
+    public PecesDatos getPecesDatos() {
+        return pc;
     }
 
     /**
@@ -189,18 +204,9 @@ public abstract class Pez {
      * 
      * @param comida La comida que se utiliza
      */
-    public void grow(int comida) {
+    public void grow(List<Pez> peces, int comida) {
         if (estaVivo) {
-            // Simular la alimentación (50% de probabilidad de alimentarse).
-            Random random = new Random();
-            if (!alimentado) {// Cambiar cando teña metodo para alimentar
-                double probabilidadMuerte = random.nextDouble();
-                if (probabilidadMuerte <= 0.5) {
-                    estaVivo = false;
-                    return;
-                }
-            }
-
+            this.
             // Aumentar la edad en 1 día.
             edad++;
 
@@ -224,4 +230,5 @@ public abstract class Pez {
         adulto = false;
         esFertil = false;
     }
+
 }

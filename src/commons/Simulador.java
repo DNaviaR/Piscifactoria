@@ -3,19 +3,21 @@ package commons;
 import java.util.ArrayList;
 import java.util.Scanner;
 import estadisticas.Estadisticas;
+import pez.pecesRio.SalmonChinook;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
 
-
 public class Simulador {
-    protected Estadisticas estadisticas;
+    protected Estadisticas estadisticas = new Estadisticas(new String[] { "Carpa", "CarpaPlateada", "CarpinTresEspinas",
+            "Koi", "LucioDelNorte", "Pejerrey", "PercaEuropea", "SalmonChinook", "SiluroEuropeo", "TilapiaDelNilo",
+            "Abadejo", "ArenqueAtlantico", "Besugo", "Caballa", "Cobia", "Corvina", "LenguadoEuropeo", "LubinaRayada",
+            "Robalo", "Rodaballo", "Sargo", "Bagre", "Dorada", "LubinaEuropea", "SalmonAtlantico", "TruchaArcoiris" });
     Scanner sc = new Scanner(System.in);
     protected int dias;
     protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
 
-    
-    /** 
+    /**
      * @param nombrePartida
      * @param primeraPiscifactoria
      */
@@ -51,8 +53,7 @@ public class Simulador {
         } while (condition != 14);
     }
 
-    
-    /** 
+    /**
      * @param condicion
      */
     void opcion(int condicion) {
@@ -92,8 +93,7 @@ public class Simulador {
         menu();
     }
 
-    
-    /** 
+    /**
      * @param args
      * @throws Exception
      */
