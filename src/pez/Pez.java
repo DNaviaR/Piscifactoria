@@ -7,7 +7,7 @@ import propiedades.PecesDatos;
 /**
  * Clase abstracta que representa un pez.
  */
-public abstract class Pez {
+public abstract class Pez implements Cloneable {
     /**
      * Los datos del tipo de pez
      */
@@ -36,6 +36,10 @@ public abstract class Pez {
      * Si el pez es fértil
      */
     protected boolean esFertil;
+    /**
+     * Los ciclos de reproducción
+     */
+    protected int countCiclos = 0;
 
     /**
      * Constructor de la clase
@@ -77,21 +81,21 @@ public abstract class Pez {
     }
 
     /**
-     * Obtiene los datos del pez.
-     *
-     * @return Los datos del pez.
-     */
-    public PecesDatos getPc() {
-        return pc;
-    }
-
-    /**
      * Obtiene el sexo del pez.
      *
      * @return El sexo del pez.
      */
     public boolean getSexo() {
         return sexo;
+    }
+
+    /**
+     * Establece si el pez es macho o hembra.
+     * 
+     * @param sexo el nuevo sexo del pez
+     */
+    public void setSexo(boolean sexo) {
+        this.sexo = sexo;
     }
 
     /**
@@ -103,6 +107,11 @@ public abstract class Pez {
         return estaVivo;
     }
 
+    /**
+     * Obtiene las propiedades del pez.
+     *
+     * @return Las propiedades del pez.
+     */
     public PecesDatos getPecesDatos() {
         return pc;
     }
@@ -205,8 +214,7 @@ public abstract class Pez {
      * @param comida La comida que se utiliza
      */
     public void grow(List<Pez> peces, int comida) {
-        if (estaVivo) {
-            this.
+        if (this.isEstaVivo() == true) {
             // Aumentar la edad en 1 día.
             edad++;
 
@@ -215,7 +223,10 @@ public abstract class Pez {
                 adulto = true;
                 esFertil = true;
             }
-            // Añadir reproduçao dos peixiños
+            this.reproducirse(peces);
+            if (this.isAlimentado() == false) {
+                this.morir();
+            }
         }
     }
 
@@ -231,4 +242,69 @@ public abstract class Pez {
         esFertil = false;
     }
 
+    /**
+     * Comprueba el sexo de los peces del tanque y devuelve el
+     * sexo menos común
+     * 
+     * @param peces Lista de peces del tanque
+     * @return El sexo menos predominante
+     */
+    public boolean obtenerSexosTanque(List<Pez> peces) {
+        int contadorHembras = 0;
+        int contadorMachos = 0;
+        for (Pez pez : peces) {
+            if (pez.getSexo() == true) {
+                contadorHembras++;
+            } else {
+                contadorMachos++;
+            }
+        }
+        if (contadorHembras > contadorMachos) {
+            return false;
+        } else if (contadorHembras < contadorMachos) {
+            return true;
+        } else {
+            Random rd = new Random();
+            boolean sexo = rd.nextBoolean();
+            return sexo;
+        }
+    }
+
+    /**
+     * Comprueba si el pez puede reproducirse. Si puede,
+     * realiza la lógica de reproducción
+     * 
+     * @param peces Lista de peces candidatos a la reproducción
+     */
+    public void reproducirse(List<Pez> peces) {
+        if (this.esFertil == true && countCiclos <= 0) {
+            for (Pez pez : peces) {
+                if (pez.getSexo() != this.getSexo()) {
+                    if (pez.isEsFertil()) {
+                        boolean sexoNuevoPez = obtenerSexosTanque(peces);
+                        try {
+                            peces.add((Pez) peces.get(0).clone());
+                            peces.get(peces.size()).reset();
+                            peces.get(peces.size()).setSexo(sexoNuevoPez);
+                            countCiclos = this.getPecesDatos().getCiclo();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        } else {
+            countCiclos--;
+        }
+    }
+
+    /**
+     * Posibilidades de morir del pez
+     */
+    public void morir() {
+        double aleatorio = Math.random();
+        if (aleatorio <= 0.5) {
+            this.setEstaVivo(false);
+        }
+    }
 }

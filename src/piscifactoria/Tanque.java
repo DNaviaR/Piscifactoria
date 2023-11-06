@@ -7,7 +7,7 @@ import pez.Pez;
 /**
  * Clase abstracta que representa un tanque de una piscifactoría.
  */
-public abstract class Tanque {
+public abstract class Tanque<T extends Pez> {
     /**
      * Lista de peces del tanque.
      */
@@ -144,7 +144,7 @@ public abstract class Tanque {
      */
     public void nextDay(int comida) {
         for (Pez pez : peces) {
-            pez.grow(comida);
+            pez.grow(peces, comida);
         }
     }
 

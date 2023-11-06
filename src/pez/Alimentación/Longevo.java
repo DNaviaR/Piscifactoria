@@ -16,10 +16,13 @@ public abstract class Longevo extends Pez {
         super(sexo, pc);
     }
 
-    public void crecer() {// Pendiente de modificar
-        double aleatorio = Math.random();
-        if (aleatorio < 0.10) {
-            this.getPecesDatos().getOptimo();
+    public void crecer() {
+        if (this.getEdad() == this.getPecesDatos().getOptimo()) {
+            double aleatorio = Math.random();
+            if (aleatorio < 0.10) {
+                this.edad--;
+            }
         }
+
     }
 }

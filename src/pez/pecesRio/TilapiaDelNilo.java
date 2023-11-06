@@ -1,6 +1,5 @@
 package pez.pecesRio;
 
-import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.Filtrador;
 import propiedades.AlmacenPropiedades;

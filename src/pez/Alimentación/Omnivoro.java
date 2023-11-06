@@ -32,23 +32,22 @@ public abstract class Omnivoro extends Pez {
      * @param comida La cantidad de comida disponible.
      */
     public void comer(List<Pez> peces, int comida) {
-        Pez pezMuerto = buscarPezMuertoEnTanque(peces);
-
-        // Si encuentra un pez muerto, lo come.
-        if (pezMuerto != null) {
-            comerPezMuerto(pezMuerto);
-        }
-        // Si no hay pez muerto, consume comida
-        else {
-            double aleatorio = Math.random();
-            if (aleatorio > 0.25) {
+        double aleatorio = Math.random();
+        if (aleatorio > 0.25) {
+            Pez pezMuerto = buscarPezMuertoEnTanque(peces);
+            // Si encuentra un pez muerto, lo come.
+            if (pezMuerto != null) {
+                comerPezMuerto(pezMuerto);
+            }
+            // Si no hay pez muerto, consume comida
+            else {
                 if (comida > 0) {
                     comida--;
                     this.setAlimentado(true);
                 }
-            } else {
-                this.setAlimentado(true);
             }
+        } else {
+            this.setAlimentado(true);
         }
     }
 
