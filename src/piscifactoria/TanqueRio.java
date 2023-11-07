@@ -1,10 +1,11 @@
 package piscifactoria;
 
+import pez.Pez;
 import pez.PezRio;
 /**
  * Clase que representa un tanque de peces de rio.
  */
-public class TanqueRio extends Tanque implements PezRio{
+public class TanqueRio<T extends Pez> extends Tanque<T> implements PezRio{
     /**
      * Constructor de la clase.
      *
@@ -14,5 +15,4 @@ public class TanqueRio extends Tanque implements PezRio{
         super(numeroTanque);
         espacio=25;
     }
-    
 }

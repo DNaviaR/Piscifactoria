@@ -1,5 +1,7 @@
 package pez.pecesMar;
 
+import java.util.List;
+
 import pez.Pez;
 import pez.PezMar;
 import pez.Alimentación.Filtrador;
@@ -21,4 +23,9 @@ public class ArenqueAtlantico extends Filtrador implements PezMar {
         super(sexo, AlmacenPropiedades.ARENQUE_ATLANTICO);
     }
 
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(comida);
+        super.grow(peces, comida, espacio);
+    }
 }

@@ -1,5 +1,8 @@
 package pez.pecesRio;
 
+import java.util.List;
+
+import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.Carnivoro;
 import propiedades.AlmacenPropiedades;
@@ -20,4 +23,9 @@ public class SalmonChinook extends Carnivoro implements PezRio {
         super(sexo, AlmacenPropiedades.SALMON_CHINOOK);
     }
 
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
+    }
 }

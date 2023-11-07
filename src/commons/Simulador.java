@@ -10,7 +10,7 @@ import propiedades.AlmacenPropiedades;
 
 public class Simulador {
     protected Estadisticas estadisticas = new Estadisticas(new String[] { AlmacenPropiedades.CARPA.getNombre(),AlmacenPropiedades.CARPA_PLATEADA.getNombre(), AlmacenPropiedades.CARPIN_TRES_ESPINAS.getNombre(),
-        AlmacenPropiedades.KOI.getNombre(), AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(), AlmacenPropiedades.SILURO_EUROPEO.getNombre(), AlmacenPropiedades.TILAPIA_NILO.getNombre(),
+        AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(), AlmacenPropiedades.TILAPIA_NILO.getNombre(),
         AlmacenPropiedades.ABADEJO.getNombre(), AlmacenPropiedades.ARENQUE_ATLANTICO.getNombre(), AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(), AlmacenPropiedades.COBIA.getNombre(), AlmacenPropiedades.CORVINA.getNombre(), AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.LUBINA_RAYADA.getNombre(),
         AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.RODABALLO.getNombre(), AlmacenPropiedades.SARGO.getNombre(), AlmacenPropiedades.BAGRE_CANAL.getNombre(), AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.LUBINA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_ATLANTICO.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() });
     Scanner sc = new Scanner(System.in);
@@ -24,9 +24,6 @@ public class Simulador {
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
         piscifactorias.add(0, new PiscifactoriaRio(primeraPiscifactoria));
-        piscifactorias.add(0, new PiscifactoriaRio("pepe"));
-        piscifactorias.add(0, new PiscifactoriaMar("lo"));
-
     }
 
     void menu() {

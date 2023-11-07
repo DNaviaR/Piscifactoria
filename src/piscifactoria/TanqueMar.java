@@ -1,10 +1,11 @@
 package piscifactoria;
 
+import pez.Pez;
 import pez.PezMar;
 /**
  * Clase que representa un tanque de peces de mar.
  */
-public class TanqueMar extends Tanque implements PezMar {
+public class TanqueMar<T extends Pez> extends Tanque<T> implements PezMar {
     /**
      * Constructor de la clase.
      *

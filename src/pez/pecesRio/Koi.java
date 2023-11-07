@@ -1,5 +1,8 @@
 package pez.pecesRio;
 
+import java.util.List;
+
+import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.OmnivoroLongevo;
 import propiedades.AlmacenPropiedades;
@@ -19,6 +22,12 @@ public class Koi extends OmnivoroLongevo implements PezRio {
      */
     public Koi(boolean sexo) {
         super(sexo, AlmacenPropiedades.KOI);
+    }
+
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
     }
 
 }

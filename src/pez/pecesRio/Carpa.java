@@ -25,8 +25,9 @@ public class Carpa extends OmnivoroVoraz implements PezRio {
     }
 
     @Override
-    public void grow(List<Pez> peces, int comida) {
+    public void grow(List<Pez> peces, int comida, int espacio) {
         this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
     }
     
 }

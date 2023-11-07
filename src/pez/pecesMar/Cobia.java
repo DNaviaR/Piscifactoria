@@ -1,5 +1,7 @@
 package pez.pecesMar;
 
+import java.util.List;
+
 import pez.Pez;
 import pez.PezMar;
 import pez.Alimentación.CarnivoroVorazComedido;
@@ -23,4 +25,9 @@ public class Cobia extends CarnivoroVorazComedido implements PezMar {
         super(sexo, AlmacenPropiedades.COBIA);
     }
 
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
+    }
 }

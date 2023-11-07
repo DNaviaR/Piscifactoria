@@ -3,6 +3,7 @@ package piscifactoria;
 import java.util.ArrayList;
 
 import almacen.Almacen;
+import pez.Pez;
 
 /**
  * Clase abstracta que representa una piscifactoría.
@@ -11,7 +12,7 @@ public abstract class Piscifactoria {
     /**
      * La lista de tanques de la piscifactoría.
      */
-    protected ArrayList<Tanque> tanques = new ArrayList<Tanque>(); // ArrayList<Tanque<? extends Pez>> tanques
+    protected ArrayList<Tanque<? extends Pez>> tanques = new ArrayList<Tanque<? extends Pez>>();
     /**
      * El nombre de la piscifactoría.
      */
@@ -20,6 +21,10 @@ public abstract class Piscifactoria {
      * El almacén de comida de la piscifactoría.
      */
     protected Almacen almacen;
+    /**
+     * Lleva la cuenta de las mejoras del almacen
+     */
+    protected int contadorMejoraAlmacen;
 
     /**
      * Constructor que recibe el nombre de la piscifactoría.
@@ -28,6 +33,7 @@ public abstract class Piscifactoria {
      */
     public Piscifactoria(String nombrePiscifactoria) {
         this.nombrePiscifactoria = nombrePiscifactoria;
+        contadorMejoraAlmacen=1;
     }
 
     /**
@@ -35,7 +41,7 @@ public abstract class Piscifactoria {
      *
      * @return La lista de tanques de la piscifactoría.
      */
-    public ArrayList<Tanque> getTanques() {
+    public ArrayList<Tanque<? extends Pez>> getTanques() {
         return tanques;
     }
 
@@ -44,7 +50,7 @@ public abstract class Piscifactoria {
      *
      * @param tanques La nueva lista de tanques de la piscifactoría.
      */
-    public void setTanques(ArrayList<Tanque> tanques) {
+    public void setTanques(ArrayList<Tanque<? extends Pez>> tanques) {
         this.tanques = tanques;
     }
 
@@ -85,6 +91,25 @@ public abstract class Piscifactoria {
     }
 
     /**
+     * Obtiene el contador de mejoras del almacén de comida de la piscifactoría.
+     *
+     * @return El contador de mejoras del almacén de comida de la piscifactoría.
+     */
+    public int getContadorMejoraAlmacen() {
+        return contadorMejoraAlmacen;
+    }
+
+    /**
+     * Establece el contador de mejoras del almacén de comida de la piscifactoría.
+     *
+     * @param contadorMejoraAlmacen El nuevo contador de mejoras del almacén de
+     *                              comida de la piscifactoría.
+     */
+    public void setContadorMejoraAlmacen(int contadorMejoraAlmacen) {
+        this.contadorMejoraAlmacen = contadorMejoraAlmacen;
+    }
+
+    /**
      * Devuelve una representación en cadena de la piscifactoría.
      * 
      * @return Una cadena con el nombre de la piscifactoría y la lista de tanques.
@@ -112,14 +137,15 @@ public abstract class Piscifactoria {
                 + (pecesVivos() < 0 ? (float) ((pecesAdultos() * 100) / pecesVivos()) : 0) + "%)\n" +
                 "Hembras / Machos: " + pecesHembras() + " / " + (pecesVivos() - pecesHembras()) + "\n" +
                 "Fertiles: " + pecesFertiles() + " / " + pecesVivos() + "\n" +
-                "Almacen de comida: " + almacen.getEspacioOcupado()+"/"+almacen.getEspacioMaximo()+" ("+((almacen.getEspacioOcupado()/almacen.getEspacioMaximo())*100)+"%)";
+                "Almacen de comida: " + almacen.getEspacioOcupado() + "/" + almacen.getEspacioMaximo() + " ("
+                + ((almacen.getEspacioOcupado() / almacen.getEspacioMaximo()) * 100) + "%)";
     }
 
     /**
      * Muestra la información de cada tanque
      */
     public void showTankStatus() {
-        for (Tanque tanque : tanques) {
+        for (Tanque<? extends Pez> tanque : tanques) {
             tanque.showCapacity(this.nombrePiscifactoria);
         }
     }
@@ -146,16 +172,18 @@ public abstract class Piscifactoria {
      * Muestra el estado del almacén de comida
      */
     public void showFood() {
-        System.out.println("Depósito de comida de la piscifactoria "+nombrePiscifactoria+" al "+((almacen.getEspacioOcupado()/almacen.getEspacioMaximo())*100)+"% de su capacidad. ["+almacen.getEspacioOcupado()+"/"+almacen.getEspacioMaximo()+"]");
+        System.out.println("Depósito de comida de la piscifactoria " + nombrePiscifactoria + " al "
+                + ((almacen.getEspacioOcupado() / almacen.getEspacioMaximo()) * 100) + "% de su capacidad. ["
+                + almacen.getEspacioOcupado() + "/" + almacen.getEspacioMaximo() + "]");
     }
 
     /**
      * Hace la lógica de pasar de día de todos los peces de la piscifactoría.
      */
     public void nextDay() {
-        int comida=almacen.getEspacioOcupado();
-        for (Tanque tanque : tanques) {
-            tanque.nextDay(comida);
+        int comida = almacen.getEspacioOcupado();
+        for (Tanque<? extends Pez> tanque : tanques) {
+            tanque.nextDay(comida, tanque.getEspacio());
         }
     }
 

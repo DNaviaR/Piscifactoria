@@ -1,5 +1,8 @@
 package pez.pecesRio;
 
+import java.util.List;
+
+import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.CarnivoroActivo;
 import propiedades.AlmacenPropiedades;
@@ -21,4 +24,9 @@ public class PercaEuropea extends CarnivoroActivo implements PezRio {
         super(sexo, AlmacenPropiedades.PERCA_EUROPEA);
     }
 
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
+    }
 }

@@ -1,5 +1,8 @@
 package pez.pecesRio;
 
+import java.util.List;
+
+import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.Filtrador;
 import propiedades.AlmacenPropiedades;
@@ -18,6 +21,13 @@ public class CarpaPlateada extends Filtrador implements PezRio {
      */
     public CarpaPlateada(boolean sexo) {
         super(sexo, AlmacenPropiedades.CARPA_PLATEADA);
+
+    }
+
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(comida);
+        super.grow(peces, comida, espacio);
     }
 
 }

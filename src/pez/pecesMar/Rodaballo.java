@@ -1,5 +1,7 @@
 package pez.pecesMar;
 
+import java.util.List;
+
 import pez.Pez;
 import pez.PezMar;
 import pez.Alimentación.CarnivoroVoraz;
@@ -22,4 +24,9 @@ public class Rodaballo extends CarnivoroVoraz implements PezMar {
         super(sexo, AlmacenPropiedades.RODABALLO);
     }
 
+    @Override
+    public void grow(List<Pez> peces, int comida, int espacio) {
+        this.comer(peces, comida);
+        super.grow(peces, comida, espacio);
+    }
 }
