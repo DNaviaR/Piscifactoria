@@ -5,6 +5,7 @@ import java.util.List;
 import pez.Pez;
 import pez.PezMar;
 import pez.Alimentación.Carnivoro;
+import piscifactoria.Piscifactoria;
 import propiedades.AlmacenPropiedades;
 
 /**
@@ -24,8 +25,8 @@ public class Besugo extends Carnivoro implements PezMar {
     }
 
     @Override
-    public void grow(List<Pez> peces, int comida, int espacio) {
-        this.comer(peces, comida);
-        super.grow(peces, comida, espacio);
+    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+        this.comer(peces, pisci);
+        super.grow(peces, espacio, pisci);
     }
 }

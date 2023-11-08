@@ -142,9 +142,9 @@ public abstract class Tanque<T extends Pez> {
      * 
      * @param comida La comida que se utiliza
      */
-    public void nextDay(int comida, int espacio) {
+    public void nextDay(int espacio, Piscifactoria pisci) {
         for (Pez pez : peces) {
-            pez.grow(peces, comida, espacio);
+            pez.grow(peces, espacio, pisci);
         }
     }
 

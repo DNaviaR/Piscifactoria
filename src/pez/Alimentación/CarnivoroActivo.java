@@ -3,6 +3,7 @@ package pez.Alimentación;
 import java.util.List;
 
 import pez.Pez;
+import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
 
 /**
@@ -30,7 +31,8 @@ public abstract class CarnivoroActivo extends Carnivoro {
      * @param comida La cantidad de comida disponible.
      */
     @Override
-    public void comer(List<Pez> peces, int comida) {
+    public void comer(List<Pez> peces, Piscifactoria pisci) {
+        int comida=pisci.getAlmacen().getEspacioOcupado();
         Pez pezMuerto = buscarPezMuertoEnTanque(peces);
 
         // Si encuentra un pez muerto, lo come.
@@ -52,6 +54,7 @@ public abstract class CarnivoroActivo extends Carnivoro {
                 }
             }
         }
+        pisci.getAlmacen().setEspacioOcupado(comida);
     }
 
 }

@@ -1,6 +1,7 @@
 package pez.Alimentación;
 
 import pez.Pez;
+import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
 
 /**
@@ -26,7 +27,8 @@ public abstract class Filtrador extends Pez {
      *
      * @param comida La cantidad de comida disponible.
      */
-    public void comer(int comida) {
+    public void comer(Piscifactoria pisci) {
+        int comida=pisci.getAlmacen().getEspacioOcupado();
         double aleatorio = Math.random();
         if (aleatorio <= 0.5) {
             this.setAlimentado(true);
@@ -36,5 +38,6 @@ public abstract class Filtrador extends Pez {
                 this.setAlimentado(true);
             }
         }
+        pisci.getAlmacen().setEspacioOcupado(comida);
     }
 }

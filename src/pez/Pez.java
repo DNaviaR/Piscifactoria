@@ -1,9 +1,12 @@
 package pez;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
+import commons.Simulador;
 import estadisticas.Estadisticas;
+import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
 
 /**
@@ -215,7 +218,7 @@ public abstract class Pez implements Cloneable {
      * 
      * @param comida La comida que se utiliza
      */
-    public void grow(List<Pez> peces, int comida, int espacio) {
+    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
         if (this.isEstaVivo() == true) {
             // Aumentar la edad en 1 día.
             edad++;
@@ -230,8 +233,8 @@ public abstract class Pez implements Cloneable {
                 this.morir();
             }
         }
-        if (this.edad==this.getPecesDatos().getOptimo()) {
-            
+        if (this.edad == this.getPecesDatos().getOptimo()) {
+
         }
     }
 
@@ -330,5 +333,10 @@ public abstract class Pez implements Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sell() {
+        Simulador.estadisticas.registrarVenta(getNombre(), this.getPecesDatos().getMonedas());
+        
     }
 }

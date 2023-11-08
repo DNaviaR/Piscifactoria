@@ -181,9 +181,8 @@ public abstract class Piscifactoria {
      * Hace la lógica de pasar de día de todos los peces de la piscifactoría.
      */
     public void nextDay() {
-        int comida = almacen.getEspacioOcupado();
         for (Tanque<? extends Pez> tanque : tanques) {
-            tanque.nextDay(comida, tanque.getEspacio());
+            tanque.nextDay(tanque.getEspacio(),this);
         }
     }
 

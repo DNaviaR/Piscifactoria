@@ -5,6 +5,7 @@ import java.util.List;
 import pez.Pez;
 import pez.PezRio;
 import pez.Alimentación.OmnivoroVoraz;
+import piscifactoria.Piscifactoria;
 import propiedades.AlmacenPropiedades;
 
 /**
@@ -25,9 +26,9 @@ public class Carpa extends OmnivoroVoraz implements PezRio {
     }
 
     @Override
-    public void grow(List<Pez> peces, int comida, int espacio) {
-        this.comer(peces, comida);
-        super.grow(peces, comida, espacio);
+    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+        this.comer(peces, pisci);
+        super.grow(peces, espacio, pisci);
     }
-    
+
 }
