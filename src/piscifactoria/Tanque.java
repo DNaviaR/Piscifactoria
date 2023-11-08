@@ -2,6 +2,7 @@ package piscifactoria;
 
 import java.util.ArrayList;
 
+import commons.Simulador;
 import pez.Pez;
 
 /**
@@ -144,8 +145,10 @@ public abstract class Tanque<T extends Pez> {
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
         for (Pez pez : peces) {
-            pez.grow(peces, espacio, pisci);
+            pez.grow(peces, pisci);
+            pez.reproducirse(peces, espacio);
         }
+        this.sell();
     }
 
     /**
@@ -221,5 +224,17 @@ public abstract class Tanque<T extends Pez> {
             }
         }
         return contador;
+    }
+
+    /**
+     * Vende peces y registra su venta
+     */
+    public void sell() {
+        for (Pez pez : peces) {
+            if (pez.getPecesDatos().getOptimo() == pez.getEdad()) {
+                Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
+                peces.remove(pez);
+            }
+        }
     }
 }

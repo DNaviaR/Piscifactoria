@@ -24,9 +24,9 @@ public class SalmonChinook extends Carnivoro implements PezRio {
         super(sexo, AlmacenPropiedades.SALMON_CHINOOK);
     }
 
-   @Override
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    @Override
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         this.comer(peces, pisci);
-        super.grow(peces, espacio, pisci);
+        super.grow(peces, pisci);
     }
 }

@@ -26,8 +26,8 @@ public class Dorada extends Omnivoro implements PezMar, PezRio {
     }
 
     @Override
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         this.comer(peces, pisci);
-        super.grow(peces, espacio, pisci);
+        super.grow(peces, pisci);
     }
 }

@@ -25,9 +25,9 @@ public class PercaEuropea extends CarnivoroActivo implements PezRio {
         super(sexo, AlmacenPropiedades.PERCA_EUROPEA);
     }
 
-   @Override
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    @Override
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         this.comer(peces, pisci);
-        super.grow(peces, espacio, pisci);
+        super.grow(peces, pisci);
     }
 }

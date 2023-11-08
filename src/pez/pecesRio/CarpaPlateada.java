@@ -26,9 +26,9 @@ public class CarpaPlateada extends Filtrador implements PezRio {
     }
 
     @Override
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         this.comer(pisci);
-        super.grow(peces, espacio, pisci);
+        super.grow(peces, pisci);
     }
 
 }

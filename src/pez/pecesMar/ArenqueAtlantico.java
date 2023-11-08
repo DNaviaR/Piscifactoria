@@ -25,8 +25,8 @@ public class ArenqueAtlantico extends Filtrador implements PezMar {
     }
 
     @Override
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         this.comer(pisci);
-        super.grow(peces, espacio, pisci);
+        super.grow(peces, pisci);
     }
 }

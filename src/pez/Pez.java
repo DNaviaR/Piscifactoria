@@ -218,23 +218,18 @@ public abstract class Pez implements Cloneable {
      * 
      * @param comida La comida que se utiliza
      */
-    public void grow(List<Pez> peces, int espacio, Piscifactoria pisci) {
+    public void grow(List<Pez> peces, Piscifactoria pisci) {
         if (this.isEstaVivo() == true) {
+            if (this.isAlimentado() == false) {
+                this.morir();
+            }
             // Aumentar la edad en 1 día.
             edad++;
-
             // Verificar la madurez y fertilidad.
             if (edad == pc.getMadurez()) {
                 adulto = true;
                 esFertil = true;
             }
-            this.reproducirse(peces, espacio);
-            if (this.isAlimentado() == false) {
-                this.morir();
-            }
-        }
-        if (this.edad == this.getPecesDatos().getOptimo()) {
-
         }
     }
 
@@ -333,10 +328,5 @@ public abstract class Pez implements Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void sell() {
-        Simulador.estadisticas.registrarVenta(getNombre(), this.getPecesDatos().getMonedas());
-        
     }
 }
