@@ -233,8 +233,17 @@ public abstract class Tanque<T extends Pez> {
         for (Pez pez : peces) {
             if (pez.getPecesDatos().getOptimo() == pez.getEdad()) {
                 Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
-                peces.remove(pez);
+                pez = null;
             }
+        }
+        eliminarNulos();
+    }
+
+    /**
+     * Elimina los nulos de la lista
+     */
+    public void eliminarNulos() {
+        while (peces.remove(null)) {
         }
     }
 }
