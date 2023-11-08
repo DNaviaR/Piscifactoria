@@ -145,8 +145,10 @@ public abstract class Tanque<T extends Pez> {
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
         for (Pez pez : peces) {
-            pez.grow(peces, pisci);
-            pez.reproducirse(peces, espacio);
+            if (pez!=null) {
+                pez.grow(peces, pisci);
+                pez.reproducirse(peces, espacio);
+            }
         }
         this.sell();
     }
