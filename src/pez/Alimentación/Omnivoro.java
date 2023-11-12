@@ -33,13 +33,13 @@ public abstract class Omnivoro extends Pez {
      * @param comida La cantidad de comida disponible.
      */
     public void comer(List<Pez> peces, Piscifactoria pisci) {
-        int comida=pisci.getAlmacen().getEspacioOcupado();
+        int comida = pisci.getAlmacen().getEspacioOcupado();
         double aleatorio = Math.random();
         if (aleatorio > 0.25) {
             Pez pezMuerto = buscarPezMuertoEnTanque(peces);
             // Si encuentra un pez muerto, lo come.
             if (pezMuerto != null) {
-                comerPezMuerto(pezMuerto,peces);
+                comerPezMuerto(pezMuerto, peces);
             }
             // Si no hay pez muerto, consume comida
             else {
@@ -62,7 +62,7 @@ public abstract class Omnivoro extends Pez {
      */
     protected Pez buscarPezMuertoEnTanque(List<Pez> peces) {
         for (Pez pez : peces) {
-            if (!pez.isEstaVivo()) {
+            if (pez != null && !pez.isEstaVivo()) {
                 return pez;
             }
         }

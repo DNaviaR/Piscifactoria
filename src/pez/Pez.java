@@ -1,5 +1,7 @@
 package pez;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -254,7 +256,7 @@ public abstract class Pez implements Cloneable {
         int contadorHembras = 0;
         int contadorMachos = 0;
         for (Pez pez : peces) {
-            if (pez.getSexo() == true) {
+            if (pez != null && pez.getSexo() == true) {
                 contadorHembras++;
             } else {
                 contadorMachos++;
@@ -273,20 +275,22 @@ public abstract class Pez implements Cloneable {
      * @param peces Lista de peces candidatos a la reproducción
      */
     public void reproducirse(List<Pez> peces, int espacio) {
+        ArrayList<Pez> nuevosPeces = new ArrayList<>();
         if (this.getSexo() == true) {
             if (this.esFertil == true && countCiclos <= 0) {
                 for (Pez pez : peces) {
                     if (pez.getSexo() != this.getSexo()) {
                         if (pez.isEsFertil()) {
-                            int disponible = espacio - peces.size();
+                            int libre=espacio - peces.size();
+                            int disponible =libre-nuevosPeces.size();
                             if (disponible >= this.getPecesDatos().getHuevos()) {
                                 for (int i = 0; i < this.getPecesDatos().getHuevos(); i++) {
-                                    nuevoPez(peces);
+                                    nuevoPez(peces, nuevosPeces);
                                 }
                                 countCiclos = this.getPecesDatos().getCiclo();
                             } else {
                                 for (int i = 0; i < disponible; i++) {
-                                    nuevoPez(peces);
+                                    nuevoPez(peces, nuevosPeces);
                                 }
                                 countCiclos = this.getPecesDatos().getCiclo();
                             }
@@ -297,6 +301,7 @@ public abstract class Pez implements Cloneable {
                 countCiclos--;
             }
         }
+        peces.addAll(nuevosPeces);
     }
 
     /**
@@ -314,14 +319,17 @@ public abstract class Pez implements Cloneable {
      * 
      * @param peces La lista de peces
      */
-    public void nuevoPez(List<Pez> peces) {
+    public void nuevoPez(List<Pez> peces, List<Pez> nuevosPeces) {
+
         boolean sexoNuevoPez = obtenerSexosTanque(peces);
         try {
-            peces.add((Pez) peces.get(0).clone());
-            peces.get(peces.size()-1).reset();
-            peces.get(peces.size()-1).sexo = sexoNuevoPez;
+            Pez nuevoPez = (Pez) peces.get(0).clone();
+            nuevoPez.reset();
+            nuevoPez.sexo = sexoNuevoPez;
+            nuevosPeces.add(nuevoPez);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
     }
 }

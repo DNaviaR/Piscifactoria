@@ -1,6 +1,7 @@
 package piscifactoria;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import commons.Simulador;
 import pez.Pez;
@@ -144,7 +145,8 @@ public abstract class Tanque<T extends Pez> {
      * @param comida La comida que se utiliza
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
-        for (Pez pez : peces) {
+        List<Pez> copiaPeces = new ArrayList<>(peces);
+        for (Pez pez : copiaPeces) {
             if (pez != null && pez.isEstaVivo()) {
                 pez.grow(peces, pisci);
                 pez.reproducirse(peces, espacio);

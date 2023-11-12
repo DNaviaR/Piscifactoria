@@ -196,12 +196,16 @@ public class ApoyoMenu {
             int pecesPiscifactoria = piscifactoria.peces();
             pecesIniciales += pecesPiscifactoria;
             piscifactoria.nextDay();
+            int pecesImprimir=pecesPiscifactoria - piscifactoria.peces();
+            if (pecesImprimir<0) {
+                pecesImprimir=0;
+            }
             System.out.println("Piscifactoría " + piscifactoria.getNombrePiscifactoria() + ": "
-                    + (pecesPiscifactoria - piscifactoria.peces()) + " peces vendidos por "
+                    + pecesImprimir + " peces vendidos por "
                     + (Simulador.monedas.getMonedas() - monedasPiscifactoria) + " monedas");
             pecesFinales += piscifactoria.peces();
         }
-        System.out.println((pecesIniciales - pecesFinales) + " peces vendidos por un total de "
+        System.out.println((pecesIniciales - pecesFinales)>0? (pecesIniciales - pecesFinales):0+ " peces vendidos por un total de "
                 + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
     }
 
@@ -1105,9 +1109,12 @@ public class ApoyoMenu {
                     System.out.println("Añadido "+pez.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
                 }
             } else {
-                Pez pez = (Pez) tanquesDisponibles.get(opcion).getPeces().get(0);
-                pez.nuevoPez(tanquesDisponibles.get(opcion).getPeces());
-                System.out.println("Añadido "+pez.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
+                Tanque tanqueSeleccionado = tanquesDisponibles.get(opcion);
+                Pez pezExistente = (Pez) tanqueSeleccionado.getPeces().get(0);
+                ArrayList<Pez> nuevosPeces = new ArrayList<>();
+                pezExistente.nuevoPez(tanqueSeleccionado.getPeces(), nuevosPeces);
+                tanqueSeleccionado.getPeces().addAll(nuevosPeces);
+                System.out.println("Añadido "+pezExistente.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
             }
         }
     }

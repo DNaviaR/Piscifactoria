@@ -37,7 +37,7 @@ public abstract class Carnivoro extends Pez {
 
         // Si encuentra un pez muerto, lo come.
         if (pezMuerto != null) {
-            comerPezMuerto(pezMuerto,peces);
+            comerPezMuerto(pezMuerto, peces);
             this.setAlimentado(true);
         }
         // Si no hay pez muerto, consume comida
@@ -58,7 +58,7 @@ public abstract class Carnivoro extends Pez {
      */
     protected Pez buscarPezMuertoEnTanque(List<Pez> peces) {
         for (Pez pez : peces) {
-            if (!pez.isEstaVivo()) {
+            if (pez != null && !pez.isEstaVivo()) {
                 return pez;
             }
         }

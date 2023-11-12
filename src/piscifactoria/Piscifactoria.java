@@ -128,13 +128,13 @@ public abstract class Piscifactoria {
         System.out.println( "=============== " + this.nombrePiscifactoria + " ===============\n" +
                 "Tanques: " + tanques.size() + "\n" +
                 "Ocupacion: " + peces() + " / " + pecesMax() + " ("
-                + (pecesMax() < 0 ? (float) ((peces() * 100) / pecesMax()) : 0) + "%)\n" +
+                + (pecesMax() > 0 ? (float) ((peces() * 100) / pecesMax()) : 0) + "%)\n" +
                 "Peces vivos: " + pecesVivos() + " / " + peces() + " ("
-                + (pecesVivos() < 0 ? (float) ((pecesVivos() * 100) / peces()) : 0) + "%)\n" +
+                + (pecesVivos() > 0 ? (float) ((pecesVivos() * 100) / peces()) : 0) + "%)\n" +
                 "Peces alimentados: " + pecesAlimentados() + " / " + pecesVivos() + " ("
-                + (pecesVivos() < 0 ? +(float) ((pecesAlimentados() * 100) / pecesVivos()) : 0) + "%)\n" +
+                + (pecesVivos() > 0 ? +(float) ((pecesAlimentados() * 100) / pecesVivos()) : 0) + "%)\n" +
                 "Peces adultos: " + pecesAdultos() + " / " + pecesVivos() + " ("
-                + (pecesVivos() < 0 ? (float) ((pecesAdultos() * 100) / pecesVivos()) : 0) + "%)\n" +
+                + (pecesVivos() > 0 ? (float) ((pecesAdultos() * 100) / pecesVivos()) : 0) + "%)\n" +
                 "Hembras / Machos: " + pecesHembras() + " / " + (pecesVivos() - pecesHembras()) + "\n" +
                 "Fertiles: " + pecesFertiles() + " / " + pecesVivos() + "\n" +
                 "Almacen de comida: " + almacen.getEspacioOcupado() + "/" + almacen.getEspacioMaximo() + " ("
