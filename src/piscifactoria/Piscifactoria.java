@@ -24,7 +24,7 @@ public abstract class Piscifactoria {
     /**
      * Lleva la cuenta de las mejoras del almacen
      */
-    protected int contadorMejoraAlmacen;
+    protected int contadorMejoraAlmacen=1;
 
     /**
      * Constructor que recibe el nombre de la piscifactoría.
@@ -124,8 +124,8 @@ public abstract class Piscifactoria {
      *
      * @return Una cadena con toda la información de la piscifactoría.
      */
-    public String showStatus() {
-        return "=============== " + this.nombrePiscifactoria + " ===============\n" +
+    public void showStatus() {
+        System.out.println( "=============== " + this.nombrePiscifactoria + " ===============\n" +
                 "Tanques: " + tanques.size() + "\n" +
                 "Ocupacion: " + peces() + " / " + pecesMax() + " ("
                 + (pecesMax() < 0 ? (float) ((peces() * 100) / pecesMax()) : 0) + "%)\n" +
@@ -138,7 +138,7 @@ public abstract class Piscifactoria {
                 "Hembras / Machos: " + pecesHembras() + " / " + (pecesVivos() - pecesHembras()) + "\n" +
                 "Fertiles: " + pecesFertiles() + " / " + pecesVivos() + "\n" +
                 "Almacen de comida: " + almacen.getEspacioOcupado() + "/" + almacen.getEspacioMaximo() + " ("
-                + ((almacen.getEspacioOcupado() / almacen.getEspacioMaximo()) * 100) + "%)";
+                + ((almacen.getEspacioOcupado() / almacen.getEspacioMaximo()) * 100) + "%)");
     }
 
     /**
@@ -184,20 +184,6 @@ public abstract class Piscifactoria {
         for (Tanque<? extends Pez> tanque : tanques) {
             tanque.nextDay(tanque.getEspacio(),this);
         }
-    }
-
-    /**
-     * Vende todos los peces de la piscifactoría que sean adultos y estén vivos.
-     */
-    public void sellFish() {// Pendiente
-
-    }
-
-    /**
-     * Mejora el almacén de comida
-     */
-    public void upgradeFood() {// Pendiente
-
     }
 
     /**

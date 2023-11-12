@@ -32,12 +32,12 @@ public abstract class Carnivoro extends Pez {
      * @param comida La cantidad de comida disponible.
      */
     public void comer(List<Pez> peces, Piscifactoria pisci) {
-        int comida=pisci.getAlmacen().getEspacioOcupado();
+        int comida = pisci.getAlmacen().getEspacioOcupado();
         Pez pezMuerto = buscarPezMuertoEnTanque(peces);
 
         // Si encuentra un pez muerto, lo come.
         if (pezMuerto != null) {
-            comerPezMuerto(pezMuerto);
+            comerPezMuerto(pezMuerto,peces);
             this.setAlimentado(true);
         }
         // Si no hay pez muerto, consume comida
@@ -70,10 +70,13 @@ public abstract class Carnivoro extends Pez {
      *
      * @param pezMuerto El pez muerto que el pez va a comer.
      */
-    protected void comerPezMuerto(Pez pezMuerto) {
+    protected void comerPezMuerto(Pez pezMuerto, List<Pez> peces) {
         double aleatorio = Math.random();
         if (aleatorio <= 0.5) {
-            pezMuerto = null;
+            int index = peces.indexOf(pezMuerto);
+            if (index != -1) {
+                peces.set(index, null);
+            }
         }
     }
 }

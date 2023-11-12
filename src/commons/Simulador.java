@@ -2,6 +2,10 @@ package commons;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.sound.midi.Soundbank;
+
+import almacen.AlmacenCentral;
 import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaMar;
@@ -9,28 +13,46 @@ import piscifactoria.PiscifactoriaRio;
 import propiedades.AlmacenPropiedades;
 
 public class Simulador {
-    public static Estadisticas estadisticas = new Estadisticas(new String[] { AlmacenPropiedades.CARPA.getNombre(),AlmacenPropiedades.CARPA_PLATEADA.getNombre(), AlmacenPropiedades.CARPIN_TRES_ESPINAS.getNombre(),
-        AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(), AlmacenPropiedades.PERCA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(), AlmacenPropiedades.TILAPIA_NILO.getNombre(),
-        AlmacenPropiedades.ABADEJO.getNombre(), AlmacenPropiedades.ARENQUE_ATLANTICO.getNombre(), AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(), AlmacenPropiedades.COBIA.getNombre(), AlmacenPropiedades.CORVINA.getNombre(), AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.LUBINA_RAYADA.getNombre(),
-        AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.RODABALLO.getNombre(), AlmacenPropiedades.SARGO.getNombre(), AlmacenPropiedades.BAGRE_CANAL.getNombre(), AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.LUBINA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_ATLANTICO.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() });
+    public static String[] nombresPeces = { AlmacenPropiedades.CARPA.getNombre(),
+            AlmacenPropiedades.CARPA_PLATEADA.getNombre(), AlmacenPropiedades.CARPIN_TRES_ESPINAS.getNombre(),
+            AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
+            AlmacenPropiedades.PERCA_EUROPEA.getNombre(), AlmacenPropiedades.SALMON_CHINOOK.getNombre(),
+            AlmacenPropiedades.TILAPIA_NILO.getNombre(),
+            AlmacenPropiedades.ABADEJO.getNombre(), AlmacenPropiedades.ARENQUE_ATLANTICO.getNombre(),
+            AlmacenPropiedades.BESUGO.getNombre(), AlmacenPropiedades.CABALLA.getNombre(),
+            AlmacenPropiedades.COBIA.getNombre(), AlmacenPropiedades.CORVINA.getNombre(),
+            AlmacenPropiedades.LENGUADO_EUROPEO.getNombre(), AlmacenPropiedades.LUBINA_RAYADA.getNombre(),
+            AlmacenPropiedades.ROBALO.getNombre(), AlmacenPropiedades.RODABALLO.getNombre(),
+            AlmacenPropiedades.SARGO.getNombre(), AlmacenPropiedades.BAGRE_CANAL.getNombre(),
+            AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.LUBINA_EUROPEA.getNombre(),
+            AlmacenPropiedades.SALMON_ATLANTICO.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() };
+    public static Estadisticas estadisticas = new Estadisticas(nombresPeces);
     Scanner sc = new Scanner(System.in);
     protected int dias;
     protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
-    public static Monedas monedas=Monedas.getInstance();
+    public static Monedas monedas = Monedas.getInstance();
+    public static AlmacenCentral almacenCentral = new AlmacenCentral();
 
     /**
-     * @param nombrePartida
-     * @param primeraPiscifactoria
+     * Inicializa los elementos del sistema
+     * 
+     * @param nombrePartida        El nombre de la partida
+     * @param primeraPiscifactoria el nombre de la primera piscifactoria
      */
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
-        piscifactorias.add(0, new PiscifactoriaRio(primeraPiscifactoria));
+        piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
+        piscifactorias.get(0).getAlmacen().setEspacioOcupado(piscifactorias.get(0).getAlmacen().getEspacioMaximo());
+        monedas.setMonedas(100);
     }
 
+    /**
+     * Muestra el menu de opciones del sistema
+     */
     void menu() {
         int condition = 0;
         do {
-            System.out.print(
+            System.out.println(
                     "1. Estado general\n" +
                             "2. Estado piscifactoria\n" +
                             "3. Estado tanques\n" +
@@ -44,7 +66,9 @@ public class Simulador {
                             "11. Vaciar tanque\n" +
                             "12. Mejorar\n" +
                             "13. Pasar varios días\n" +
-                            "14. Salir\n");
+                            "14. Salir\n" +
+                            "Dia:" + dias + "\t" +
+                            "Monedas: " + monedas);
             System.out.println("Seleccione una opcion: ");
             condition = sc.nextInt();
             opcion(condition);
@@ -52,7 +76,9 @@ public class Simulador {
     }
 
     /**
-     * @param condicion
+     * Hace la lógica de los menús del sistema
+     * 
+     * @param condicion La opcion del menu seleccionada
      */
     void opcion(int condicion) {
         switch (condicion) {
@@ -60,28 +86,67 @@ public class Simulador {
                 ApoyoMenu.showGeneralStatus(piscifactorias);
                 break;
             case 2:
-                System.out.println(ApoyoMenu.selectPisc(piscifactorias).showStatus());
+                ApoyoMenu.selectPisc(piscifactorias).showStatus();
                 break;
             case 3:
-                ApoyoMenu.selectTank(piscifactorias).showStatus();
-                break;
-            case 4:
-                ApoyoMenu.menuPisc(piscifactorias);
-                break;
-            case 5:
                 ApoyoMenu.showSpecificStatus(piscifactorias);
                 break;
-            case 6:
-                ApoyoMenu.showTankStatus(piscifactorias);
+            case 4:
+                ApoyoMenu.showStats();
                 break;
-            case 7:
+            case 5:
                 ApoyoMenu.showIctio();
                 break;
+            case 6:
+                ApoyoMenu.nextDay(piscifactorias);
+                dias++;
+                break;
+            case 7:
+                ApoyoMenu.addFood(piscifactorias);
+                break;
+            case 8:
+                ApoyoMenu.addFish(piscifactorias);
+                break;
+            case 9:
+                ApoyoMenu.sell(piscifactorias);
+                break;
+            case 10:
+                ApoyoMenu.cleanTank(piscifactorias);
+                break;
+            case 11:
+                ApoyoMenu.emptyTank(piscifactorias);
+                break;
+            case 12:
+                ApoyoMenu.upgrade(piscifactorias);
+                break;
+            case 13:
+                Scanner sc = new Scanner(System.in);
+                System.out.println("¿Cuantos dias quieres avanzar?");
+                int avanzarDias = sc.nextInt();
+                for (int i = 0; i < avanzarDias; i++) {
+                    ApoyoMenu.nextDay(piscifactorias);
+                    dias++;
+                }
+                break;
+            case 14:
+                System.out.println("Saliendo...");
+                break;
+            case 98:
+                ApoyoMenu.caso98(piscifactorias);
+                break;
+            case 99:
+                System.out.println("Añadiendo 1000 monedas...");
+                Simulador.monedas.ingresar(1000);
+                break;
             default:
+                System.out.println("Opción no valida");
                 break;
         }
     }
 
+    /**
+     * Hace la logica del sistema
+     */
     void logica() {
         System.out.println("Introduce el nombre de la partida");
         String nombre = sc.nextLine();
@@ -91,10 +156,6 @@ public class Simulador {
         menu();
     }
 
-    /**
-     * @param args
-     * @throws Exception
-     */
     public static void main(String[] args) throws Exception {
         Simulador simulador = new Simulador();
         simulador.logica();

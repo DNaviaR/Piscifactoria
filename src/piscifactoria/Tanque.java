@@ -99,7 +99,7 @@ public abstract class Tanque<T extends Pez> {
      * Muestra la información del tanque
      */
     public void showStatus() {
-        System.out.println("--------------- Tanque" + numeroTanque + " ---------------");
+        System.out.println("--------------- Tanque " + numeroTanque + " ---------------");
         System.out.println("Ocupación " + peces.size() + "/" + espacio + " (" + ((peces.size() / espacio) * 100) + ")");
         System.out.println("Peces vivos " + getVivos() + "/" + peces.size() + " ("
                 + (peces.size() == 0 ? "0/0" : ((getVivos() / peces.size()) * 100)) + ")");
@@ -130,8 +130,8 @@ public abstract class Tanque<T extends Pez> {
      *                            el tanque
      * @return Una cadena con la información de capacidad del tanque
      */
-    public String showCapacity(String nombrePiscifactoria) {
-        return ("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
+    public void showCapacity(String nombrePiscifactoria) {
+        System.out.println("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
                 + ((float) (this.peces.size() * 100) / espacio)
                 + "% de capacidad. [" + this.peces.size() + "/" + espacio + "]");
     }
@@ -145,11 +145,12 @@ public abstract class Tanque<T extends Pez> {
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
         for (Pez pez : peces) {
-            if (pez!=null) {
+            if (pez != null && pez.isEstaVivo()) {
                 pez.grow(peces, pisci);
                 pez.reproducirse(peces, espacio);
             }
         }
+        eliminarNulos();
         this.sell();
     }
 
@@ -176,7 +177,7 @@ public abstract class Tanque<T extends Pez> {
     public int getAlimentados() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isAlimentado()) {
+            if (peces.get(i).isEstaVivo() && peces.get(i).isAlimentado()) {
                 contador++;
             }
         }
@@ -191,7 +192,7 @@ public abstract class Tanque<T extends Pez> {
     public int getAdultos() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isAdulto()) {
+            if (peces.get(i).isEstaVivo() && peces.get(i).isAdulto()) {
                 contador++;
             }
         }
@@ -221,7 +222,7 @@ public abstract class Tanque<T extends Pez> {
     public int getFertiles() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEsFertil()) {
+            if (peces.get(i).isEstaVivo() && peces.get(i).isEsFertil()) {
                 contador++;
             }
         }
@@ -233,9 +234,10 @@ public abstract class Tanque<T extends Pez> {
      */
     public void sell() {
         for (Pez pez : peces) {
-            if (pez.getPecesDatos().getOptimo() == pez.getEdad()) {
+            if (pez.getPecesDatos().getOptimo() == pez.getEdad() && pez.isEstaVivo()) {
                 Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
-                pez = null;
+                Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas());
+                peces.set(peces.indexOf(pez), null);
             }
         }
         eliminarNulos();

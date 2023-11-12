@@ -48,7 +48,28 @@ public class Monedas {
      */
     @Override
     public String toString() {
-        return "Monedas [" + monedas + "]";
+        return ""+monedas;
     }
 
+    /**
+     * Suma la cantidad especificada de monedas a las ya existentes
+     * 
+     * @param cantidad La cantidad a sumar
+     */
+    public void ingresar(int cantidad) {
+        this.monedas += cantidad;
+    }
+
+    /**
+     * Resta la cantidad especificada de monedas a las ya existentes
+     * 
+     * @param cantidad La cantidad a restar
+     */
+    public void pagar(int cantidad) {
+        if (this.monedas >= cantidad) {
+            this.monedas -= cantidad;
+        } else {
+            System.out.println("No hay monedas suficientes para realizar el pago");
+        }
+    }
 }

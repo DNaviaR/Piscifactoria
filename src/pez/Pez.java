@@ -1,11 +1,8 @@
 package pez;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
-import commons.Simulador;
-import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
 
@@ -219,7 +216,7 @@ public abstract class Pez implements Cloneable {
      * @param comida La comida que se utiliza
      */
     public void grow(List<Pez> peces, Piscifactoria pisci) {
-        if (this.isEstaVivo() == true) {
+        if (this.isEstaVivo()) {
             if (this.isAlimentado() == false) {
                 this.morir();
             }
@@ -231,6 +228,7 @@ public abstract class Pez implements Cloneable {
                 esFertil = true;
             }
         }
+        this.setAlimentado(false);
     }
 
     /**
@@ -264,13 +262,8 @@ public abstract class Pez implements Cloneable {
         }
         if (contadorHembras > contadorMachos) {
             return false;
-        } else if (contadorHembras < contadorMachos) {
+        } else
             return true;
-        } else {
-            Random rd = new Random();
-            boolean sexo = rd.nextBoolean();
-            return sexo;
-        }
     }
 
     /**
@@ -280,27 +273,29 @@ public abstract class Pez implements Cloneable {
      * @param peces Lista de peces candidatos a la reproducción
      */
     public void reproducirse(List<Pez> peces, int espacio) {
-        if (this.esFertil == true && countCiclos <= 0) {
-            for (Pez pez : peces) {
-                if (pez.getSexo() != this.getSexo()) {
-                    if (pez.isEsFertil()) {
-                        int disponible = espacio - peces.size();
-                        if (disponible >= this.getPecesDatos().getHuevos()) {
-                            for (int i = 0; i < this.getPecesDatos().getHuevos(); i++) {
-                                nuevoPez(peces);
+        if (this.getSexo() == true) {
+            if (this.esFertil == true && countCiclos <= 0) {
+                for (Pez pez : peces) {
+                    if (pez.getSexo() != this.getSexo()) {
+                        if (pez.isEsFertil()) {
+                            int disponible = espacio - peces.size();
+                            if (disponible >= this.getPecesDatos().getHuevos()) {
+                                for (int i = 0; i < this.getPecesDatos().getHuevos(); i++) {
+                                    nuevoPez(peces);
+                                }
+                                countCiclos = this.getPecesDatos().getCiclo();
+                            } else {
+                                for (int i = 0; i < disponible; i++) {
+                                    nuevoPez(peces);
+                                }
+                                countCiclos = this.getPecesDatos().getCiclo();
                             }
-                            countCiclos = this.getPecesDatos().getCiclo();
-                        } else {
-                            for (int i = 0; i < disponible; i++) {
-                                nuevoPez(peces);
-                            }
-                            countCiclos = this.getPecesDatos().getCiclo();
                         }
                     }
                 }
+            } else {
+                countCiclos--;
             }
-        } else {
-            countCiclos--;
         }
     }
 
@@ -317,14 +312,14 @@ public abstract class Pez implements Cloneable {
     /**
      * Añade un pez a la lista de peces
      * 
-     * @param peces Lista de peces
+     * @param peces La lista de peces
      */
     public void nuevoPez(List<Pez> peces) {
         boolean sexoNuevoPez = obtenerSexosTanque(peces);
         try {
             peces.add((Pez) peces.get(0).clone());
-            peces.get(peces.size()).reset();
-            peces.get(peces.size()).setSexo(sexoNuevoPez);
+            peces.get(peces.size()-1).reset();
+            peces.get(peces.size()-1).sexo = sexoNuevoPez;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

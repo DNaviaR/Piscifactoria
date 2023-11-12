@@ -39,7 +39,7 @@ public abstract class Omnivoro extends Pez {
             Pez pezMuerto = buscarPezMuertoEnTanque(peces);
             // Si encuentra un pez muerto, lo come.
             if (pezMuerto != null) {
-                comerPezMuerto(pezMuerto);
+                comerPezMuerto(pezMuerto,peces);
             }
             // Si no hay pez muerto, consume comida
             else {
@@ -74,10 +74,13 @@ public abstract class Omnivoro extends Pez {
      *
      * @param pezMuerto El pez muerto que el pez va a comer.
      */
-    protected void comerPezMuerto(Pez pezMuerto) {
+    protected void comerPezMuerto(Pez pezMuerto, List<Pez> peces) {
         double aleatorio = Math.random();
         if (aleatorio <= 0.5) {
-            pezMuerto = null;
+            int index = peces.indexOf(pezMuerto);
+            if (index != -1) {
+                peces.set(index, null);
+            }
         }
     }
 

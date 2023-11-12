@@ -37,7 +37,7 @@ public abstract class CarnivoroActivo extends Carnivoro {
 
         // Si encuentra un pez muerto, lo come.
         if (pezMuerto != null) {
-            comerPezMuerto(pezMuerto);
+            comerPezMuerto(pezMuerto,peces);
         }
         // Si no hay pez muerto, consume comida
         else {

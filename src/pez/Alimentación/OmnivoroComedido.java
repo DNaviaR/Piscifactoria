@@ -42,7 +42,7 @@ public abstract class OmnivoroComedido extends Omnivoro {
                 Pez pezMuerto = buscarPezMuertoEnTanque(peces);
                 // Si encuentra un pez muerto, lo come.
                 if (pezMuerto != null) {
-                    comerPezMuerto(pezMuerto);
+                    comerPezMuerto(pezMuerto,peces);
                 }
                 // Si no hay pez muerto, consume comida
                 else {
