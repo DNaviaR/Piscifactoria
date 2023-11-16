@@ -69,8 +69,12 @@ public class Simulador {
                             "14. Salir\n" +
                             "Dia:" + dias + "\t" +
                             "Monedas: " + monedas);
-            System.out.println("Seleccione una opcion: ");
-            condition = sc.nextInt();
+            String snum1;
+            do {
+                System.out.println("Seleccione una opcion");
+                snum1 = sc.nextLine(); 
+            } while (!ApoyoMenu.IsInteger(snum1));
+            condition = Integer.parseInt(snum1);
             opcion(condition);
         } while (condition != 14);
     }

@@ -46,6 +46,20 @@ import propiedades.PecesProps;
  * Una clase que proporciona soporte al método menú de Simulador.
  */
 public class ApoyoMenu {
+    /**
+     * Comprueba si el valor introducido es un entero
+     * @param text La cadena de texto a comprobar
+     * @return Si es entero o no
+     */
+    public static boolean IsInteger(String text) {
+        try {
+            Integer.parseInt(text);
+            return true;
+        } catch (NumberFormatException ex) {
+            System.out.println("Opción no valida");
+            return false;
+        }
+    }
 
     /**
      * Muestra la lista de piscifactorías actuales en forma de menú
@@ -196,17 +210,18 @@ public class ApoyoMenu {
             int pecesPiscifactoria = piscifactoria.peces();
             pecesIniciales += pecesPiscifactoria;
             piscifactoria.nextDay();
-            int pecesImprimir=pecesPiscifactoria - piscifactoria.peces();
-            if (pecesImprimir<0) {
-                pecesImprimir=0;
+            int pecesImprimir = pecesPiscifactoria - piscifactoria.peces();
+            if (pecesImprimir < 0) {
+                pecesImprimir = 0;
             }
             System.out.println("Piscifactoría " + piscifactoria.getNombrePiscifactoria() + ": "
                     + pecesImprimir + " peces vendidos por "
                     + (Simulador.monedas.getMonedas() - monedasPiscifactoria) + " monedas");
             pecesFinales += piscifactoria.peces();
         }
-        System.out.println((pecesIniciales - pecesFinales)>0? (pecesIniciales - pecesFinales):0+ " peces vendidos por un total de "
-                + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
+        System.out.println((pecesIniciales - pecesFinales) > 0 ? (pecesIniciales - pecesFinales)
+                : 0 + " peces vendidos por un total de "
+                        + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
     }
 
     /**
@@ -1101,12 +1116,14 @@ public class ApoyoMenu {
                     int eleccion = rd.nextInt(pecesRio.size());
                     Pez pez = (Pez) pecesRio.get(eleccion);
                     tanquesDisponibles.get(opcion).getPeces().add(pez);
-                    System.out.println("Añadido "+pez.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
+                    System.out.println("Añadido " + pez.getNombre() + " a tanque "
+                            + tanquesDisponibles.get(opcion).getNumeroTanque());
                 } else {
                     int eleccion = rd.nextInt(pecesMar.size());
                     Pez pez = (Pez) pecesMar.get(eleccion);
                     tanquesDisponibles.get(opcion).getPeces().add(pez);
-                    System.out.println("Añadido "+pez.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
+                    System.out.println("Añadido " + pez.getNombre() + " a tanque "
+                            + tanquesDisponibles.get(opcion).getNumeroTanque());
                 }
             } else {
                 Tanque tanqueSeleccionado = tanquesDisponibles.get(opcion);
@@ -1114,7 +1131,8 @@ public class ApoyoMenu {
                 ArrayList<Pez> nuevosPeces = new ArrayList<>();
                 pezExistente.nuevoPez(tanqueSeleccionado.getPeces(), nuevosPeces);
                 tanqueSeleccionado.getPeces().addAll(nuevosPeces);
-                System.out.println("Añadido "+pezExistente.getNombre()+" a tanque "+tanquesDisponibles.get(opcion).getNumeroTanque());
+                System.out.println("Añadido " + pezExistente.getNombre() + " a tanque "
+                        + tanquesDisponibles.get(opcion).getNumeroTanque());
             }
         }
     }
