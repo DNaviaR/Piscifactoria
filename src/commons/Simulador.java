@@ -12,7 +12,16 @@ import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
 import propiedades.AlmacenPropiedades;
 
+/**
+ * Clase que representa un simulador de una actividad relacionada con
+ * piscifactorías.
+ * Permite gestionar diversas estadísticas, monedas, y operaciones asociadas a
+ * las piscifactorías.
+ */
 public class Simulador {
+    /**
+     * Nombres de los peces disponibles en el simulador.
+     */
     public static String[] nombresPeces = { AlmacenPropiedades.CARPA.getNombre(),
             AlmacenPropiedades.CARPA_PLATEADA.getNombre(), AlmacenPropiedades.CARPIN_TRES_ESPINAS.getNombre(),
             AlmacenPropiedades.LUCIO_NORTE.getNombre(), AlmacenPropiedades.PEJERREY.getNombre(),
@@ -26,11 +35,29 @@ public class Simulador {
             AlmacenPropiedades.SARGO.getNombre(), AlmacenPropiedades.BAGRE_CANAL.getNombre(),
             AlmacenPropiedades.DORADA.getNombre(), AlmacenPropiedades.LUBINA_EUROPEA.getNombre(),
             AlmacenPropiedades.SALMON_ATLANTICO.getNombre(), AlmacenPropiedades.TRUCHA_ARCOIRIS.getNombre() };
+    /**
+     * Estadísticas asociadas al simulador, basadas en los nombres de los peces.
+     */
     public static Estadisticas estadisticas = new Estadisticas(nombresPeces);
+    /**
+     * Scanner utilizado para obtener información desde la entrada estándar.
+     */
     Scanner sc = new Scanner(System.in);
+    /**
+     * Número de días de simulador
+     */
     protected int dias;
+    /**
+     * Lista de piscifactorías que forman parte del simulador.
+     */
     protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
+    /**
+     * Monedas utilizadas en el simulador.
+     */
     public static Monedas monedas = Monedas.getInstance();
+    /**
+     * Almacén central utilizado en el simulador.
+     */
     public static AlmacenCentral almacenCentral = new AlmacenCentral();
 
     /**
@@ -72,7 +99,7 @@ public class Simulador {
             String snum1;
             do {
                 System.out.println("Seleccione una opcion");
-                snum1 = sc.nextLine(); 
+                snum1 = sc.nextLine();
             } while (!ApoyoMenu.IsInteger(snum1));
             condition = Integer.parseInt(snum1);
             opcion(condition);

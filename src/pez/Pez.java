@@ -216,6 +216,7 @@ public abstract class Pez implements Cloneable {
      * 4. Se verifica su madurez y su fertilidad.
      * 
      * @param comida La comida que se utiliza
+     * @param peces La lista de peces
      */
     public void grow(List<Pez> peces, Piscifactoria pisci) {
         if (this.isEstaVivo()) {
@@ -273,6 +274,7 @@ public abstract class Pez implements Cloneable {
      * realiza la lógica de reproducción
      * 
      * @param peces Lista de peces candidatos a la reproducción
+     * @param espacio Espacio total de la lista
      */
     public void reproducirse(List<Pez> peces, int espacio) {
         ArrayList<Pez> nuevosPeces = new ArrayList<>();

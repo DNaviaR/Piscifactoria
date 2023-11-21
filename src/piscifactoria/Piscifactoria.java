@@ -122,7 +122,6 @@ public abstract class Piscifactoria {
     /**
      * Muestra toda la información de la piscifactoría.
      *
-     * @return Una cadena con toda la información de la piscifactoría.
      */
     public void showStatus() {
         System.out.println( "=============== " + this.nombrePiscifactoria + " ===============\n" +

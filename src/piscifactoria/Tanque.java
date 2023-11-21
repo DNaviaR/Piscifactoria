@@ -129,7 +129,6 @@ public abstract class Tanque<T extends Pez> {
      * 
      * @param nombrePiscifactoria El nombre de la piscifactoria a la que pertenece
      *                            el tanque
-     * @return Una cadena con la información de capacidad del tanque
      */
     public void showCapacity(String nombrePiscifactoria) {
         System.out.println("Tanque " + numeroTanque + " de la piscifactoria " + nombrePiscifactoria + " al "
@@ -143,6 +142,7 @@ public abstract class Tanque<T extends Pez> {
      * óptima.
      * 
      * @param comida La comida que se utiliza
+     * @param pisci La piscifactoria a la que pertenece
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
         List<Pez> copiaPeces = new ArrayList<>(peces);
@@ -217,7 +217,7 @@ public abstract class Tanque<T extends Pez> {
     }
 
     /**
-     * Calcula el número de peces fértiles del tanque
+     * Calcula el número de peces fértiles del tanqueA
      * 
      * @return El número de peces fértiles del tanque
      */
