@@ -844,7 +844,11 @@ public class ApoyoMenu {
         tanque.getPeces().clear();
         System.out.println("Tanque " + tanque.getNumeroTanque() + " ha sido vaciado");
     }
-
+    /**
+     * Método que permite comprar o mejorar edificios
+     * 
+     * @param piscifactorias La lista de piscifactorias
+     */
     public static void upgrade(List<Piscifactoria> piscifactorias) {
         Scanner sc = new Scanner(System.in);
         System.out.println("1.-Comprar edificios\n2.-Mejorar edificios\n3.-Cancelar");

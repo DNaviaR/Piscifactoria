@@ -54,7 +54,6 @@ public abstract class Pez implements Cloneable {
     public Pez(boolean sexo, PecesDatos pc) {
         this.sexo = sexo;
         this.pc = pc;
-
     }
 
     /**
