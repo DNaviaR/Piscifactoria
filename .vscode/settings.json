@@ -3,7 +3,6 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\dnavia\\Downloads\\Orca_lib.jar",
-        "Orca/Orca_lib.jar"
+        "c:\\Users\\dnavia\\Downloads\\Orca_lib.jar"
     ]
 }
