@@ -776,35 +776,31 @@ public class ApoyoMenu {
     }
 
     /**
-     * Vende todos los peces adultos que estén vivos de la lista de piscifactorias
+     * Vende todos los peces adultos que estén vivos de la piscifactoria seleccioanda
      * 
      * @param piscifactorias La lista de piscifactorias
      */
     public static void sell(List<Piscifactoria> piscifactorias) {
         int monedasIniciales = Simulador.monedas.getMonedas();
-        int pecesTotalesVendidos = 0;
-        for (Piscifactoria piscifactoria : piscifactorias) {
-            int monedasPiscifactoria = Simulador.monedas.getMonedas();
-            int contadorPecesVendidos = 0;
-            ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
-            for (Tanque<? extends Pez> tanque : tanques) {
-                ArrayList<Pez> peces = tanque.getPeces();
-                for (Pez pez : peces) {
-                    if (pez.isAdulto() && pez.isEstaVivo()) {
-                        Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
-                        Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas());
-                        peces.set(peces.indexOf(pez), null);
-                        contadorPecesVendidos++;
-                    }
+        Piscifactoria piscifactoria=selectPisc(piscifactorias);
+        int pecesVendidosPiscifactoria = piscifactoria.getContadorPecesVendidos();
+        ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
+        for (Tanque<? extends Pez> tanque : tanques) {
+            ArrayList<Pez> peces = tanque.getPeces();
+            for (Pez pez : peces) {
+                if (pez.isAdulto() && pez.isEstaVivo()) {
+                    Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas()/2);
+                    Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas()/2);
+                    peces.set(peces.indexOf(pez), null);
+                    piscifactoria.setContadorPecesVendidos(piscifactoria.getContadorPecesVendidos()+1);
                 }
-                tanque.eliminarNulos();
             }
-            System.out.println("Piscifactoria " + piscifactoria.getNombrePiscifactoria() + ": " + contadorPecesVendidos
-                    + " peces vendidos por " + (Simulador.monedas.getMonedas() - monedasPiscifactoria) + " monedas");
-            pecesTotalesVendidos += contadorPecesVendidos;
+            tanque.eliminarNulos();
         }
-        System.out.println(pecesTotalesVendidos + " peces vendidos por un total de "
-                + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
+        pecesVendidosPiscifactoria=piscifactoria.getContadorPecesVendidos()-pecesVendidosPiscifactoria;
+        System.out.println("Piscifactoría " + piscifactoria.getNombrePiscifactoria() + ": "
+                    + pecesVendidosPiscifactoria + " peces vendidos por "
+                    + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
     }
 
     /**
