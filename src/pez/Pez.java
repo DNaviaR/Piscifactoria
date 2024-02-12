@@ -1,9 +1,7 @@
 package pez;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
@@ -214,14 +212,14 @@ public abstract class Pez implements Cloneable {
      * 3. Aumenta en 1 su edad.
      * 4. Se verifica su madurez y su fertilidad.
      * 
+     * Modificación: Ahora el pez tiene un 5% de morir en los dias pares
+     * 
      * @param comida La comida que se utiliza
-     * @param peces La lista de peces
+     * @param peces  La lista de peces
      */
     public void grow(List<Pez> peces, Piscifactoria pisci) {
         if (this.isEstaVivo()) {
-            if (this.isAlimentado() == false) {
                 this.morir();
-            }
             // Aumentar la edad en 1 día.
             edad++;
             // Verificar la madurez y fertilidad.
@@ -272,7 +270,7 @@ public abstract class Pez implements Cloneable {
      * Comprueba si el pez puede reproducirse. Si puede,
      * realiza la lógica de reproducción
      * 
-     * @param peces Lista de peces candidatos a la reproducción
+     * @param peces   Lista de peces candidatos a la reproducción
      * @param espacio Espacio total de la lista
      */
     public void reproducirse(List<Pez> peces, int espacio) {
@@ -280,21 +278,19 @@ public abstract class Pez implements Cloneable {
         if (this.getSexo() == true) {
             if (this.esFertil == true && countCiclos <= 0) {
                 for (Pez pez : peces) {
-                    if (pez != null && pez.getSexo() != this.getSexo()) {
-                        if (pez.isEsFertil()) {
-                            int libre=espacio - peces.size();
-                            int disponible =libre-nuevosPeces.size();
-                            if (disponible >= this.getPecesDatos().getHuevos()) {
-                                for (int i = 0; i < this.getPecesDatos().getHuevos(); i++) {
-                                    nuevoPez(peces, nuevosPeces);
-                                }
-                                countCiclos = this.getPecesDatos().getCiclo();
-                            } else {
-                                for (int i = 0; i < disponible; i++) {
-                                    nuevoPez(peces, nuevosPeces);
-                                }
-                                countCiclos = this.getPecesDatos().getCiclo();
+                    if (pez != null && pez.getSexo() != this.getSexo() && pez.isEsFertil()) {
+                        int libre = espacio - peces.size();
+                        int disponible = libre - nuevosPeces.size();
+                        if (disponible >= this.getPecesDatos().getHuevos()) {
+                            for (int i = 0; i < this.getPecesDatos().getHuevos(); i++) {
+                                nuevoPez(peces, nuevosPeces);
                             }
+                            countCiclos = this.getPecesDatos().getCiclo();
+                        } else {
+                            for (int i = 0; i < disponible; i++) {
+                                nuevoPez(peces, nuevosPeces);
+                            }
+                            countCiclos = this.getPecesDatos().getCiclo();
                         }
                     }
                 }
@@ -310,7 +306,7 @@ public abstract class Pez implements Cloneable {
      */
     public void morir() {
         double aleatorio = Math.random();
-        if (aleatorio <= 0.5) {
+        if ((this.alimentado==false && aleatorio < 0.5)||(this.edad%2==0 && aleatorio<0.05)) {
             this.setEstaVivo(false);
         }
     }
