@@ -153,7 +153,7 @@ public abstract class Tanque<T extends Pez> {
             }
         }
         eliminarNulos();
-        this.sell();
+        this.sell(pisci);
     }
 
     /**
@@ -234,12 +234,13 @@ public abstract class Tanque<T extends Pez> {
     /**
      * Vende peces y registra su venta
      */
-    public void sell() {
+    public void sell(Piscifactoria piscifactoria) {
         for (Pez pez : peces) {
             if (pez.getPecesDatos().getOptimo() == pez.getEdad() && pez.isEstaVivo()) {
                 Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
                 Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas());
                 peces.set(peces.indexOf(pez), null);
+                piscifactoria.setContadorPecesVendidos(piscifactoria.getContadorPecesVendidos()+1);
             }
         }
         eliminarNulos();

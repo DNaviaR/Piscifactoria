@@ -203,24 +203,18 @@ public class ApoyoMenu {
      */
     public static void nextDay(List<Piscifactoria> piscifactorias) {
         int monedasIniciales = Simulador.monedas.getMonedas();
-        int pecesIniciales = 0;
-        int pecesFinales = 0;
+        int pecesVendidos = 0;
         for (Piscifactoria piscifactoria : piscifactorias) {
             int monedasPiscifactoria = Simulador.monedas.getMonedas();
-            int pecesPiscifactoria = piscifactoria.peces();
-            pecesIniciales += pecesPiscifactoria;
+            int pecesVendidosPiscifactoria = piscifactoria.getContadorPecesVendidos();
             piscifactoria.nextDay();
-            int pecesImprimir = pecesPiscifactoria - piscifactoria.peces();
-            if (pecesImprimir < 0) {
-                pecesImprimir = 0;
-            }
+            pecesVendidosPiscifactoria=piscifactoria.getContadorPecesVendidos()-pecesVendidosPiscifactoria;
             System.out.println("Piscifactoría " + piscifactoria.getNombrePiscifactoria() + ": "
-                    + pecesImprimir + " peces vendidos por "
+                    + pecesVendidosPiscifactoria + " peces vendidos por "
                     + (Simulador.monedas.getMonedas() - monedasPiscifactoria) + " monedas");
-            pecesFinales += piscifactoria.peces();
+            pecesVendidos+=pecesVendidosPiscifactoria;
         }
-        System.out.println((pecesIniciales - pecesFinales) > 0 ? (pecesIniciales - pecesFinales)
-                : 0 + " peces vendidos por un total de "
+        System.out.println(pecesVendidos+ " peces vendidos por un total de "
                         + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
     }
 

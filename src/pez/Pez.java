@@ -280,7 +280,7 @@ public abstract class Pez implements Cloneable {
         if (this.getSexo() == true) {
             if (this.esFertil == true && countCiclos <= 0) {
                 for (Pez pez : peces) {
-                    if (pez.getSexo() != this.getSexo()) {
+                    if (pez != null && pez.getSexo() != this.getSexo()) {
                         if (pez.isEsFertil()) {
                             int libre=espacio - peces.size();
                             int disponible =libre-nuevosPeces.size();

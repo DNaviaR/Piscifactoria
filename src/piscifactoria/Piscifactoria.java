@@ -25,6 +25,10 @@ public abstract class Piscifactoria {
      * Lleva la cuenta de las mejoras del almacen
      */
     protected int contadorMejoraAlmacen=1;
+    /**
+     * Lleva la cuenta de los peces vendidos en la piscifactoria
+     */
+    protected int contadorPecesVendidos=0;
 
     /**
      * Constructor que recibe el nombre de la piscifactoría.
@@ -107,6 +111,23 @@ public abstract class Piscifactoria {
      */
     public void setContadorMejoraAlmacen(int contadorMejoraAlmacen) {
         this.contadorMejoraAlmacen = contadorMejoraAlmacen;
+    }
+    /**
+     * Obtiene el contador de peces vendidos de la piscifactoría.
+     *
+     * @return El contador de peces vendidos de la piscifactoría.
+     */
+    public int getContadorPecesVendidos() {
+        return contadorPecesVendidos;
+    }
+
+    /**
+     * Establece el contador de peces vendidos de la piscifactoría.
+     *
+     * @param contadorMejoraAlmacen El nuevo contador de peces vendidos de la piscifactoría.
+     */
+    public void setContadorPecesVendidos(int contadorPecesVendidos) {
+        this.contadorPecesVendidos = contadorPecesVendidos;
     }
 
     /**
