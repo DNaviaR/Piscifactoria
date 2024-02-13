@@ -634,6 +634,9 @@ public class ApoyoMenu {
             tipoPez.setSexo(sexo);
             tanquesDisponibles.get(opcion - 1).getPeces().add(tipoPez);
             Simulador.monedas.pagar(tipoPez.getPecesDatos().getCoste());
+            Simulador.registros.escribirTranscripcion(tipoPez.getNombre()+" "+((sexo == true) ? "H" : "M")+
+            " comprado por "+tipoPez.getPecesDatos().getCoste()+" monedas. Añadido al tanque "+tanquesDisponibles.get(opcion - 1)+
+            " de la piscifactoría "+piscifactorias.get(opcion - 1).getNombrePiscifactoria());
         } else {
             System.out.println("No hay tanques disponibles");
         }
@@ -680,6 +683,9 @@ public class ApoyoMenu {
             tipoPez.setSexo(sexo);
             tanquesDisponibles.get(opcion - 1).getPeces().add(tipoPez);
             Simulador.monedas.pagar(tipoPez.getPecesDatos().getCoste());
+            Simulador.registros.escribirTranscripcion(tipoPez.getNombre()+" "+((sexo == true) ? "H" : "M")+
+            " comprado por "+tipoPez.getPecesDatos().getCoste()+" monedas. Añadido al tanque "+tanquesDisponibles.get(opcion - 1)+
+            " de la piscifactoría "+piscifactorias.get(opcion - 1).getNombrePiscifactoria());
         } else {
             System.out.println("No hay tanques disponibles");
         }
@@ -724,6 +730,9 @@ public class ApoyoMenu {
             tipoPez.setSexo(sexo);
             tanquesDisponibles.get(opcion - 1).getPeces().add(tipoPez);
             Simulador.monedas.pagar(tipoPez.getPecesDatos().getCoste());
+            Simulador.registros.escribirTranscripcion(tipoPez.getNombre()+" "+((sexo == true) ? "H" : "M")+
+            " comprado por "+tipoPez.getPecesDatos().getCoste()+" monedas. Añadido al tanque "+tanquesDisponibles.get(opcion - 1)+
+            " de la piscifactoría "+piscifactorias.get(opcion - 1).getNombrePiscifactoria());
             System.out.println(tipoPez.getNombre() + " añadido al tanque "
                     + tanquesDisponibles.get(opcion - 1).getNumeroTanque() + " de la piscifactoria "
                     + piscifactoriasDisponibles.get(opcion - 1).getNombrePiscifactoria() + " por "
