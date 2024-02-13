@@ -867,8 +867,8 @@ public class ApoyoMenu {
                 }
             }
             tanque.eliminarNulos();
-            Simulador.registros.escribirTranscripcion("Limpiado el tanque "+tanque.getNumeroTanque()
-            +" de la piscifactoría "+piscifactoria.getNombrePiscifactoria());
+            Simulador.registros.escribirTranscripcion("Limpiado el tanque " + tanque.getNumeroTanque()
+                    + " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
         }
         System.out.println("Piscifactoria " + piscifactoria.getNombrePiscifactoria() + " limpia");
     }
@@ -880,7 +880,7 @@ public class ApoyoMenu {
      * @param piscifactorias La lista de piscifactorias
      */
     public static void emptyTank(List<Piscifactoria> piscifactorias) {
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         Piscifactoria piscifactoria = selectPisc(piscifactorias);
         int opcion = 0;
         for (int i = 1; i <= piscifactoria.getTanques().size(); i++) {
@@ -896,11 +896,11 @@ public class ApoyoMenu {
         if (opcion <= 0 || opcion > piscifactoria.getTanques().size()) {
             System.out.println("Opcion no válida.");
         }
-        Tanque tanque=piscifactoria.getTanques().get(opcion-1);
+        Tanque tanque = piscifactoria.getTanques().get(opcion - 1);
         tanque.getPeces().clear();
         System.out.println("Tanque " + tanque.getNumeroTanque() + " ha sido vaciado");
         Simulador.registros.escribirTranscripcion("Vaciado el tanque " + tanque.getNumeroTanque() +
-                " de la piscifactoría "+piscifactoria.getNombrePiscifactoria());
+                " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
     }
 
     /**
@@ -989,6 +989,8 @@ public class ApoyoMenu {
                     piscifactorias.add(new PiscifactoriaRio(nombreNuevaPiscifactoria));
                     Simulador.monedas.pagar(cantidadPagar);
                     System.out.println("Añadida nueva piscifactoria de rio por " + cantidadPagar + " monedas");
+                    Simulador.registros.escribirTranscripcion("Comprada la piscifactoría de río "
+                            + nombreNuevaPiscifactoria + " por " + cantidadPagar + " monedas");
                 } else {
                     System.out.println("No hay monedas suficientes para realizar esta operacion");
                 }
@@ -999,6 +1001,8 @@ public class ApoyoMenu {
                     piscifactorias.add(new PiscifactoriaMar(nombreNuevaPiscifactoria));
                     Simulador.monedas.pagar(cantidadPagar);
                     System.out.println("Añadida nueva piscifactoria de mar por " + cantidadPagar + " monedas");
+                    Simulador.registros.escribirTranscripcion("Comprada la piscifactoría de mar "
+                            + nombreNuevaPiscifactoria + " por " + cantidadPagar + " monedas");
                 } else {
                     System.out.println("No hay monedas suficientes para realizar esta operacion");
                 }
@@ -1047,6 +1051,7 @@ public class ApoyoMenu {
             Simulador.monedas.pagar(2000);
             Simulador.almacenCentral.setActivo(true);
             System.out.println("Añadido Almacen central por 2000 monedas");
+            Simulador.registros.escribirTranscripcion("Comprado el almacén central.");
         } else {
             System.out.println("No hay monedas suficientes para realizar esta operacion");
         }
@@ -1073,6 +1078,9 @@ public class ApoyoMenu {
                         piscifactoria.getTanques().add(new TanqueRio<>(piscifactoria.getTanques().size() + 1));
                         System.out.println("Añadido nuevo tanque a piscifactoria "
                                 + piscifactoria.getNombrePiscifactoria() + " por " + cantidadPagar + " monedas");
+                        Simulador.registros
+                                .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
+                                        "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1083,6 +1091,9 @@ public class ApoyoMenu {
                         piscifactoria.getTanques().add(new TanqueRio<>(piscifactoria.getTanques().size() + 1));
                         System.out.println("Añadido nuevo tanque a piscifactoria "
                                 + piscifactoria.getNombrePiscifactoria() + " por " + cantidadPagar + " monedas");
+                        Simulador.registros
+                                .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
+                                        "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1096,6 +1107,10 @@ public class ApoyoMenu {
                         System.out.println("Mejorado el almacen de comida de piscifactoria "
                                 + piscifactoria.getNombrePiscifactoria() + " por 100 monedas para un espacio maximo de "
                                 + piscifactoria.getAlmacen().getEspacioMaximo());
+                        Simulador.registros.escribirTranscripcion(
+                                "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
+                                        + " aumentando su capacidad de comida hasta un total de "
+                                        + piscifactoria.getAlmacen().getEspacioMaximo() + " por 100 monedas.");
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1107,6 +1122,10 @@ public class ApoyoMenu {
                         System.out.println("Mejorado el almacen de comida de piscifactoria "
                                 + piscifactoria.getNombrePiscifactoria() + " por 200 monedas para un espacio maximo de "
                                 + piscifactoria.getAlmacen().getEspacioMaximo());
+                        Simulador.registros.escribirTranscripcion(
+                                "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
+                                        + " aumentando su capacidad de comida hasta un total de "
+                                        + piscifactoria.getAlmacen().getEspacioMaximo() + " por 200 monedas.");
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
