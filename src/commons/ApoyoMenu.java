@@ -232,7 +232,6 @@ public class ApoyoMenu {
         Simulador.registros.escribirTranscripcion("Peces actuales, "+pecesRio+" de río "+pecesMar+" de mar");
         Simulador.registros.escribirTranscripcion((Simulador.monedas.getMonedas() - monedasIniciales)+" monedas ganadas por un total de "+Simulador.monedas.getMonedas());
         Simulador.registros.escribirTranscripcion("---------------------------------------------------");
-        Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
     }
 
     /**

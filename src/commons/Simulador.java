@@ -143,6 +143,7 @@ public class Simulador {
             case 6:
                 ApoyoMenu.nextDay(piscifactorias);
                 dias++;
+                Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
                 break;
             case 7:
                 ApoyoMenu.addFood(piscifactorias);
@@ -169,6 +170,7 @@ public class Simulador {
                 for (int i = 0; i < avanzarDias; i++) {
                     ApoyoMenu.nextDay(piscifactorias);
                     dias++;
+                    Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
                 }
                 break;
             case 14:
