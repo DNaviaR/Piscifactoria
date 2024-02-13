@@ -44,7 +44,7 @@ public class Simulador {
     /**
      * Número de días de simulador
      */
-    protected int dias;
+    public static int dias;
     /**
      * Lista de piscifactorías que forman parte del simulador.
      */
@@ -69,7 +69,7 @@ public class Simulador {
      * @param primeraPiscifactoria el nombre de la primera piscifactoria
      */
     public void init(String nombrePartida, String primeraPiscifactoria) {
-        this.dias = 0;
+        dias = 0;
         File transcripciones = new File("transcripciones");
         if (!transcripciones.exists()) {
             transcripciones.mkdir();

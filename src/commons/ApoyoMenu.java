@@ -203,6 +203,8 @@ public class ApoyoMenu {
     public static void nextDay(List<Piscifactoria> piscifactorias) {
         int monedasIniciales = Simulador.monedas.getMonedas();
         int pecesVendidos = 0;
+        int pecesMar=0;
+        int pecesRio=0;
         for (Piscifactoria piscifactoria : piscifactorias) {
             int monedasPiscifactoria = Simulador.monedas.getMonedas();
             int pecesVendidosPiscifactoria = piscifactoria.getContadorPecesVendidos();
@@ -212,9 +214,25 @@ public class ApoyoMenu {
                     + pecesVendidosPiscifactoria + " peces vendidos por "
                     + (Simulador.monedas.getMonedas() - monedasPiscifactoria) + " monedas");
             pecesVendidos += pecesVendidosPiscifactoria;
+            if (piscifactoria instanceof PiscifactoriaMar) {
+                ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
+                for (Tanque tanque : tanques) {
+                    pecesMar+=tanque.getPeces().size();
+                }
+            }else{
+                ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
+                for (Tanque tanque : tanques) {
+                    pecesRio+=tanque.getPeces().size();
+                }
+            }
         }
         System.out.println(pecesVendidos + " peces vendidos por un total de "
                 + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
+        Simulador.registros.escribirTranscripcion("Fin del dia "+Simulador.dias);
+        Simulador.registros.escribirTranscripcion("Peces actuales, "+pecesRio+" de río "+pecesMar+" de mar");
+        Simulador.registros.escribirTranscripcion((Simulador.monedas.getMonedas() - monedasIniciales)+" monedas ganadas por un total de "+Simulador.monedas.getMonedas());
+        Simulador.registros.escribirTranscripcion("---------------------------------------------------");
+        Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
     }
 
     /**
