@@ -1,16 +1,15 @@
 package commons;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import javax.sound.midi.Soundbank;
-
 import almacen.AlmacenCentral;
 import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
-import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
 import propiedades.AlmacenPropiedades;
+import propiedades.CriaTipo;
+import propiedades.PecesTipo;
 
 /**
  * Clase que representa un simulador de una actividad relacionada con
@@ -56,6 +55,10 @@ public class Simulador {
      */
     public static Monedas monedas = Monedas.getInstance();
     /**
+     * Clase utilizada para registrar las acciones del usuario.
+     */
+    public static Registros registros = Registros.getInstance();
+    /**
      * Almacén central utilizado en el simulador.
      */
     public static AlmacenCentral almacenCentral = new AlmacenCentral();
@@ -68,9 +71,19 @@ public class Simulador {
      */
     public void init(String nombrePartida, String primeraPiscifactoria) {
         this.dias = 0;
+        File transcripciones = new File("transcripciones");
+        if (!transcripciones.exists()) {
+            transcripciones.mkdir();
+        }
+        File logs = new File("logs");
+        if (!logs.exists()) {
+            logs.mkdir();
+        }
+        registros.iniciar(nombrePartida, "transcripciones/", "logs/");
         piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
         piscifactorias.get(0).getAlmacen().setEspacioOcupado(piscifactorias.get(0).getAlmacen().getEspacioMaximo());
         monedas.setMonedas(100);
+        registrosIniciales(nombrePartida, primeraPiscifactoria);
     }
 
     /**
@@ -185,6 +198,42 @@ public class Simulador {
         String piscifactoria = sc.nextLine();
         init(nombre, piscifactoria);
         menu();
+    }
+
+    /**
+     * Realiza las transcripciones iniciales del sistema
+     * @param nombrePartida el nombre de la partida
+     * @param nombrePiscifactoria el nombre de la primera piscifactoria
+     */
+    void registrosIniciales(String nombrePartida, String nombrePiscifactoria) {
+        registros.escribirTranscripcion("==========ARRANQUE==========");
+        registros.escribirTranscripcion("Inicio de la simulación " + nombrePartida);
+        registros.escribirTranscripcion("==========DINERO_INICIAL==========");
+        registros.escribirTranscripcion("Dinero: " + monedas + " monedas");
+        registros.escribirTranscripcion("==========PECES_IMPLEMENTADOS==========");
+        registros.escribirTranscripcion("Rio:");
+        escribirPeces(CriaTipo.RIO);
+
+        registros.escribirTranscripcion("Mar:");
+        escribirPeces(CriaTipo.MAR);
+
+        registros.escribirTranscripcion("Doble:");
+        escribirPeces(CriaTipo.DOBLE);
+
+        registros.escribirTranscripcion("-----------------------------------");
+        registros.escribirTranscripcion("Piscifactoría inicial: " + nombrePiscifactoria);
+    }
+
+    /**
+     * Escribe la transcripcion de todos los peces del tipo indicado
+     * @param criaTipo el tipo de pez indicado
+     */
+    void escribirPeces(CriaTipo criaTipo){
+        for (String pez : nombresPeces) {
+            if (AlmacenPropiedades.getPropByName(pez).getPiscifactoria() == criaTipo) {
+                registros.escribirTranscripcion("\t-" + pez);
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {

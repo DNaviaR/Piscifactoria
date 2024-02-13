@@ -45,7 +45,7 @@ public class Registros {
      * @param rutaTranscripcion la ruta del archivo de transcripción
      * @param rutaLog           la ruta del archivo del log
      */
-    public void init(String nombrePartida, String rutaTranscripcion, String rutaLog) {
+    public void iniciar(String nombrePartida, String rutaTranscripcion, String rutaLog) {
         try {
             transcripcion = new BufferedWriter(new FileWriter(rutaTranscripcion + nombrePartida + ".tr"));
             log = new BufferedWriter(new FileWriter(rutaLog + nombrePartida + ".log"));
@@ -59,7 +59,7 @@ public class Registros {
      * 
      * @param accionUsuario la accion del usuario
      */
-    public void escribirTranscripción(String accionUsuario) {
+    public void escribirTranscripcion(String accionUsuario) {
         try {
             transcripcion.write(accionUsuario);
             transcripcion.newLine();
