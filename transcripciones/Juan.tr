@@ -1,0 +1,35 @@
+==========ARRANQUE==========
+Inicio de la simulación Juan
+==========DINERO_INICIAL==========
+Dinero: 100 monedas
+==========PECES_IMPLEMENTADOS==========
+Rio:
+	-Carpa
+	-Carpa plateada
+	-Carpín de tres espinas
+	-Lucio del norte
+	-Pejerrey 
+	-Perca europea
+	-Salmón chinook
+	-Tilapia del Nilo
+Mar:
+	-Abadejo
+	-Arenque del Atlántico
+	-Besugo
+	-Caballa
+	-Cobia
+	-Corvina
+	-Lenguado europeo
+	-Lubina rayada
+	-Róbalo
+	-Rodaballo
+	-Sargo
+Doble:
+	-Bagre de canal
+	-Dorada
+	-Lubina europea
+	-Salmón atlántico
+	-Trucha arcoíris
+-----------------------------------
+Piscifactoría inicial: pepa
+6 de comida comprada por 6 monedas. Se almacena en la piscifactoría pepa

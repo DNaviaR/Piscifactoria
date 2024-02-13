@@ -9,7 +9,6 @@ import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
 import propiedades.AlmacenPropiedades;
 import propiedades.CriaTipo;
-import propiedades.PecesTipo;
 
 /**
  * Clase que representa un simulador de una actividad relacionada con
