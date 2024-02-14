@@ -175,13 +175,19 @@ public class Simulador {
                 break;
             case 14:
                 System.out.println("Saliendo...");
+                Simulador.registros.escribirLog("Cierre de la partida.");
+                Simulador.registros.cerrarRegistros();
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
+                Simulador.registros.escribirTranscripcion("Añadidos peces mediante la opción oculta");
+                Simulador.registros.escribirLog("Añadidos peces mediante la opción oculta");
                 break;
             case 99:
                 System.out.println("Añadiendo 1000 monedas...");
                 Simulador.monedas.ingresar(1000);
+                Simulador.registros.escribirTranscripcion("Añadidas 1000 monedas mediante la opción oculta. Monedas actuales, "+Simulador.monedas.getMonedas());
+                Simulador.registros.escribirLog("Añadidas monedas mediante la opción oculta.");
                 break;
             default:
                 System.out.println("Opción no valida");
@@ -223,6 +229,9 @@ public class Simulador {
 
         registros.escribirTranscripcion("-----------------------------------");
         registros.escribirTranscripcion("Piscifactoría inicial: " + nombrePiscifactoria);
+
+        registros.escribirLog("Inicio de la simulación "+nombrePartida);
+        registros.escribirLog("Piscifactoría inicial: "+nombrePiscifactoria);
     }
 
     /**

@@ -2,6 +2,8 @@ package commons;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Clase Singleton que permite registrar las acciones del usuario
@@ -76,13 +78,16 @@ public class Registros {
      */
     public void escribirLog(String accionUsuario) {
         try {
-            log.write(accionUsuario);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            log.write("["+formatter.format(date)+"] "+accionUsuario);
             log.newLine();
             log.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * Metodo que cierra los streams de datos iniciados anteriormente
      */
