@@ -203,8 +203,8 @@ public class ApoyoMenu {
     public static void nextDay(List<Piscifactoria> piscifactorias) {
         int monedasIniciales = Simulador.monedas.getMonedas();
         int pecesVendidos = 0;
-        int pecesMar=0;
-        int pecesRio=0;
+        int pecesMar = 0;
+        int pecesRio = 0;
         for (Piscifactoria piscifactoria : piscifactorias) {
             int monedasPiscifactoria = Simulador.monedas.getMonedas();
             int pecesVendidosPiscifactoria = piscifactoria.getContadorPecesVendidos();
@@ -217,21 +217,23 @@ public class ApoyoMenu {
             if (piscifactoria instanceof PiscifactoriaMar) {
                 ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
                 for (Tanque tanque : tanques) {
-                    pecesMar+=tanque.getPeces().size();
+                    pecesMar += tanque.getPeces().size();
                 }
-            }else{
+            } else {
                 ArrayList<Tanque<? extends Pez>> tanques = piscifactoria.getTanques();
                 for (Tanque tanque : tanques) {
-                    pecesRio+=tanque.getPeces().size();
+                    pecesRio += tanque.getPeces().size();
                 }
             }
         }
         System.out.println(pecesVendidos + " peces vendidos por un total de "
                 + (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
-        Simulador.registros.escribirTranscripcion("Fin del dia "+Simulador.dias);
-        Simulador.registros.escribirTranscripcion("Peces actuales, "+pecesRio+" de río "+pecesMar+" de mar");
-        Simulador.registros.escribirTranscripcion((Simulador.monedas.getMonedas() - monedasIniciales)+" monedas ganadas por un total de "+Simulador.monedas.getMonedas());
+        Simulador.registros.escribirTranscripcion("Fin del dia " + Simulador.dias);
+        Simulador.registros.escribirTranscripcion("Peces actuales, " + pecesRio + " de río " + pecesMar + " de mar");
+        Simulador.registros.escribirTranscripcion((Simulador.monedas.getMonedas() - monedasIniciales)
+                + " monedas ganadas por un total de " + Simulador.monedas.getMonedas());
         Simulador.registros.escribirTranscripcion("---------------------------------------------------");
+        Simulador.registros.escribirLog("Fin del dia " + Simulador.dias);
     }
 
     /**
@@ -254,6 +256,8 @@ public class ApoyoMenu {
                                 Simulador.monedas.pagar(5);
                                 Simulador.registros.escribirTranscripcion(5 + " de comida comprada por " + 5
                                         + " monedas. Se almacena en el almacén central");
+                                Simulador.registros
+                                        .escribirLog(5 + " de comida comprada. Se almacena en el almacén central");
                             } else {
                                 System.out.println(
                                         "Añadida " + Simulador.almacenCentral.getEspacioDisponible() + " de comida");
@@ -262,6 +266,8 @@ public class ApoyoMenu {
                                         (Simulador.almacenCentral.getEspacioDisponible()) + " de comida comprada por "
                                                 + (Simulador.almacenCentral.getEspacioDisponible()) +
                                                 " monedas. Se almacena en el almacén central");
+                                Simulador.registros.escribirLog(Simulador.almacenCentral.getEspacioDisponible()
+                                        + " de comida comprada. Se almacena en el almacén central");
                                 Simulador.almacenCentral.masComida(Simulador.almacenCentral.getEspacioDisponible());
                             }
                         } else {
@@ -276,6 +282,8 @@ public class ApoyoMenu {
                                 Simulador.monedas.pagar(10);
                                 Simulador.registros.escribirTranscripcion(10 + " de comida comprada por " + 10
                                         + " monedas. Se almacena en el almacén central");
+                                Simulador.registros
+                                        .escribirLog(10 + " de comida comprada. Se almacena en el almacén central");
                             } else {
                                 System.out.println(
                                         "Añadida " + Simulador.almacenCentral.getEspacioDisponible() + " de comida");
@@ -284,6 +292,8 @@ public class ApoyoMenu {
                                         (Simulador.almacenCentral.getEspacioDisponible()) + " de comida comprada por "
                                                 + (Simulador.almacenCentral.getEspacioDisponible()) +
                                                 " monedas. Se almacena en el almacén central");
+                                Simulador.registros.escribirLog(Simulador.almacenCentral.getEspacioDisponible()
+                                        + " de comida comprada. Se almacena en el almacén central");
                                 Simulador.almacenCentral.masComida(Simulador.almacenCentral.getEspacioDisponible());
                             }
                         } else {
@@ -298,6 +308,8 @@ public class ApoyoMenu {
                                 Simulador.monedas.pagar(20);
                                 Simulador.registros.escribirTranscripcion(25 + " de comida comprada por " + 20
                                         + " monedas. Se almacena en el almacén central");
+                                Simulador.registros
+                                        .escribirLog(25 + " de comida comprada. Se almacena en el almacén central");
                             } else {
                                 System.out.println(
                                         "Añadida " + Simulador.almacenCentral.getEspacioDisponible() + " de comida");
@@ -306,6 +318,8 @@ public class ApoyoMenu {
                                         (Simulador.almacenCentral.getEspacioDisponible()) + " de comida comprada por "
                                                 + (Simulador.almacenCentral.getEspacioDisponible()) +
                                                 " monedas. Se almacena en el almacén central");
+                                Simulador.registros.escribirLog(Simulador.almacenCentral.getEspacioDisponible()
+                                        + " de comida comprada. Se almacena en el almacén central");
                                 Simulador.almacenCentral.masComida(Simulador.almacenCentral.getEspacioDisponible());
                             }
                         } else {
@@ -323,6 +337,8 @@ public class ApoyoMenu {
                                     (Simulador.almacenCentral.getEspacioDisponible()) + " de comida comprada por "
                                             + ((Simulador.almacenCentral.getEspacioDisponible()) - descuento) +
                                             " monedas. Se almacena en el almacén central");
+                            Simulador.registros.escribirLog(Simulador.almacenCentral.getEspacioDisponible()
+                                    + " de comida comprada. Se almacena en el almacén central");
                             Simulador.almacenCentral.setEspacioOcupado(Simulador.almacenCentral.getEspacioMaximo());
                         } else {
                             System.out.println("No hay monedas suficientes");
@@ -360,6 +376,9 @@ public class ApoyoMenu {
                                     p.getAlmacen().getEspacioDisponible() + " de comida comprada por "
                                             + ((p.getAlmacen().getEspacioDisponible()) - descuento) +
                                             " monedas. Se almacena en la piscifactoría " + p.getNombrePiscifactoria());
+                            Simulador.registros.escribirLog(p.getAlmacen().getEspacioDisponible()
+                                    + " de comida comprada. Se almacena en la piscifactoría "
+                                    + p.getNombrePiscifactoria());
                             p.getAlmacen().setEspacioOcupado(p.getAlmacen().getEspacioMaximo());
                         }
                         break;
@@ -669,6 +688,10 @@ public class ApoyoMenu {
                     " comprado por " + tipoPez.getPecesDatos().getCoste() + " monedas. Añadido al tanque "
                     + tanquesDisponibles.get(opcion - 1) +
                     " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
+            Simulador.registros.escribirLog(tipoPez.getNombre() + " " + ((sexo == true) ? "H" : "M") +
+                    " comprado. Añadido al tanque "
+                    + tanquesDisponibles.get(opcion - 1) +
+                    " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
         } else {
             System.out.println("No hay tanques disponibles");
         }
@@ -719,6 +742,10 @@ public class ApoyoMenu {
                     " comprado por " + tipoPez.getPecesDatos().getCoste() + " monedas. Añadido al tanque "
                     + tanquesDisponibles.get(opcion - 1) +
                     " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
+            Simulador.registros.escribirLog(tipoPez.getNombre() + " " + ((sexo == true) ? "H" : "M") +
+                    " comprado. Añadido al tanque "
+                    + tanquesDisponibles.get(opcion - 1) +
+                    " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
         } else {
             System.out.println("No hay tanques disponibles");
         }
@@ -767,6 +794,10 @@ public class ApoyoMenu {
                     " comprado por " + tipoPez.getPecesDatos().getCoste() + " monedas. Añadido al tanque "
                     + tanquesDisponibles.get(opcion - 1) +
                     " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
+            Simulador.registros.escribirLog(tipoPez.getNombre() + " " + ((sexo == true) ? "H" : "M") +
+                    " comprado. Añadido al tanque "
+                    + tanquesDisponibles.get(opcion - 1) +
+                    " de la piscifactoría " + piscifactorias.get(opcion - 1).getNombrePiscifactoria());
             System.out.println(tipoPez.getNombre() + " añadido al tanque "
                     + tanquesDisponibles.get(opcion - 1).getNumeroTanque() + " de la piscifactoria "
                     + piscifactoriasDisponibles.get(opcion - 1).getNombrePiscifactoria() + " por "
@@ -791,6 +822,8 @@ public class ApoyoMenu {
                 Simulador.monedas.pagar(cantidad);
                 Simulador.registros.escribirTranscripcion(cantidad + " de comida comprada por " + cantidad +
                         " monedas. Se almacena en la piscifactoría " + piscifactoria.getNombrePiscifactoria());
+                Simulador.registros.escribirLog(cantidad + " de comida comprada. Se almacena en la piscifactoría "
+                        + piscifactoria.getNombrePiscifactoria());
             } else {
                 System.out.println("Añadida " + piscifactoria.getAlmacen().getEspacioDisponible() + " de comida");
                 Simulador.monedas.pagar(piscifactoria.getAlmacen().getEspacioDisponible());
@@ -798,6 +831,9 @@ public class ApoyoMenu {
                         + " de comida comprada por "
                         + piscifactoria.getAlmacen().getEspacioDisponible()
                         + " monedas. Se almacena en la piscifactoría " + piscifactoria.getNombrePiscifactoria());
+                Simulador.registros.escribirLog(piscifactoria.getAlmacen().getEspacioDisponible()
+                        + " de comida comprada. Se almacena en la piscifactoría "
+                        + piscifactoria.getNombrePiscifactoria());
                 piscifactoria.getAlmacen().masComida(piscifactoria.getAlmacen().getEspacioDisponible());
             }
         } else {
@@ -866,6 +902,9 @@ public class ApoyoMenu {
                 .escribirTranscripcion("Vendidos " + pecesVendidosPiscifactoria + " peces de la piscifactoría "
                         + piscifactoria.getNombrePiscifactoria() + " de forma manual por " +
                         (Simulador.monedas.getMonedas() - monedasIniciales) + " monedas");
+        Simulador.registros
+                .escribirLog("Vendidos " + pecesVendidosPiscifactoria + " peces de la piscifactoría "
+                        + piscifactoria.getNombrePiscifactoria() + " de forma manual");
     }
 
     /**
@@ -885,6 +924,8 @@ public class ApoyoMenu {
             }
             tanque.eliminarNulos();
             Simulador.registros.escribirTranscripcion("Limpiado el tanque " + tanque.getNumeroTanque()
+                    + " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
+            Simulador.registros.escribirLog("Limpiado el tanque " + tanque.getNumeroTanque()
                     + " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
         }
         System.out.println("Piscifactoria " + piscifactoria.getNombrePiscifactoria() + " limpia");
@@ -917,6 +958,8 @@ public class ApoyoMenu {
         tanque.getPeces().clear();
         System.out.println("Tanque " + tanque.getNumeroTanque() + " ha sido vaciado");
         Simulador.registros.escribirTranscripcion("Vaciado el tanque " + tanque.getNumeroTanque() +
+                " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
+        Simulador.registros.escribirLog("Vaciado el tanque " + tanque.getNumeroTanque() +
                 " de la piscifactoría " + piscifactoria.getNombrePiscifactoria());
     }
 
@@ -1008,6 +1051,8 @@ public class ApoyoMenu {
                     System.out.println("Añadida nueva piscifactoria de rio por " + cantidadPagar + " monedas");
                     Simulador.registros.escribirTranscripcion("Comprada la piscifactoría de río "
                             + nombreNuevaPiscifactoria + " por " + cantidadPagar + " monedas");
+                    Simulador.registros.escribirLog("Comprada la piscifactoría de río "
+                            + nombreNuevaPiscifactoria);
                 } else {
                     System.out.println("No hay monedas suficientes para realizar esta operacion");
                 }
@@ -1020,6 +1065,8 @@ public class ApoyoMenu {
                     System.out.println("Añadida nueva piscifactoria de mar por " + cantidadPagar + " monedas");
                     Simulador.registros.escribirTranscripcion("Comprada la piscifactoría de mar "
                             + nombreNuevaPiscifactoria + " por " + cantidadPagar + " monedas");
+                    Simulador.registros.escribirLog("Comprada la piscifactoría de mar "
+                            + nombreNuevaPiscifactoria);
                 } else {
                     System.out.println("No hay monedas suficientes para realizar esta operacion");
                 }
@@ -1069,6 +1116,7 @@ public class ApoyoMenu {
             Simulador.almacenCentral.setActivo(true);
             System.out.println("Añadido Almacen central por 2000 monedas");
             Simulador.registros.escribirTranscripcion("Comprado el almacén central.");
+            Simulador.registros.escribirLog("Comprado el almacén central.");
         } else {
             System.out.println("No hay monedas suficientes para realizar esta operacion");
         }
@@ -1098,6 +1146,8 @@ public class ApoyoMenu {
                         Simulador.registros
                                 .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
                                         "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
+                        Simulador.registros
+                                .escribirLog("Comprado un tanque para la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1111,6 +1161,8 @@ public class ApoyoMenu {
                         Simulador.registros
                                 .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
                                         "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
+                        Simulador.registros
+                                        .escribirLog("Comprado un tanque para la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1128,6 +1180,9 @@ public class ApoyoMenu {
                                 "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
                                         + " aumentando su capacidad de comida hasta un total de "
                                         + piscifactoria.getAlmacen().getEspacioMaximo() + " por 100 monedas.");
+                        Simulador.registros.escribirLog(
+                                "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
+                                        + " aumentando su capacidad de comida");
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1143,6 +1198,9 @@ public class ApoyoMenu {
                                 "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
                                         + " aumentando su capacidad de comida hasta un total de "
                                         + piscifactoria.getAlmacen().getEspacioMaximo() + " por 200 monedas.");
+                        Simulador.registros.escribirLog(
+                                "Mejorada la piscifactoría " + piscifactoria.getNombrePiscifactoria()
+                                        + " aumentando su capacidad de comida");
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
