@@ -3,6 +3,7 @@ package pez;
 import java.util.ArrayList;
 import java.util.List;
 
+import commons.Simulador;
 import piscifactoria.Piscifactoria;
 import propiedades.PecesDatos;
 
@@ -325,7 +326,7 @@ public abstract class Pez implements Cloneable {
             nuevoPez.sexo = sexoNuevoPez;
             nuevosPeces.add(nuevoPez);
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al crear un nuevo pez");
         }
 
     }

@@ -52,7 +52,7 @@ public class Registros {
             transcripcion = new BufferedWriter(new FileWriter(rutaTranscripcion + nombrePartida + ".tr"));
             log = new BufferedWriter(new FileWriter(rutaLog + nombrePartida + ".log"));
         } catch (Exception e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error en el inicio de los registros");
         }
     }
 
@@ -67,7 +67,7 @@ public class Registros {
             transcripcion.newLine();
             transcripcion.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al escribir en transcripcion");
         }
     }
 
@@ -84,7 +84,7 @@ public class Registros {
             log.newLine();
             log.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al escribir en log");
         }
     }
 
@@ -97,14 +97,14 @@ public class Registros {
                 transcripcion.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al cerrar transcripcion");
         }
         try {
             if (log == null) {
                 log.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al cerrar log");
         }
     }
 }

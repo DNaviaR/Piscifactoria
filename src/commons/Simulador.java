@@ -1,7 +1,12 @@
 package commons;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import almacen.AlmacenCentral;
 import estadisticas.Estadisticas;
@@ -199,12 +204,16 @@ public class Simulador {
      * Hace la logica del sistema
      */
     void logica() {
-        System.out.println("Introduce el nombre de la partida");
-        String nombre = sc.nextLine();
-        System.out.println("Introduce el nombre de tu primera piscifactoria");
-        String piscifactoria = sc.nextLine();
-        init(nombre, piscifactoria);
-        menu();
+        try {
+            System.out.println("Introduce el nombre de la partida");
+            String nombre = sc.nextLine();
+            System.out.println("Introduce el nombre de tu primera piscifactoria");
+            String piscifactoria = sc.nextLine();
+            init(nombre, piscifactoria);
+            menu();
+        } catch (Exception e) {
+            escribirError("Error en el proceso principal");
+        }
     }
 
     /**
@@ -243,6 +252,19 @@ public class Simulador {
             if (AlmacenPropiedades.getPropByName(pez).getPiscifactoria() == criaTipo) {
                 registros.escribirTranscripcion("\t-" + pez);
             }
+        }
+    }
+    public static void escribirError(String mensaje) {
+        String nombreArchivo = "logs/0_errors.log";
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            writer.write("["+formatter.format(date)+"] "+mensaje);
+            writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

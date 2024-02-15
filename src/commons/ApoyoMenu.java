@@ -56,6 +56,7 @@ public class ApoyoMenu {
             return true;
         } catch (NumberFormatException ex) {
             System.out.println("Opción no valida");
+            Simulador.escribirError("Opcion introducida no valida");
             return false;
         }
     }
