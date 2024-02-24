@@ -17,5 +17,6 @@ public class PiscifactoriaRio extends Piscifactoria implements PezRio {
         super(nombrePiscifactoria);
         this.tanques.add(0, new TanqueRio<Pez>(1));
         this.almacen = new Almacen(25);
+        this.tipo=0;
     }
 }

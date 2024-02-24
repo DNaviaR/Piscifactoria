@@ -1,6 +1,11 @@
 package piscifactoria;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import com.google.gson.*;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import almacen.Almacen;
 import pez.Pez;
@@ -8,27 +13,32 @@ import pez.Pez;
 /**
  * Clase abstracta que representa una piscifactoría.
  */
+@JsonAdapter(Piscifactoria.PiscifactoriaAdapter.class)
 public abstract class Piscifactoria {
-    /**
-     * La lista de tanques de la piscifactoría.
-     */
-    protected ArrayList<Tanque<? extends Pez>> tanques = new ArrayList<Tanque<? extends Pez>>();
     /**
      * El nombre de la piscifactoría.
      */
     private String nombrePiscifactoria;
     /**
-     * El almacén de comida de la piscifactoría.
+     * Indica el tipo de la piscifactoria. 0 es rio, 1 mar
+     */
+    protected int tipo = 0;
+    /**
+     * La lista de tanques de la piscifactoría.
      */
     protected Almacen almacen;
     /**
      * Lleva la cuenta de las mejoras del almacen
      */
-    protected int contadorMejoraAlmacen=1;
+    protected ArrayList<Tanque<? extends Pez>> tanques = new ArrayList<Tanque<? extends Pez>>();
+    /**
+     * El almacén de comida de la piscifactoría.
+     */
+    protected int contadorMejoraAlmacen = 1;
     /**
      * Lleva la cuenta de los peces vendidos en la piscifactoria
      */
-    protected int contadorPecesVendidos=0;
+    protected int contadorPecesVendidos = 0;
 
     /**
      * Constructor que recibe el nombre de la piscifactoría.
@@ -37,7 +47,7 @@ public abstract class Piscifactoria {
      */
     public Piscifactoria(String nombrePiscifactoria) {
         this.nombrePiscifactoria = nombrePiscifactoria;
-        contadorMejoraAlmacen=1;
+        contadorMejoraAlmacen = 1;
     }
 
     /**
@@ -112,6 +122,7 @@ public abstract class Piscifactoria {
     public void setContadorMejoraAlmacen(int contadorMejoraAlmacen) {
         this.contadorMejoraAlmacen = contadorMejoraAlmacen;
     }
+
     /**
      * Obtiene el contador de peces vendidos de la piscifactoría.
      *
@@ -124,7 +135,8 @@ public abstract class Piscifactoria {
     /**
      * Establece el contador de peces vendidos de la piscifactoría.
      *
-     * @param contadorMejoraAlmacen El nuevo contador de peces vendidos de la piscifactoría.
+     * @param contadorMejoraAlmacen El nuevo contador de peces vendidos de la
+     *                              piscifactoría.
      */
     public void setContadorPecesVendidos(int contadorPecesVendidos) {
         this.contadorPecesVendidos = contadorPecesVendidos;
@@ -145,7 +157,7 @@ public abstract class Piscifactoria {
      *
      */
     public void showStatus() {
-        System.out.println( "=============== " + this.nombrePiscifactoria + " ===============\n" +
+        System.out.println("=============== " + this.nombrePiscifactoria + " ===============\n" +
                 "Tanques: " + tanques.size() + "\n" +
                 "Ocupacion: " + peces() + " / " + pecesMax() + " ("
                 + (pecesMax() > 0 ? (float) ((peces() * 100) / pecesMax()) : 0) + "%)\n" +
@@ -202,7 +214,7 @@ public abstract class Piscifactoria {
      */
     public void nextDay() {
         for (Tanque<? extends Pez> tanque : tanques) {
-            tanque.nextDay(tanque.getEspacio(),this);
+            tanque.nextDay(tanque.getEspacio(), this);
         }
     }
 
@@ -298,5 +310,28 @@ public abstract class Piscifactoria {
         }
         return pecesFertiles;
     }
+
+    private class PiscifactoriaAdapter implements JsonSerializer<Piscifactoria>, JsonDeserializer<Piscifactoria> {
+
+        @Override
+        public JsonElement serialize(Piscifactoria piscifactoria, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("nombre", piscifactoria.nombrePiscifactoria);
+            jsonObject.addProperty("tipo", piscifactoria.tipo);
+            jsonObject.addProperty("capacidad", piscifactoria.getAlmacen().getEspacioMaximo());
+            JsonObject comidaObject = new JsonObject();
+            comidaObject.addProperty("general", piscifactoria.getAlmacen().getEspacioOcupado());
+            jsonObject.add("comida", comidaObject);
+            jsonObject.add("tanques", context.serialize(piscifactoria.getTanques(), new TypeToken<ArrayList<Tanque<?>>>(){}.getType()));
+            return jsonObject;
+        }
+
+        @Override
+        public Piscifactoria deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            return null;
+        }
+    }
+
 
 }

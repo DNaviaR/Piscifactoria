@@ -1,15 +1,28 @@
 package pez;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.reflect.TypeToken;
+
 import commons.Simulador;
 import piscifactoria.Piscifactoria;
+import piscifactoria.Tanque;
 import propiedades.PecesDatos;
 
 /**
  * Clase abstracta que representa un pez.
  */
+@JsonAdapter(Pez.PezAdapter.class)
 public abstract class Pez implements Cloneable {
     /**
      * Los datos del tipo de pez
@@ -220,7 +233,7 @@ public abstract class Pez implements Cloneable {
      */
     public void grow(List<Pez> peces, Piscifactoria pisci) {
         if (this.isEstaVivo()) {
-                this.morir();
+            this.morir();
             // Aumentar la edad en 1 día.
             edad++;
             // Verificar la madurez y fertilidad.
@@ -307,7 +320,7 @@ public abstract class Pez implements Cloneable {
      */
     public void morir() {
         double aleatorio = Math.random();
-        if ((this.alimentado==false && aleatorio < 0.5)||(this.edad%2==0 && aleatorio<0.05)) {
+        if ((this.alimentado == false && aleatorio < 0.5) || (this.edad % 2 == 0 && aleatorio < 0.05)) {
             this.setEstaVivo(false);
         }
     }
@@ -325,9 +338,32 @@ public abstract class Pez implements Cloneable {
             nuevoPez.reset();
             nuevoPez.sexo = sexoNuevoPez;
             nuevosPeces.add(nuevoPez);
+            Simulador.estadisticas.registrarNacimiento(nuevoPez.getNombre());
         } catch (CloneNotSupportedException e) {
             Simulador.escribirError("Error al crear un nuevo pez");
         }
 
+    }
+    private class PezAdapter implements JsonSerializer<Pez>, JsonDeserializer<Pez> {
+        @Override
+        public JsonElement serialize(Pez pez, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("edad",pez.edad);
+            jsonObject.addProperty("sexo",pez.sexo);
+            jsonObject.addProperty("vivo",pez.estaVivo);
+            jsonObject.addProperty("maduro",pez.adulto);
+            jsonObject.addProperty("fertil",pez.esFertil);
+            jsonObject.addProperty("ciclo",pez.countCiclos);
+            JsonObject datosObject = new JsonObject();
+            jsonObject.add("extra", datosObject);
+            return jsonObject;
+        }
+
+        @Override
+        public Pez deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+                    
+                    return null;
+        }
     }
 }

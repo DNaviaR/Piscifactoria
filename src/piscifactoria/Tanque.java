@@ -1,7 +1,19 @@
 package piscifactoria;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.reflect.TypeToken;
 
 import commons.Simulador;
 import pez.Pez;
@@ -9,6 +21,7 @@ import pez.Pez;
 /**
  * Clase abstracta que representa un tanque de una piscifactoría.
  */
+@JsonAdapter(Tanque.TanqueAdapter.class)
 public abstract class Tanque<T extends Pez> {
     /**
      * Lista de peces del tanque.
@@ -142,7 +155,7 @@ public abstract class Tanque<T extends Pez> {
      * óptima.
      * 
      * @param comida La comida que se utiliza
-     * @param pisci La piscifactoria a la que pertenece
+     * @param pisci  La piscifactoria a la que pertenece
      */
     public void nextDay(int espacio, Piscifactoria pisci) {
         List<Pez> copiaPeces = new ArrayList<>(peces);
@@ -240,7 +253,7 @@ public abstract class Tanque<T extends Pez> {
                 Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
                 Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas());
                 peces.set(peces.indexOf(pez), null);
-                piscifactoria.setContadorPecesVendidos(piscifactoria.getContadorPecesVendidos()+1);
+                piscifactoria.setContadorPecesVendidos(piscifactoria.getContadorPecesVendidos() + 1);
             }
         }
         eliminarNulos();
@@ -251,6 +264,32 @@ public abstract class Tanque<T extends Pez> {
      */
     public void eliminarNulos() {
         while (peces.remove(null)) {
+        }
+    }
+
+    private class TanqueAdapter implements JsonSerializer<Tanque<T>>, JsonDeserializer<Tanque<T>> {
+        @Override
+        public JsonElement serialize(Tanque<T> tanque, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject jsonObject = new JsonObject();
+            if (tanque.getPeces().isEmpty()) {
+                jsonObject.addProperty("pez", "nombre");
+            }else{
+                jsonObject.addProperty("pez", tanque.getPeces().get(0).getNombre());
+            }
+            jsonObject.addProperty("num", tanque.numeroTanque);
+            JsonObject datosObject = new JsonObject();
+            datosObject.addProperty("vivos", tanque.getVivos());
+            datosObject.addProperty("maduros", tanque.getAdultos());
+            datosObject.addProperty("fertiles", tanque.getFertiles());
+            jsonObject.add("datos", datosObject);
+            jsonObject.add("peces", context.serialize(tanque.getPeces(), new TypeToken<ArrayList<Pez>>(){}.getType()));
+            return jsonObject;
+        }
+
+        @Override
+        public Tanque<T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            return null;
         }
     }
 }

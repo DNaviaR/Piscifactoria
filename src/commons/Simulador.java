@@ -4,16 +4,22 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 import java.util.Scanner;
+
+import almacen.Almacen;
 import almacen.AlmacenCentral;
 import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
 import propiedades.AlmacenPropiedades;
 import propiedades.CriaTipo;
+import com.google.gson.*;
 
 /**
  * Clase que representa un simulador de una actividad relacionada con
@@ -21,7 +27,7 @@ import propiedades.CriaTipo;
  * Permite gestionar diversas estadísticas, monedas, y operaciones asociadas a
  * las piscifactorías.
  */
-public class Simulador {
+public class Simulador implements Serializable {
     /**
      * Nombres de los peces disponibles en el simulador.
      */
@@ -45,7 +51,7 @@ public class Simulador {
     /**
      * Scanner utilizado para obtener información desde la entrada estándar.
      */
-    Scanner sc = new Scanner(System.in);
+    transient Scanner sc = new Scanner(System.in);
     /**
      * Número de días de simulador
      */
@@ -66,6 +72,10 @@ public class Simulador {
      * Almacén central utilizado en el simulador.
      */
     public static AlmacenCentral almacenCentral = new AlmacenCentral();
+    /**
+     * Nombre de la partida
+     */
+    private String nombrePartida;
 
     /**
      * Inicializa los elementos del sistema
@@ -74,6 +84,7 @@ public class Simulador {
      * @param primeraPiscifactoria el nombre de la primera piscifactoria
      */
     public void init(String nombrePartida, String primeraPiscifactoria) {
+        this.nombrePartida=nombrePartida;
         dias = 0;
         File transcripciones = new File("transcripciones");
         if (!transcripciones.exists()) {
@@ -82,6 +93,10 @@ public class Simulador {
         File logs = new File("logs");
         if (!logs.exists()) {
             logs.mkdir();
+        }
+        File saves = new File("saves");
+        if (!saves.exists()) {
+            saves.mkdir();
         }
         registros.iniciar(nombrePartida, "transcripciones/", "logs/");
         piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
@@ -148,7 +163,7 @@ public class Simulador {
             case 6:
                 ApoyoMenu.nextDay(piscifactorias);
                 dias++;
-                Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
+                Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
                 break;
             case 7:
                 ApoyoMenu.addFood(piscifactorias);
@@ -175,13 +190,16 @@ public class Simulador {
                 for (int i = 0; i < avanzarDias; i++) {
                     ApoyoMenu.nextDay(piscifactorias);
                     dias++;
-                    Simulador.registros.escribirTranscripcion(">>>Inicio del dia "+Simulador.dias);
+                    Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
                 }
                 break;
             case 14:
                 System.out.println("Saliendo...");
                 Simulador.registros.escribirLog("Cierre de la partida.");
                 Simulador.registros.cerrarRegistros();
+                break;
+            case 15:
+                guardarPartida();
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
@@ -191,7 +209,9 @@ public class Simulador {
             case 99:
                 System.out.println("Añadiendo 1000 monedas...");
                 Simulador.monedas.ingresar(1000);
-                Simulador.registros.escribirTranscripcion("Añadidas 1000 monedas mediante la opción oculta. Monedas actuales, "+Simulador.monedas.getMonedas());
+                Simulador.registros
+                        .escribirTranscripcion("Añadidas 1000 monedas mediante la opción oculta. Monedas actuales, "
+                                + Simulador.monedas.getMonedas());
                 Simulador.registros.escribirLog("Añadidas monedas mediante la opción oculta.");
                 break;
             default:
@@ -218,7 +238,8 @@ public class Simulador {
 
     /**
      * Realiza las transcripciones iniciales del sistema
-     * @param nombrePartida el nombre de la partida
+     * 
+     * @param nombrePartida       el nombre de la partida
      * @param nombrePiscifactoria el nombre de la primera piscifactoria
      */
     void registrosIniciales(String nombrePartida, String nombrePiscifactoria) {
@@ -239,32 +260,59 @@ public class Simulador {
         registros.escribirTranscripcion("-----------------------------------");
         registros.escribirTranscripcion("Piscifactoría inicial: " + nombrePiscifactoria);
 
-        registros.escribirLog("Inicio de la simulación "+nombrePartida);
-        registros.escribirLog("Piscifactoría inicial: "+nombrePiscifactoria);
+        registros.escribirLog("Inicio de la simulación " + nombrePartida);
+        registros.escribirLog("Piscifactoría inicial: " + nombrePiscifactoria);
     }
 
     /**
      * Escribe la transcripcion de todos los peces del tipo indicado
+     * 
      * @param criaTipo el tipo de pez indicado
      */
-    void escribirPeces(CriaTipo criaTipo){
+    void escribirPeces(CriaTipo criaTipo) {
         for (String pez : nombresPeces) {
             if (AlmacenPropiedades.getPropByName(pez).getPiscifactoria() == criaTipo) {
                 registros.escribirTranscripcion("\t-" + pez);
             }
         }
     }
+
     public static void escribirError(String mensaje) {
         String nombreArchivo = "logs/0_errors.log";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true));
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            writer.write("["+formatter.format(date)+"] "+mensaje);
+            writer.write("[" + formatter.format(date) + "] " + mensaje);
             writer.newLine();
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void guardarPartida() {
+        BufferedWriter bw = null;
+        try {
+            DataJson dataJson=new DataJson(nombresPeces, nombrePartida, dias, monedas.getMonedas(), estadisticas.exportarDatos(nombresPeces), almacenCentral, piscifactorias);
+            // Crear un objeto Gson con formato pretty print
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = gson.toJson(dataJson);
+
+            // Escribir el JSON en un archivo
+            bw = new BufferedWriter(new FileWriter("saves/"+nombrePartida+".json"));
+            bw.write(jsonString);
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bw != null) {
+                    bw.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

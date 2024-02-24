@@ -1,9 +1,26 @@
 package almacen;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.reflect.TypeToken;
+
+import piscifactoria.Piscifactoria;
+import piscifactoria.Tanque;
+
 /**
  * Clase que representa un almacén central.
  */
-public class AlmacenCentral{
+@JsonAdapter(AlmacenCentral.AlmacenCentralAdapter.class)
+public class AlmacenCentral {
     /**
      * El espacio maximo en el almacén.
      */
@@ -86,8 +103,9 @@ public class AlmacenCentral{
     @Override
     public String toString() {
         return "Almacen Central: " + espacioOcupado + "/" + espacioMaximo + " ("
-        + ((espacioOcupado / espacioMaximo) * 100) + "%)";
+                + ((espacioOcupado / espacioMaximo) * 100) + "%)";
     }
+
     /**
      * Añade la cantidad especificada al almacen
      * 
@@ -110,5 +128,25 @@ public class AlmacenCentral{
     public int getEspacioDisponible() {
         int espacioLibre = espacioMaximo - espacioOcupado;
         return espacioLibre;
+    }
+
+    private class AlmacenCentralAdapter implements JsonSerializer<AlmacenCentral>, JsonDeserializer<AlmacenCentral> {
+
+        @Override
+        public JsonElement serialize(AlmacenCentral almacenCentral, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("disponible", almacenCentral.activo);
+            jsonObject.addProperty("capacidad", almacenCentral.getEspacioMaximo());
+            JsonObject comidaObject = new JsonObject();
+            comidaObject.addProperty("general", almacenCentral.getEspacioOcupado());
+            jsonObject.add("comida", comidaObject);
+            return jsonObject;
+        }
+
+        @Override
+        public AlmacenCentral deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            return null;
+        }
     }
 }
