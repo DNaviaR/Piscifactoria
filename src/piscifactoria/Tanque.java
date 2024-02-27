@@ -2,9 +2,9 @@ package piscifactoria;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -34,7 +34,7 @@ public abstract class Tanque<T extends Pez> {
     /**
      * Número del tanque.
      */
-    private int numeroTanque;
+    int numeroTanque;
 
     /**
      * Constructor de la clase.
@@ -160,7 +160,7 @@ public abstract class Tanque<T extends Pez> {
     public void nextDay(int espacio, Piscifactoria pisci) {
         List<Pez> copiaPeces = new ArrayList<>(peces);
         for (Pez pez : copiaPeces) {
-            if (pez != null && pez.isEstaVivo()) {
+            if (pez != null && pez.isvivo()) {
                 pez.grow(peces, pisci);
                 pez.reproducirse(peces, espacio);
             }
@@ -177,7 +177,7 @@ public abstract class Tanque<T extends Pez> {
     public int getVivos() {
         int contadorVivos = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo()) {
+            if (peces.get(i).isvivo()) {
                 contadorVivos++;
             }
         }
@@ -192,7 +192,7 @@ public abstract class Tanque<T extends Pez> {
     public int getAlimentados() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo() && peces.get(i).isAlimentado()) {
+            if (peces.get(i).isvivo() && peces.get(i).isAlimentado()) {
                 contador++;
             }
         }
@@ -207,7 +207,7 @@ public abstract class Tanque<T extends Pez> {
     public int getAdultos() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo() && peces.get(i).isAdulto()) {
+            if (peces.get(i).isvivo() && peces.get(i).isAdulto()) {
                 contador++;
             }
         }
@@ -222,7 +222,7 @@ public abstract class Tanque<T extends Pez> {
     public int getHembras() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo() && peces.get(i).getSexo()) {
+            if (peces.get(i).isvivo() && peces.get(i).getSexo()) {
                 contador++;
             }
         }
@@ -237,7 +237,7 @@ public abstract class Tanque<T extends Pez> {
     public int getFertiles() {
         int contador = 0;
         for (int i = 0; i < peces.size(); i++) {
-            if (peces.get(i).isEstaVivo() && peces.get(i).isEsFertil()) {
+            if (peces.get(i).isvivo() && peces.get(i).isfertil()) {
                 contador++;
             }
         }
@@ -249,7 +249,7 @@ public abstract class Tanque<T extends Pez> {
      */
     public void sell(Piscifactoria piscifactoria) {
         for (Pez pez : peces) {
-            if (pez.getPecesDatos().getOptimo() == pez.getEdad() && pez.isEstaVivo()) {
+            if (pez.getPecesDatos().getOptimo() == pez.getEdad() && pez.isvivo()) {
                 Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas());
                 Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas());
                 peces.set(peces.indexOf(pez), null);
@@ -266,14 +266,13 @@ public abstract class Tanque<T extends Pez> {
         while (peces.remove(null)) {
         }
     }
-
-    private class TanqueAdapter implements JsonSerializer<Tanque<T>>, JsonDeserializer<Tanque<T>> {
+    private class TanqueAdapter implements JsonSerializer<Tanque<Pez>> {
         @Override
-        public JsonElement serialize(Tanque<T> tanque, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(Tanque<Pez> tanque, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject jsonObject = new JsonObject();
             if (tanque.getPeces().isEmpty()) {
-                jsonObject.addProperty("pez", "nombre");
-            }else{
+                jsonObject.addProperty("pez", "");
+            } else {
                 jsonObject.addProperty("pez", tanque.getPeces().get(0).getNombre());
             }
             jsonObject.addProperty("num", tanque.numeroTanque);
@@ -282,14 +281,9 @@ public abstract class Tanque<T extends Pez> {
             datosObject.addProperty("maduros", tanque.getAdultos());
             datosObject.addProperty("fertiles", tanque.getFertiles());
             jsonObject.add("datos", datosObject);
-            jsonObject.add("peces", context.serialize(tanque.getPeces(), new TypeToken<ArrayList<Pez>>(){}.getType()));
+            jsonObject.add("peces", context.serialize(tanque.getPeces(), new TypeToken<ArrayList<Pez>>() {
+            }.getType()));
             return jsonObject;
-        }
-
-        @Override
-        public Tanque<T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
-            return null;
         }
     }
 }

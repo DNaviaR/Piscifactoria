@@ -49,8 +49,8 @@ public class Registros {
      */
     public void iniciar(String nombrePartida, String rutaTranscripcion, String rutaLog) {
         try {
-            transcripcion = new BufferedWriter(new FileWriter(rutaTranscripcion + nombrePartida + ".tr"));
-            log = new BufferedWriter(new FileWriter(rutaLog + nombrePartida + ".log"));
+            transcripcion = new BufferedWriter(new FileWriter(rutaTranscripcion + nombrePartida + ".tr", true));
+            log = new BufferedWriter(new FileWriter(rutaLog + nombrePartida + ".log", true));
         } catch (Exception e) {
             Simulador.escribirError("Error en el inicio de los registros");
         }
@@ -80,7 +80,7 @@ public class Registros {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date(System.currentTimeMillis());
-            log.write("["+formatter.format(date)+"] "+accionUsuario);
+            log.write("[" + formatter.format(date) + "] " + accionUsuario);
             log.newLine();
             log.flush();
         } catch (Exception e) {

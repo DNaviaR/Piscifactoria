@@ -12,22 +12,25 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import commons.Simulador;
+import pez.pecesRio.Carpa;
 import piscifactoria.Piscifactoria;
 import piscifactoria.Tanque;
+import propiedades.AlmacenPropiedades;
 import propiedades.PecesDatos;
 
 /**
  * Clase abstracta que representa un pez.
  */
-@JsonAdapter(Pez.PezAdapter.class)
+// @JsonAdapter(Pez.PezAdapter.class)
 public abstract class Pez implements Cloneable {
     /**
      * Los datos del tipo de pez
      */
-    protected PecesDatos pc;
+    protected transient PecesDatos pc;
     /**
      * Los dias de vida del pez
      */
@@ -39,24 +42,25 @@ public abstract class Pez implements Cloneable {
     /**
      * El estado de vida del pez
      */
-    protected boolean estaVivo = true;
-    /**
-     * El estado de alimentación del pez
-     */
-    protected boolean alimentado = false;
+    protected boolean vivo = true;
     /**
      * Si el pez es adulto
      */
+    @SerializedName("maduro")
     protected boolean adulto = false;
     /**
      * Si el pez es fértil
      */
-    protected boolean esFertil;
+    protected boolean fertil;
     /**
      * Los ciclos de reproducción
      */
+    @SerializedName("ciclo")
     protected int countCiclos = 0;
-
+    /**
+     * El estado de alimentación del pez
+     */
+    protected boolean alimentado = false;
     /**
      * Constructor de la clase
      * 
@@ -96,6 +100,15 @@ public abstract class Pez implements Cloneable {
     }
 
     /**
+     * Establece los dias de vida del pez.
+     * 
+     * @param edad la nueva edad del pez
+     */
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    /**
      * Obtiene el sexo del pez.
      *
      * @return El sexo del pez.
@@ -118,8 +131,8 @@ public abstract class Pez implements Cloneable {
      *
      * @return El estado de vida del pez.
      */
-    public boolean isEstaVivo() {
-        return estaVivo;
+    public boolean isvivo() {
+        return vivo;
     }
 
     /**
@@ -130,14 +143,22 @@ public abstract class Pez implements Cloneable {
     public PecesDatos getPecesDatos() {
         return pc;
     }
+    /**
+     * Establece las propiedades del pez
+     * 
+     * @param pc las nuevas propiedades del pez
+     */
+    public void setPecesDatos(PecesDatos pc) {
+        this.pc = pc;
+    }
 
     /**
      * Establece si el pez está vivo o no.
      * 
-     * @param estaVivo el nuevo estado del pez
+     * @param vivo el nuevo estado del pez
      */
-    public void setEstaVivo(boolean estaVivo) {
-        this.estaVivo = estaVivo;
+    public void setvivo(boolean vivo) {
+        this.vivo = vivo;
     }
 
     /**
@@ -181,17 +202,35 @@ public abstract class Pez implements Cloneable {
      *
      * @return Si el pez es fértil o no
      */
-    public boolean isEsFertil() {
-        return esFertil;
+    public boolean isfertil() {
+        return fertil;
     }
 
     /**
      * Establece si el pez es fértil o no.
      * 
-     * @param esFertil el nuevo estado del pez
+     * @param fertil el nuevo estado del pez
      */
-    public void setEsFertil(boolean esFertil) {
-        this.esFertil = esFertil;
+    public void setfertil(boolean fertil) {
+        this.fertil = fertil;
+    }
+
+    /**
+     * Comprueba los dias de ciclo de fertilidad del pez
+     *
+     * @return El ciclo de fertilidad del pez
+     */
+    public int getCountCiclos() {
+        return countCiclos;
+    }
+
+    /**
+     * Establece el ciclo de fertilidad del pez.
+     * 
+     * @param countCiclos el nuevo estado del pez
+     */
+    public void setCountCiclos(int countCiclos) {
+        this.countCiclos = countCiclos;
     }
 
     /**
@@ -202,8 +241,8 @@ public abstract class Pez implements Cloneable {
     @Override
     public String toString() {
         return "Pez [nombre=" + pc.getNombre() + ", cientifico=" + pc.getCientifico() + ", edad=" + edad
-                + ", sexo=" + sexo + ", estaVivo=" + estaVivo + ", alimentado=" + alimentado + ", adulto=" + adulto
-                + ", esFertil=" + esFertil + "]";
+                + ", sexo=" + sexo + ", vivo=" + vivo + ", alimentado=" + alimentado + ", adulto=" + adulto
+                + ", fertil=" + fertil + "]";
     }
 
     /**
@@ -213,10 +252,10 @@ public abstract class Pez implements Cloneable {
         System.out.println("--------------- " + pc.getNombre() + " ---------------");
         System.out.println("Edad: " + edad + " días");
         System.out.println("Sexo: " + (getSexo() ? "H" : "M"));
-        System.out.println("Vivo: " + (estaVivo ? "Si" : "No"));
+        System.out.println("Vivo: " + (vivo ? "Si" : "No"));
         System.out.println("Alimentado: " + (alimentado ? "Si" : "No"));
         System.out.println("Adulto: " + (adulto ? "Si" : "No"));
-        System.out.println("Fértil: " + (esFertil ? "Si" : "No"));
+        System.out.println("Fértil: " + (fertil ? "Si" : "No"));
     }
 
     /**
@@ -232,14 +271,14 @@ public abstract class Pez implements Cloneable {
      * @param peces  La lista de peces
      */
     public void grow(List<Pez> peces, Piscifactoria pisci) {
-        if (this.isEstaVivo()) {
+        if (this.isvivo()) {
             this.morir();
             // Aumentar la edad en 1 día.
             edad++;
             // Verificar la madurez y fertilidad.
             if (edad == pc.getMadurez()) {
                 adulto = true;
-                esFertil = true;
+                fertil = true;
             }
         }
         this.setAlimentado(false);
@@ -251,10 +290,10 @@ public abstract class Pez implements Cloneable {
      */
     public void reset() {
         edad = 0;
-        estaVivo = true;
+        vivo = true;
         alimentado = false;
         adulto = false;
-        esFertil = false;
+        fertil = false;
     }
 
     /**
@@ -290,9 +329,9 @@ public abstract class Pez implements Cloneable {
     public void reproducirse(List<Pez> peces, int espacio) {
         ArrayList<Pez> nuevosPeces = new ArrayList<>();
         if (this.getSexo() == true) {
-            if (this.esFertil == true && countCiclos <= 0) {
+            if (this.fertil == true && countCiclos <= 0) {
                 for (Pez pez : peces) {
-                    if (pez != null && pez.getSexo() != this.getSexo() && pez.isEsFertil()) {
+                    if (pez != null && pez.getSexo() != this.getSexo() && pez.isfertil()) {
                         int libre = espacio - peces.size();
                         int disponible = libre - nuevosPeces.size();
                         if (disponible >= this.getPecesDatos().getHuevos()) {
@@ -321,7 +360,7 @@ public abstract class Pez implements Cloneable {
     public void morir() {
         double aleatorio = Math.random();
         if ((this.alimentado == false && aleatorio < 0.5) || (this.edad % 2 == 0 && aleatorio < 0.05)) {
-            this.setEstaVivo(false);
+            this.setvivo(false);
         }
     }
 
@@ -344,26 +383,44 @@ public abstract class Pez implements Cloneable {
         }
 
     }
-    private class PezAdapter implements JsonSerializer<Pez>, JsonDeserializer<Pez> {
-        @Override
-        public JsonElement serialize(Pez pez, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("edad",pez.edad);
-            jsonObject.addProperty("sexo",pez.sexo);
-            jsonObject.addProperty("vivo",pez.estaVivo);
-            jsonObject.addProperty("maduro",pez.adulto);
-            jsonObject.addProperty("fertil",pez.esFertil);
-            jsonObject.addProperty("ciclo",pez.countCiclos);
-            JsonObject datosObject = new JsonObject();
-            jsonObject.add("extra", datosObject);
-            return jsonObject;
-        }
 
-        @Override
-        public Pez deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
-                    
-                    return null;
-        }
-    }
+
+    /*
+     * private class PezAdapter implements JsonSerializer<Pez>,
+     * JsonDeserializer<Pez> {
+     * 
+     * @Override
+     * public JsonElement serialize(Pez pez, Type typeOfSrc,
+     * JsonSerializationContext context) {
+     * JsonObject jsonObject = new JsonObject();
+     * jsonObject.addProperty("edad", pez.edad);
+     * jsonObject.addProperty("sexo", pez.sexo);
+     * jsonObject.addProperty("vivo", pez.vivo);
+     * jsonObject.addProperty("maduro", pez.adulto);
+     * jsonObject.addProperty("fertil", pez.fertil);
+     * jsonObject.addProperty("ciclo", pez.countCiclos);
+     * JsonObject datosObject = new JsonObject();
+     * jsonObject.add("extra", datosObject);
+     * return jsonObject;
+     * }
+     * 
+     * @Override
+     * public Pez deserialize(JsonElement json, Type typeOfT,
+     * JsonDeserializationContext context)
+     * throws JsonParseException {
+     * JsonObject jsonObject = json.getAsJsonObject();
+     * 
+     * int edad = jsonObject.getAsJsonPrimitive("edad").getAsInt();
+     * boolean sexo = jsonObject.getAsJsonPrimitive("sexo").getAsBoolean();
+     * boolean vivo = jsonObject.getAsJsonPrimitive("vivo").getAsBoolean();
+     * boolean adulto = jsonObject.getAsJsonPrimitive("maduro").getAsBoolean();
+     * boolean fertil = jsonObject.getAsJsonPrimitive("fertil").getAsBoolean();
+     * int countCiclos = jsonObject.getAsJsonPrimitive("ciclo").getAsInt();
+     * if (jsonObject.has("extra")) {
+     * JsonObject extraObject = jsonObject.getAsJsonObject("extra");
+     * }
+     * return null;
+     * }
+     * }
+     */
 }

@@ -2,17 +2,19 @@ package commons;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 import java.util.Scanner;
-
-import almacen.Almacen;
 import almacen.AlmacenCentral;
 import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
@@ -84,7 +86,7 @@ public class Simulador implements Serializable {
      * @param primeraPiscifactoria el nombre de la primera piscifactoria
      */
     public void init(String nombrePartida, String primeraPiscifactoria) {
-        this.nombrePartida=nombrePartida;
+        this.nombrePartida = nombrePartida;
         dias = 0;
         File transcripciones = new File("transcripciones");
         if (!transcripciones.exists()) {
@@ -93,10 +95,6 @@ public class Simulador implements Serializable {
         File logs = new File("logs");
         if (!logs.exists()) {
             logs.mkdir();
-        }
-        File saves = new File("saves");
-        if (!saves.exists()) {
-            saves.mkdir();
         }
         registros.iniciar(nombrePartida, "transcripciones/", "logs/");
         piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
@@ -194,12 +192,10 @@ public class Simulador implements Serializable {
                 }
                 break;
             case 14:
+                guardarPartida();
                 System.out.println("Saliendo...");
                 Simulador.registros.escribirLog("Cierre de la partida.");
                 Simulador.registros.cerrarRegistros();
-                break;
-            case 15:
-                guardarPartida();
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
@@ -225,15 +221,51 @@ public class Simulador implements Serializable {
      */
     void logica() {
         try {
-            System.out.println("Introduce el nombre de la partida");
-            String nombre = sc.nextLine();
-            System.out.println("Introduce el nombre de tu primera piscifactoria");
-            String piscifactoria = sc.nextLine();
-            init(nombre, piscifactoria);
+            File saves = new File("saves");
+            if (saves.exists() && saves.isDirectory()) {
+                // Listar archivos dentro del directorio
+                File[] archivos = saves.listFiles();
+                if (archivos != null && archivos.length > 0) {
+                    int i = 1;
+                    System.out.println("0: Crear nueva partida");
+                    for (File archivo : archivos) {
+                        System.out.println(i + ": " + archivo.getName());
+                        i++;
+                    }
+                    String snum1;
+                    do {
+                        System.out.println("Seleccione una opcion");
+                        snum1 = sc.nextLine();
+                    } while (!ApoyoMenu.IsInteger(snum1));
+                    i = Integer.parseInt(snum1);
+                    if (i == 0) {
+                        crearPartida();
+                    } else {
+                        this.load(archivos[i - 1]);
+                    }
+                } else {
+                    crearPartida();
+                }
+            } else {
+                saves.mkdir();
+                crearPartida();
+            }
             menu();
         } catch (Exception e) {
             escribirError("Error en el proceso principal");
         }
+    }
+
+    /**
+     * Metodo que crea una partida
+     */
+    void crearPartida() {
+        System.out.println("Introduce el nombre de la partida");
+        String nombre = sc.nextLine();
+        System.out.println("Introduce el nombre de tu primera piscifactoria");
+        String piscifactoria = sc.nextLine();
+        init(nombre, piscifactoria);
+        guardarPartida();
     }
 
     /**
@@ -277,6 +309,11 @@ public class Simulador implements Serializable {
         }
     }
 
+    /**
+     * Escribe un error en en el archivo de errores
+     * 
+     * @param mensaje el mensaje de error
+     */
     public static void escribirError(String mensaje) {
         String nombreArchivo = "logs/0_errors.log";
         try {
@@ -291,24 +328,65 @@ public class Simulador implements Serializable {
         }
     }
 
+    /**
+     * Guarda todos los datos de la partida en un archivo JSON
+     */
     public void guardarPartida() {
         BufferedWriter bw = null;
         try {
-            DataJson dataJson=new DataJson(nombresPeces, nombrePartida, dias, monedas.getMonedas(), estadisticas.exportarDatos(nombresPeces), almacenCentral, piscifactorias);
+            DataJson dataJson = new DataJson(nombresPeces, nombrePartida, dias, monedas.getMonedas(),
+                    estadisticas.exportarDatos(nombresPeces), almacenCentral, piscifactorias);
             // Crear un objeto Gson con formato pretty print
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString = gson.toJson(dataJson);
 
             // Escribir el JSON en un archivo
-            bw = new BufferedWriter(new FileWriter("saves/"+nombrePartida+".json"));
+            bw = new BufferedWriter(
+                    new OutputStreamWriter(new FileOutputStream("saves/" + nombrePartida + ".json"), "UTF-8"));
             bw.write(jsonString);
             bw.flush();
+            registros.escribirLog("Sistema guardado");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 if (bw != null) {
                     bw.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Carga la información de un JSON
+     * 
+     * @param file el archivo JSON
+     */
+    public void load(File file) {
+        Gson gson = new Gson();
+        Reader reader = null;
+        System.out.println("Cargando partida");
+        try {
+            reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+            DataJson dataJson = gson.fromJson(reader, DataJson.class);
+            this.nombrePartida=dataJson.empresa;
+            Simulador.dias = dataJson.getDia();
+            Simulador.monedas.setMonedas(dataJson.getMonedas());
+            Estadisticas estadisticas = new Estadisticas(dataJson.getImplementados(), dataJson.getOrca());
+            Simulador.estadisticas = estadisticas;
+            Simulador.almacenCentral = dataJson.getEdificios();
+            this.piscifactorias = (ArrayList<Piscifactoria>) dataJson.getPiscifactorias();
+            registros.iniciar(nombrePartida, "transcripciones/", "logs/");
+            registros.escribirLog("Sistema cargado");
+            System.out.println("Partida cargada");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

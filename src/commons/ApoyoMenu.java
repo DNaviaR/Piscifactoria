@@ -56,7 +56,6 @@ public class ApoyoMenu {
             return true;
         } catch (NumberFormatException ex) {
             System.out.println("Opción no valida");
-            Simulador.escribirError("Opcion introducida no valida");
             return false;
         }
     }
@@ -886,7 +885,7 @@ public class ApoyoMenu {
         for (Tanque<? extends Pez> tanque : tanques) {
             ArrayList<Pez> peces = tanque.getPeces();
             for (Pez pez : peces) {
-                if (pez.isAdulto() && pez.isEstaVivo()) {
+                if (pez.isAdulto() && pez.isvivo()) {
                     Simulador.estadisticas.registrarVenta(pez.getNombre(), pez.getPecesDatos().getMonedas() / 2);
                     Simulador.monedas.ingresar(pez.getPecesDatos().getMonedas() / 2);
                     peces.set(peces.indexOf(pez), null);
@@ -919,7 +918,7 @@ public class ApoyoMenu {
         for (Tanque<? extends Pez> tanque : tanques) {
             ArrayList<Pez> peces = tanque.getPeces();
             for (Pez pez : peces) {
-                if (!pez.isEstaVivo()) {
+                if (!pez.isvivo()) {
                     peces.set(peces.indexOf(pez), null);
                 }
             }

@@ -2,6 +2,8 @@ package piscifactoria;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.*;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -168,7 +170,7 @@ public abstract class Piscifactoria {
                 "Peces adultos: " + pecesAdultos() + " / " + pecesVivos() + " ("
                 + (pecesVivos() > 0 ? (float) ((pecesAdultos() * 100) / pecesVivos()) : 0) + "%)\n" +
                 "Hembras / Machos: " + pecesHembras() + " / " + (pecesVivos() - pecesHembras()) + "\n" +
-                "Fertiles: " + pecesFertiles() + " / " + pecesVivos() + "\n" +
+                "Fertiles: " + pecfertiles() + " / " + pecesVivos() + "\n" +
                 "Almacen de comida: " + almacen.getEspacioOcupado() + "/" + almacen.getEspacioMaximo() + " ("
                 + ((almacen.getEspacioOcupado() / almacen.getEspacioMaximo()) * 100) + "%)");
     }
@@ -303,12 +305,12 @@ public abstract class Piscifactoria {
      * @return El número de peces que se pueden reproducir que hay en la
      *         piscifactoria
      */
-    public int pecesFertiles() {
-        int pecesFertiles = 0;
+    public int pecfertiles() {
+        int pecfertiles = 0;
         for (int i = 0; i < tanques.size(); i++) {
-            pecesFertiles += tanques.get(i).getFertiles();
+            pecfertiles += tanques.get(i).getFertiles();
         }
-        return pecesFertiles;
+        return pecfertiles;
     }
 
     private class PiscifactoriaAdapter implements JsonSerializer<Piscifactoria>, JsonDeserializer<Piscifactoria> {
@@ -322,16 +324,59 @@ public abstract class Piscifactoria {
             JsonObject comidaObject = new JsonObject();
             comidaObject.addProperty("general", piscifactoria.getAlmacen().getEspacioOcupado());
             jsonObject.add("comida", comidaObject);
-            jsonObject.add("tanques", context.serialize(piscifactoria.getTanques(), new TypeToken<ArrayList<Tanque<?>>>(){}.getType()));
+            jsonObject.add("tanques",
+                    context.serialize(piscifactoria.getTanques(), new TypeToken<ArrayList<Tanque<?>>>() {
+                    }.getType()));
             return jsonObject;
         }
 
         @Override
         public Piscifactoria deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
-            return null;
+            JsonObject jsonObject = json.getAsJsonObject();
+            Piscifactoria piscifactoria = null;
+
+            // Obtener datos principales de la piscifactoria
+            String nombrePiscifactoria = jsonObject.get("nombre").getAsString();
+            int tipo = jsonObject.get("tipo").getAsInt();
+            int capacidadAlmacen = jsonObject.get("capacidad").getAsInt();
+
+            // Obtener datos adicionales del almacen
+            JsonObject comidaObject = jsonObject.getAsJsonObject("comida");
+            int espacioOcupado = comidaObject.get("general").getAsInt();
+
+            // Obtener la lista de tanques de la piscifactoria
+            JsonArray tanquesArray = jsonObject.getAsJsonArray("tanques");
+            ArrayList<Tanque<?>> tanques = new ArrayList<>();
+
+            for (JsonElement tanqueElement : tanquesArray) {
+                if (tipo==0) {
+                    TanqueRio<Pez> tanque = context.deserialize(tanqueElement, TanqueRio.class);
+                    tanques.add(tanque);
+                }else{
+                    TanqueMar<Pez> tanque = context.deserialize(tanqueElement, TanqueMar.class);
+                    tanques.add(tanque);
+                }
+            }
+
+            // Crear una instancia de Piscifactoria con los datos obtenidos
+            switch (tipo) {
+                case 0:
+                    piscifactoria = new PiscifactoriaRio(nombrePiscifactoria);
+                    break;
+                case 1:
+                    piscifactoria = new PiscifactoriaMar(nombrePiscifactoria);
+                    break;
+                default:
+                    break;
+            }
+            Almacen almacen = new Almacen();
+            almacen.setEspacioMaximo(capacidadAlmacen);
+            almacen.setEspacioOcupado(espacioOcupado);
+            piscifactoria.setAlmacen(almacen);
+            piscifactoria.setTanques(tanques);
+
+            return piscifactoria;
         }
     }
-
-
 }

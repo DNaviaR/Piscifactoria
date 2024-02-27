@@ -62,7 +62,7 @@ public abstract class Omnivoro extends Pez {
      */
     protected Pez buscarPezMuertoEnTanque(List<Pez> peces) {
         for (Pez pez : peces) {
-            if (pez != null && !pez.isEstaVivo()) {
+            if (pez != null && !pez.isvivo()) {
                 return pez;
             }
         }

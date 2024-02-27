@@ -43,4 +43,5 @@ public abstract class Activo extends Pez {
         }
         pisci.getAlmacen().setEspacioOcupado(comida);
     }
+    
 }

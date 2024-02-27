@@ -146,7 +146,19 @@ public class AlmacenCentral {
         @Override
         public AlmacenCentral deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
-            return null;
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            boolean activo = jsonObject.getAsJsonPrimitive("disponible").getAsBoolean();
+            int capacidad = jsonObject.getAsJsonPrimitive("capacidad").getAsInt();
+
+            int espacioOcupado = jsonObject.getAsJsonObject("comida").getAsJsonPrimitive("general").getAsInt();
+
+            AlmacenCentral almacenCentral = new AlmacenCentral();
+            almacenCentral.setActivo(activo);
+            almacenCentral.setEspacioMaximo(capacidad);
+            almacenCentral.setEspacioOcupado(espacioOcupado);
+
+            return almacenCentral;
         }
     }
 }
