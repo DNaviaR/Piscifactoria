@@ -313,8 +313,22 @@ public abstract class Piscifactoria {
         return pecfertiles;
     }
 
+    /**
+     * Clase adaptadora para la serialización y deserialización de objetos
+     * Piscifactoria a/desde formato JSON.
+     * Implementa las interfaces JsonSerializer y JsonDeserializer de la biblioteca
+     * Gson.
+     */
     private class PiscifactoriaAdapter implements JsonSerializer<Piscifactoria>, JsonDeserializer<Piscifactoria> {
 
+        /**
+         * Serializa un objeto Piscifactoria a formato JSON.
+         *
+         * @param piscifactoria Objeto Piscifactoria a serializar.
+         * @param typeOfSrc     Tipo del objeto fuente.
+         * @param context       Contexto de serialización JSON.
+         * @return Elemento JSON que representa la Piscifactoria serializada.
+         */
         @Override
         public JsonElement serialize(Piscifactoria piscifactoria, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject jsonObject = new JsonObject();
@@ -330,36 +344,37 @@ public abstract class Piscifactoria {
             return jsonObject;
         }
 
+        /**
+         * Deserializa un objeto Piscifactoria desde formato JSON.
+         *
+         * @param json    Elemento JSON que representa la Piscifactoria a deserializar.
+         * @param typeOfT Tipo del objeto resultante.
+         * @param context Contexto de deserialización JSON.
+         * @return Objeto Piscifactoria deserializado.
+         * @throws JsonParseException Si ocurre un error durante la deserialización.
+         */
         @Override
         public Piscifactoria deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
             Piscifactoria piscifactoria = null;
-
-            // Obtener datos principales de la piscifactoria
             String nombrePiscifactoria = jsonObject.get("nombre").getAsString();
             int tipo = jsonObject.get("tipo").getAsInt();
             int capacidadAlmacen = jsonObject.get("capacidad").getAsInt();
-
-            // Obtener datos adicionales del almacen
             JsonObject comidaObject = jsonObject.getAsJsonObject("comida");
             int espacioOcupado = comidaObject.get("general").getAsInt();
-
-            // Obtener la lista de tanques de la piscifactoria
             JsonArray tanquesArray = jsonObject.getAsJsonArray("tanques");
             ArrayList<Tanque<?>> tanques = new ArrayList<>();
 
             for (JsonElement tanqueElement : tanquesArray) {
-                if (tipo==0) {
+                if (tipo == 0) {
                     TanqueRio<Pez> tanque = context.deserialize(tanqueElement, TanqueRio.class);
                     tanques.add(tanque);
-                }else{
+                } else {
                     TanqueMar<Pez> tanque = context.deserialize(tanqueElement, TanqueMar.class);
                     tanques.add(tanque);
                 }
             }
-
-            // Crear una instancia de Piscifactoria con los datos obtenidos
             switch (tipo) {
                 case 0:
                     piscifactoria = new PiscifactoriaRio(nombrePiscifactoria);

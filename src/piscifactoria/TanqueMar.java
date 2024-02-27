@@ -52,7 +52,25 @@ public class TanqueMar<T extends Pez> extends Tanque<T> implements PezMar {
         espacio = 100;
     }
 
+    /**
+     * Esta clase proporciona la lógica de deserialización para convertir un objeto
+     * JSON
+     * en una instancia de la clase {@code Tanque<Pez>}.
+     * Utiliza un mapa de clases para mapear el nombre del pez a la clase
+     * correspondiente
+     * durante el proceso de deserialización.
+     */
     private class TanqueAdapter implements JsonDeserializer<Tanque<Pez>> {
+        /**
+         * Deserializa un objeto JSON representando un tanque de peces.
+         *
+         * @param json    Elemento JSON que se va a deserializar.
+         * @param typeOfT Tipo de la instancia que se debe deserializar.
+         * @param context Contexto de deserialización proporcionado por Gson.
+         * @return Una instancia de la clase {@code Tanque<Pez>} deserializada.
+         * @throws JsonParseException Si hay un error durante el proceso de
+         *                            deserialización JSON.
+         */
         @Override
         public Tanque<Pez> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
@@ -76,23 +94,15 @@ public class TanqueMar<T extends Pez> extends Tanque<T> implements PezMar {
             JsonObject jsonObject = json.getAsJsonObject();
             String nombrePez = jsonObject.getAsJsonPrimitive("pez").getAsString();
             int numeroTanque = jsonObject.getAsJsonPrimitive("num").getAsInt();
-
-            // Crear una instancia de TanqueRio con el número de tanque
             TanqueMar<Pez> tanqueMar = new TanqueMar<>(numeroTanque);
-
-            // Deserializar la lista de peces
             JsonArray pecesArray = jsonObject.getAsJsonArray("peces");
             ArrayList<Pez> peces = new ArrayList<>();
-
             for (JsonElement pezElement : pecesArray) {
                 Pez pez = context.deserialize(pezElement, mapaDeClases.get(nombrePez));
                 pez.setPecesDatos(AlmacenPropiedades.getPropByName(nombrePez));
                 peces.add(pez);
             }
-
-            // Establecer la lista de peces en el TanqueRio
             tanqueMar.setPeces(peces);
-
             return tanqueMar;
         }
     }

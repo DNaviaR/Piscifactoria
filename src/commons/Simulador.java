@@ -162,6 +162,7 @@ public class Simulador implements Serializable {
                 ApoyoMenu.nextDay(piscifactorias);
                 dias++;
                 Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
+                guardarPartida();
                 break;
             case 7:
                 ApoyoMenu.addFood(piscifactorias);
@@ -189,6 +190,7 @@ public class Simulador implements Serializable {
                     ApoyoMenu.nextDay(piscifactorias);
                     dias++;
                     Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
+                    guardarPartida();
                 }
                 break;
             case 14:
@@ -347,14 +349,14 @@ public class Simulador implements Serializable {
             bw.flush();
             registros.escribirLog("Sistema guardado");
         } catch (IOException e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al guardar la partida");
         } finally {
             try {
                 if (bw != null) {
                     bw.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Simulador.escribirError("Error al cerrar el buffer");
             }
         }
     }
@@ -382,14 +384,14 @@ public class Simulador implements Serializable {
             registros.escribirLog("Sistema cargado");
             System.out.println("Partida cargada");
         } catch (IOException e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al cargar la partida");
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Simulador.escribirError("Error al cerrar el reader");
             }
         }
     }

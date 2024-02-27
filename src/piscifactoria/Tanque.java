@@ -266,7 +266,23 @@ public abstract class Tanque<T extends Pez> {
         while (peces.remove(null)) {
         }
     }
+
+    /**
+     * Clase que implementa la interfaz JsonSerializer para serializar objetos de la
+     * clase Tanque<Pez>.
+     * Esta clase se utiliza para convertir un objeto Tanque<Pez> en un formato
+     * JSON.
+     */
     private class TanqueAdapter implements JsonSerializer<Tanque<Pez>> {
+
+        /**
+         * Serializa un objeto Tanque<Pez> en un formato JSON.
+         *
+         * @param tanque    El tanque a serializar.
+         * @param typeOfSrc Tipo del objeto a serializar.
+         * @param context   Contexto de serialización JSON.
+         * @return Un elemento JSON que representa el tanque.
+         */
         @Override
         public JsonElement serialize(Tanque<Pez> tanque, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject jsonObject = new JsonObject();
