@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import pez.Pez;
 import pez.PezMar;
 import pez.PezRio;
@@ -1299,7 +1305,9 @@ public class ApoyoMenu {
 
     public static void canjearRecompensas() {
         Scanner sc = new Scanner(System.in);
+        SAXReader reader = null;
         try {
+            reader = new SAXReader();
             File rewards = new File("rewards");
             if (rewards.exists() && rewards.isDirectory()) {
                 File[] archivos = rewards.listFiles();
@@ -1308,7 +1316,15 @@ public class ApoyoMenu {
                     System.out.println("Recompensas");
                     System.out.println("---------------");
                     for (File archivo : archivos) {
-                        System.out.println(i + ": " + archivo.getName());
+                        String nombre = "";
+                        Document document = reader.read(archivo);
+                        Element raiz = document.getRootElement();
+                        for (Element elemento : raiz.elements()) {
+                            if ("name".equals(elemento.getName())) {
+                                nombre=elemento.getText();
+                            }
+                        }
+                        System.out.println(i + ": " + nombre);
                         i++;
                     }
                     String snum1;
@@ -1317,7 +1333,7 @@ public class ApoyoMenu {
                         snum1 = sc.nextLine();
                     } while (!ApoyoMenu.IsInteger(snum1));
                     i = Integer.parseInt(snum1);
-                    //archivos[i - 1];
+                    // archivos[i - 1];
                 } else {
                 }
             } else {

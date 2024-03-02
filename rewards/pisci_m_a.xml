@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <reward>
-  <name>Almacén central [B]</name>
+  <name>Piscifactoría de mar [A]</name>
   <origin>Diego</origin>
   <desc>Materiales para la construcción de una piscifactoría de mar. Con la parte A y B, puedes obtenerla de forma gratuita.</desc>
   <rarity>4</rarity>
   <give>
-    <building code="1">Almacén central</building>
-    <part>B</part>
+    <building code="1">Piscifactoría de mar</building>
+    <part>A</part>
     <total>AB</total>
   </give>
   <quantity>1</quantity>

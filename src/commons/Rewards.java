@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.List;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
@@ -259,7 +261,7 @@ public class Rewards {
             Element raiz = document.getRootElement();
             for (Element elemento : raiz.elements()) {
                 if ("name".equals(elemento.getName())) {
-                    elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
+                    elemento.setText("Piscifactoría de mar [" + String.valueOf(Character.toUpperCase(letra)) + "]");
                 } else if ("desc".equals(elemento.getName())) {
                     elemento.setText(descripcion);
                 } else if ("rarity".equals(elemento.getName())) {
@@ -293,7 +295,7 @@ public class Rewards {
             Element raiz = document.getRootElement();
             for (Element elemento : raiz.elements()) {
                 if ("name".equals(elemento.getName())) {
-                    elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
+                    elemento.setText("Piscifactoría de río [" + String.valueOf(Character.toUpperCase(letra)) + "]");
                 } else if ("desc".equals(elemento.getName())) {
                     elemento.setText(descripcion);
                 } else if ("rarity".equals(elemento.getName())) {
