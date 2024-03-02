@@ -3,18 +3,13 @@ package piscifactoria;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.reflect.TypeToken;
-
 import pez.Pez;
 import pez.PezMar;
 import pez.pecesDoble.Bagre;
@@ -33,8 +28,6 @@ import pez.pecesMar.LubinaRayada;
 import pez.pecesMar.Robalo;
 import pez.pecesMar.Rodaballo;
 import pez.pecesMar.Sargo;
-import pez.pecesRio.Carpa;
-import pez.pecesRio.CarpaPlateada;
 import propiedades.AlmacenPropiedades;
 
 /**
@@ -83,7 +76,7 @@ public class TanqueMar<T extends Pez> extends Tanque<T> implements PezMar {
             mapaDeClases.put("Corvina", Corvina.class);
             mapaDeClases.put("Lenguado europeo", LenguadoEuropeo.class);
             mapaDeClases.put("Lubina rayada", LubinaRayada.class);
-            mapaDeClases.put("Robalo", Robalo.class);
+            mapaDeClases.put("Róbalo", Robalo.class);
             mapaDeClases.put("Rodaballo", Rodaballo.class);
             mapaDeClases.put("Sargo", Sargo.class);
             mapaDeClases.put("Bagre de canal", Bagre.class);

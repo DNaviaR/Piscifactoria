@@ -1,5 +1,6 @@
 package commons;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -1147,7 +1148,8 @@ public class ApoyoMenu {
                                 .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
                                         "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                         Simulador.registros
-                                .escribirLog("Comprado un tanque para la piscifactoria " + piscifactoria.getNombrePiscifactoria());
+                                .escribirLog("Comprado un tanque para la piscifactoria "
+                                        + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1162,7 +1164,8 @@ public class ApoyoMenu {
                                 .escribirTranscripcion("Comprado un tanque numero " + piscifactoria.getTanques() +
                                         "de la piscifactoria " + piscifactoria.getNombrePiscifactoria());
                         Simulador.registros
-                                        .escribirLog("Comprado un tanque para la piscifactoria " + piscifactoria.getNombrePiscifactoria());
+                                .escribirLog("Comprado un tanque para la piscifactoria "
+                                        + piscifactoria.getNombrePiscifactoria());
                     } else {
                         System.out.println("No hay monedas suficientes para realizar esta operacion");
                     }
@@ -1291,6 +1294,36 @@ public class ApoyoMenu {
                 System.out.println("Añadido " + pezExistente.getNombre() + " a tanque "
                         + tanquesDisponibles.get(opcion).getNumeroTanque());
             }
+        }
+    }
+
+    public static void canjearRecompensas() {
+        Scanner sc = new Scanner(System.in);
+        try {
+            File rewards = new File("rewards");
+            if (rewards.exists() && rewards.isDirectory()) {
+                File[] archivos = rewards.listFiles();
+                if (archivos != null && archivos.length > 0) {
+                    int i = 1;
+                    System.out.println("Recompensas");
+                    System.out.println("---------------");
+                    for (File archivo : archivos) {
+                        System.out.println(i + ": " + archivo.getName());
+                        i++;
+                    }
+                    String snum1;
+                    do {
+                        System.out.println("Seleccione una opcion");
+                        snum1 = sc.nextLine();
+                    } while (!ApoyoMenu.IsInteger(snum1));
+                    i = Integer.parseInt(snum1);
+                    //archivos[i - 1];
+                } else {
+                }
+            } else {
+            }
+        } catch (Exception e) {
+            Simulador.escribirError("Error en el proceso principal");
         }
     }
 }

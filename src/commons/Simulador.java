@@ -78,6 +78,7 @@ public class Simulador implements Serializable {
      * Nombre de la partida
      */
     private String nombrePartida;
+    private transient Rewards rewards;
 
     /**
      * Inicializa los elementos del sistema
@@ -96,11 +97,16 @@ public class Simulador implements Serializable {
         if (!logs.exists()) {
             logs.mkdir();
         }
+        File rewardsFile = new File("rewards");
+        if (!rewardsFile.exists()) {
+            rewardsFile.mkdir();
+        }
         registros.iniciar(nombrePartida, "transcripciones/", "logs/");
         piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
         piscifactorias.get(0).getAlmacen().setEspacioOcupado(piscifactorias.get(0).getAlmacen().getEspacioMaximo());
         monedas.setMonedas(100);
         registrosIniciales(nombrePartida, primeraPiscifactoria);
+        rewards=new Rewards();
     }
 
     /**
@@ -124,6 +130,7 @@ public class Simulador implements Serializable {
                             "12. Mejorar\n" +
                             "13. Pasar varios días\n" +
                             "14. Salir\n" +
+                            "15. Canjear Recompensas\n" +
                             "Dia:" + dias + "\t" +
                             "Monedas: " + monedas);
             String snum1;
@@ -199,6 +206,9 @@ public class Simulador implements Serializable {
                 Simulador.registros.escribirLog("Cierre de la partida.");
                 Simulador.registros.cerrarRegistros();
                 break;
+            case 15:
+                ApoyoMenu.canjearRecompensas();
+                break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
                 Simulador.registros.escribirTranscripcion("Añadidos peces mediante la opción oculta");
@@ -244,6 +254,7 @@ public class Simulador implements Serializable {
                         crearPartida();
                     } else {
                         this.load(archivos[i - 1]);
+                        rewards=new Rewards();
                     }
                 } else {
                     crearPartida();
@@ -255,6 +266,7 @@ public class Simulador implements Serializable {
             menu();
         } catch (Exception e) {
             escribirError("Error en el proceso principal");
+            registros.cerrarRegistros();
         }
     }
 
@@ -338,13 +350,10 @@ public class Simulador implements Serializable {
         try {
             DataJson dataJson = new DataJson(nombresPeces, nombrePartida, dias, monedas.getMonedas(),
                     estadisticas.exportarDatos(nombresPeces), almacenCentral, piscifactorias);
-            // Crear un objeto Gson con formato pretty print
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString = gson.toJson(dataJson);
-
-            // Escribir el JSON en un archivo
             bw = new BufferedWriter(
-                    new OutputStreamWriter(new FileOutputStream("saves/" + nombrePartida + ".json"), "UTF-8"));
+                    new OutputStreamWriter(new FileOutputStream("saves/" + nombrePartida + ".save"), "UTF-8"));
             bw.write(jsonString);
             bw.flush();
             registros.escribirLog("Sistema guardado");
@@ -373,7 +382,7 @@ public class Simulador implements Serializable {
         try {
             reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             DataJson dataJson = gson.fromJson(reader, DataJson.class);
-            this.nombrePartida=dataJson.empresa;
+            this.nombrePartida = dataJson.empresa;
             Simulador.dias = dataJson.getDia();
             Simulador.monedas.setMonedas(dataJson.getMonedas());
             Estadisticas estadisticas = new Estadisticas(dataJson.getImplementados(), dataJson.getOrca());

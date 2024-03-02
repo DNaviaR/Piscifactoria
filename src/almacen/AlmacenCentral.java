@@ -1,8 +1,6 @@
 package almacen;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -11,10 +9,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.reflect.TypeToken;
-
-import piscifactoria.Piscifactoria;
-import piscifactoria.Tanque;
 
 /**
  * Clase que representa un almacén central.

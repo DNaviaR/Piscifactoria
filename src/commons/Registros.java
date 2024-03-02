@@ -1,7 +1,9 @@
 package commons;
 
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,8 +51,9 @@ public class Registros {
      */
     public void iniciar(String nombrePartida, String rutaTranscripcion, String rutaLog) {
         try {
-            transcripcion = new BufferedWriter(new FileWriter(rutaTranscripcion + nombrePartida + ".tr", true));
-            log = new BufferedWriter(new FileWriter(rutaLog + nombrePartida + ".log", true));
+            
+            transcripcion = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rutaTranscripcion + nombrePartida + ".tr", true), "UTF-8"));
+            log = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rutaLog + nombrePartida + ".log", true), "UTF-8"));
         } catch (Exception e) {
             Simulador.escribirError("Error en el inicio de los registros");
         }

@@ -157,11 +157,9 @@ public class DataJson {
             edificiosObject.add("almacen", context.serialize(dataJson.edificios, new TypeToken<AlmacenCentral>() {
             }.getType()));
             jsonObject.add("comida", edificiosObject);
-            JsonObject piscifactoriasObject = new JsonObject();
-            piscifactoriasObject.add("piscifactoria",
+            jsonObject.add("piscifactorias",
                     context.serialize(dataJson.piscifactorias, new TypeToken<List<Piscifactoria>>() {
                     }.getType()));
-            jsonObject.add("piscifactorias", piscifactoriasObject);
             return jsonObject;
         }
 
@@ -187,8 +185,7 @@ public class DataJson {
             String orca = jsonObject.getAsJsonPrimitive("orca").getAsString();
             AlmacenCentral almacen = context.deserialize(jsonObject.getAsJsonObject("comida").get("almacen"),
                     AlmacenCentral.class);
-            JsonArray piscifactoriasArray = jsonObject.getAsJsonObject("piscifactorias")
-                    .getAsJsonArray("piscifactoria");
+            JsonArray piscifactoriasArray = jsonObject.getAsJsonArray("piscifactorias");
             List<Piscifactoria> piscifactorias = new ArrayList<>();
             for (JsonElement element : piscifactoriasArray) {
                 Piscifactoria piscifactoria = context.deserialize(element, Piscifactoria.class);
