@@ -128,19 +128,16 @@ public class Rewards {
                     rarity = 4;
                     break;
             }
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Comida general " + nombre);
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("food").addAttribute("type", "general").addText(Integer.toString(foodType));
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Comida general " + nombre);
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("food").addAttribute("type", "general").addText(Integer.toString(foodType));
                 }
             }
             guardarDocumentoXML(document, "comida_" + numero);
@@ -195,19 +192,16 @@ public class Rewards {
                     rarity = 4;
                     break;
             }
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Monedas " + nombre);
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("coins").addText(Integer.toString(coins));
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Monedas " + nombre);
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("coins").addText(Integer.toString(coins));
                 }
             }
             guardarDocumentoXML(document, "monedas_" + numero);
@@ -229,22 +223,19 @@ public class Rewards {
             int codigo = 4;
             int rarity = 3;
             Element raiz = document.getRootElement();
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("building").addAttribute("code", Integer.toString(codigo))
-                                .addText("Almacén central");
-                        give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
-                        give.addElement("total").addText("ABCD");
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("building").addAttribute("code", Integer.toString(codigo))
+                            .addText("Almacén central");
+                    give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
+                    give.addElement("total").addText("ABCD");
                 }
             }
             guardarDocumentoXML(document, "almacen_" + Character.toLowerCase(letra));
@@ -266,22 +257,19 @@ public class Rewards {
             int codigo = 1;
             int rarity = 4;
             Element raiz = document.getRootElement();
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("building").addAttribute("code", Integer.toString(codigo))
-                                .addText("Piscifactoría de mar");
-                        give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
-                        give.addElement("total").addText("AB");
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("building").addAttribute("code", Integer.toString(codigo))
+                            .addText("Piscifactoría de mar");
+                    give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
+                    give.addElement("total").addText("AB");
                 }
             }
             guardarDocumentoXML(document, "pisci_m_" + Character.toLowerCase(letra));
@@ -303,22 +291,19 @@ public class Rewards {
             int codigo = 0;
             int rarity = 3;
             Element raiz = document.getRootElement();
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("building").addAttribute("code", Integer.toString(codigo))
-                                .addText("Piscifactoría de río");
-                        give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
-                        give.addElement("total").addText("AB");
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Almacén central [" + String.valueOf(Character.toUpperCase(letra)) + "]");
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("building").addAttribute("code", Integer.toString(codigo))
+                            .addText("Piscifactoría de río");
+                    give.addElement("part").addText(String.valueOf(Character.toUpperCase(letra)));
+                    give.addElement("total").addText("AB");
                 }
             }
             guardarDocumentoXML(document, "pisci_r_" + Character.toLowerCase(letra));
@@ -339,22 +324,19 @@ public class Rewards {
             int codigo = 3;
             int rarity = 3;
             Element raiz = document.getRootElement();
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Tanque de mar");
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("building").addAttribute("code", Integer.toString(codigo))
-                                .addText("Tanque de mar");
-                        give.addElement("part").addText("A");
-                        give.addElement("total").addText("A");
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Tanque de mar");
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("building").addAttribute("code", Integer.toString(codigo))
+                            .addText("Tanque de mar");
+                    give.addElement("part").addText("A");
+                    give.addElement("total").addText("A");
                 }
             }
             guardarDocumentoXML(document, "tanque_m");
@@ -375,29 +357,25 @@ public class Rewards {
             int codigo = 2;
             int rarity = 2;
             Element raiz = document.getRootElement();
-            for (Object obj : raiz.elements()) {
-                if (obj instanceof Element) {
-                    Element elemento = (Element) obj;
-                    if ("name".equals(elemento.getName())) {
-                        elemento.setText("Tanque de río");
-                    } else if ("desc".equals(elemento.getName())) {
-                        elemento.setText(descripcion);
-                    } else if ("rarity".equals(elemento.getName())) {
-                        elemento.setText(Integer.toString(rarity));
-                    } else if ("give".equals(elemento.getName())) {
-                        Element give = (Element) obj;
-                        give.addElement("building").addAttribute("code", Integer.toString(codigo))
-                                .addText("Tanque de río");
-                        give.addElement("part").addText("A");
-                        give.addElement("total").addText("A");
-                    }
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    elemento.setText("Tanque de río");
+                } else if ("desc".equals(elemento.getName())) {
+                    elemento.setText(descripcion);
+                } else if ("rarity".equals(elemento.getName())) {
+                    elemento.setText(Integer.toString(rarity));
+                } else if ("give".equals(elemento.getName())) {
+                    Element give = elemento;
+                    give.addElement("building").addAttribute("code", Integer.toString(codigo))
+                            .addText("Tanque de río");
+                    give.addElement("part").addText("A");
+                    give.addElement("total").addText("A");
                 }
             }
             guardarDocumentoXML(document, "tanque_r");
             Simulador.registros.escribirTranscripcion("Recompensa tanque_r creada");
         }
     }
-    
 
     /**
      * Guarda el XML
