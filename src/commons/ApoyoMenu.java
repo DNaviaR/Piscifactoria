@@ -1026,7 +1026,7 @@ public class ApoyoMenu {
                 }
                 break;
             case 3:
-                Rewards rwa=new Rewards();
+                Rewards rwa = new Rewards();
                 canjearRecompensas(rwa);
                 break;
             case 4:
@@ -1331,8 +1331,14 @@ public class ApoyoMenu {
                 if (i == 0) {
                     System.out.println("Accion cancelada");
                 } else {
-                    File file=archivos[i-1];
-                    rwa.canjearRecompensa(file);
+                    File file = archivos[i - 1];
+                    if (file.getName().startsWith("comida_")) {
+                        rwa.canjearComida(file);
+                    } else if (file.getName().startsWith("monedas")) {
+                        rwa.canjearMonedas(file);
+                    } else {
+                        rwa.canjearRecompensa(file);
+                    }
                 }
             } else {
                 System.out.println("No hay recompensas para canjear");

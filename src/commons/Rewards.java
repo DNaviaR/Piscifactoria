@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -61,7 +64,7 @@ public class Rewards {
             if (quantityElement != null) {
                 int cantidadActual = Integer.parseInt(quantityElement.getTextTrim());
                 quantityElement.setText(Integer.toString(cantidadActual + 1));
-                guardarDocumentoXML(document, REWARDS_DIRECTORY+nombreArchivo+".xml");
+                guardarDocumentoXML(document, REWARDS_DIRECTORY + nombreArchivo + ".xml");
             } else {
                 Simulador.escribirError("Error al modificar la etiqueta quantity del archivo rewards");
             }
@@ -150,7 +153,7 @@ public class Rewards {
                     give.addElement("food").addAttribute("type", "general").addText(Integer.toString(foodType));
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"comida_" + numero+".xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "comida_" + numero + ".xml");
             Simulador.registros.escribirTranscripcion("Recompensa comida_" + nombre + " creada");
         }
     }
@@ -214,7 +217,7 @@ public class Rewards {
                     give.addElement("coins").addText(Integer.toString(coins));
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"monedas_" + numero+".xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "monedas_" + numero + ".xml");
             Simulador.registros.escribirTranscripcion("Recompensa monedas_" + nombre + " creada");
         }
     }
@@ -248,7 +251,7 @@ public class Rewards {
                     give.addElement("total").addText("ABCD");
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"almacen_" + Character.toLowerCase(letra)+".xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "almacen_" + Character.toLowerCase(letra) + ".xml");
             Simulador.registros.escribirTranscripcion("Recompensa almacen_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -282,7 +285,7 @@ public class Rewards {
                     give.addElement("total").addText("AB");
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"pisci_m_" + Character.toLowerCase(letra)+".xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "pisci_m_" + Character.toLowerCase(letra) + ".xml");
             Simulador.registros.escribirTranscripcion("Recompensa pisci_m_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -316,7 +319,7 @@ public class Rewards {
                     give.addElement("total").addText("AB");
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"pisci_r_" + Character.toLowerCase(letra)+".xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "pisci_r_" + Character.toLowerCase(letra) + ".xml");
             Simulador.registros.escribirTranscripcion("Recompensa pisci_r_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -349,7 +352,7 @@ public class Rewards {
                     give.addElement("total").addText("A");
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"tanque_m.xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "tanque_m.xml");
             Simulador.registros.escribirTranscripcion("Recompensa tanque_m creada");
         }
     }
@@ -382,7 +385,7 @@ public class Rewards {
                     give.addElement("total").addText("A");
                 }
             }
-            guardarDocumentoXML(document, REWARDS_DIRECTORY+"tanque_r.xml");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY + "tanque_r.xml");
             Simulador.registros.escribirTranscripcion("Recompensa tanque_r creada");
         }
     }
@@ -438,6 +441,7 @@ public class Rewards {
         }
         return nombre;
     }
+
     /**
      * Busca el contenido de la etiqueta "quantity"
      * 
@@ -452,10 +456,10 @@ public class Rewards {
             Element raiz = document.getRootElement();
             for (Element elemento : raiz.elements()) {
                 if ("quantity".equals(elemento.getName())) {
-                    quantity = Integer.parseInt(elemento.getText())-1;
-                    if (quantity==0) {
+                    quantity = Integer.parseInt(elemento.getText()) - 1;
+                    if (quantity == 0) {
                         archivo.delete();
-                    }else{
+                    } else {
                         elemento.setText(Integer.toString(quantity));
                         guardarDocumentoXML(document, archivo.getPath());
                     }
@@ -471,7 +475,7 @@ public class Rewards {
      * 
      * @param archivo archivo a canjear
      */
-    private void canjearComida(File archivo) {
+    void canjearComida(File archivo) {
         SAXReader reader = null;
         try {
             reader = new SAXReader();
@@ -488,6 +492,7 @@ public class Rewards {
                         ApoyoMenu.repartirEquitativamente(Simulador.piscifactorias);
                     }
                     reducirQuantity(archivo);
+                    System.out.println("Comida canjeada. Añadiendo "+cantidad+" de comida");
                     Simulador.registros.escribirTranscripcion("Recompensa " + archivo.getName() + " usada");
                     Simulador.registros.escribirLog("Recompensa " + archivo.getName() + " usada");
                 }
@@ -502,7 +507,7 @@ public class Rewards {
      * 
      * @param archivo archivo a canjear
      */
-    private void canjearMonedas(File archivo) {
+    void canjearMonedas(File archivo) {
         SAXReader reader = null;
         try {
             reader = new SAXReader();
@@ -514,6 +519,7 @@ public class Rewards {
                 if (coins != null) {
                     int cantidad = Integer.parseInt(coins.getText());
                     Simulador.monedas.ingresar(cantidad);
+                    System.out.println("Monedas canjeadas. Añadiendo "+cantidad+" monedas");
                     Simulador.registros.escribirTranscripcion("Recompensa " + archivo.getName() + " usada");
                     Simulador.registros.escribirLog("Recompensa " + archivo.getName() + " usada");
                 }
@@ -527,38 +533,133 @@ public class Rewards {
      * Canjea una recompensa de Almacen central
      */
     private void canjearAlmacen() {
-
+        Set<Character> partesTotales = new TreeSet<>(Arrays.asList('A', 'B', 'C', 'D'));
+        Set<Character> partesDiponibles = new TreeSet<>();
+        ArrayList<String> archivosAlmacen = new ArrayList<>();
+        File rewards = new File("rewards");
+        if (rewards.exists() && rewards.isDirectory()) {
+            File[] archivos = rewards.listFiles();
+            if (archivos != null && archivos.length > 0) {
+                for (File archivo : archivos) {
+                    if (archivo.getName().startsWith("almacen_")) {
+                        String cadena = buscarNombre(archivo);
+                        archivosAlmacen.add(archivo.getName());
+                        char caracter = cadena.charAt(cadena.indexOf("[") + 1);
+                        partesDiponibles.add(caracter);
+                    }
+                }
+            }
+        }
+        if (partesDiponibles.equals(partesTotales)) {
+            Simulador.almacenCentral.setActivo(true);
+            System.out.println("Almacen central canjeado");
+            Simulador.registros.escribirLog("Recompensa Almacen central usada");
+            Simulador.registros.escribirTranscripcion("Recompensa Almacen central usada");
+            for (String string : archivosAlmacen) {
+                reducirQuantity(new File(string));
+            }
+        } else {
+            System.out.println("No tienes todas las partes para canjear el almacen");
+            System.out.println("Partes disponibles: " + partesDiponibles);
+            System.out.println("Partes necesarias: " + partesTotales);
+        }
     }
 
     /**
      * Canjea una recompensa de Piscifactoria mar
      */
     private void canjearPisciM() {
-
+        Scanner sc=new Scanner(System.in);
+        Set<Character> partesTotales = new TreeSet<>(Arrays.asList('A', 'B'));
+        Set<Character> partesDiponibles = new TreeSet<>();
+        ArrayList<String> archivosPiscifactoriaM = new ArrayList<>();
+        File rewards = new File("rewards");
+        if (rewards.exists() && rewards.isDirectory()) {
+            File[] archivos = rewards.listFiles();
+            if (archivos != null && archivos.length > 0) {
+                for (File archivo : archivos) {
+                    if (archivo.getName().startsWith("pisci_m_")) {
+                        String cadena = buscarNombre(archivo);
+                        archivosPiscifactoriaM.add(REWARDS_DIRECTORY+archivo.getName());
+                        char caracter = cadena.charAt(cadena.indexOf("[") + 1);
+                        partesDiponibles.add(caracter);
+                    }
+                }
+            }
+        }
+        if (partesDiponibles.equals(partesTotales)) {
+            System.out.println("Indique el nombre de la nueva piscifactoria: ");
+            String nombreNuevaPiscifactoria = sc.nextLine();
+            Simulador.piscifactorias.add(new PiscifactoriaMar(nombreNuevaPiscifactoria));
+            System.out.println("Piscifactoria de mar canjeada");
+            System.out.println("Añadida nueva piscifactoria de mar " + nombreNuevaPiscifactoria);
+            Simulador.registros.escribirLog("Recompensa Piscifactoria de mar usada");
+            Simulador.registros.escribirTranscripcion("Recompensa Piscifactoria de mar usada");
+            for (String string : archivosPiscifactoriaM) {
+                reducirQuantity(new File(string));
+            }
+        } else {
+            System.out.println("No tienes todas las partes para canjear la piscifactoria de mar");
+            System.out.println("Partes disponibles: " + partesDiponibles);
+            System.out.println("Partes necesarias: " + partesTotales);
+        }
     }
 
     /**
      * Canjea una recompensa de Piscifactoria río
      */
     private void canjearPisciR() {
-
+        Scanner sc=new Scanner(System.in);
+        Set<Character> partesTotales = new TreeSet<>(Arrays.asList('A', 'B'));
+        Set<Character> partesDiponibles = new TreeSet<>();
+        ArrayList<String> archivosPiscifactoriaM = new ArrayList<>();
+        File rewards = new File("rewards");
+        if (rewards.exists() && rewards.isDirectory()) {
+            File[] archivos = rewards.listFiles();
+            if (archivos != null && archivos.length > 0) {
+                for (File archivo : archivos) {
+                    if (archivo.getName().startsWith("pisci_r_")) {
+                        String cadena = buscarNombre(archivo);
+                        archivosPiscifactoriaM.add(REWARDS_DIRECTORY+archivo.getName());
+                        char caracter = cadena.charAt(cadena.indexOf("[") + 1);
+                        partesDiponibles.add(caracter);
+                    }
+                }
+            }
+        }
+        if (partesDiponibles.equals(partesTotales)) {
+            System.out.println("Indique el nombre de la nueva piscifactoria: ");
+            String nombreNuevaPiscifactoria = sc.nextLine();
+            Simulador.piscifactorias.add(new PiscifactoriaRio(nombreNuevaPiscifactoria));
+            System.out.println("Piscifactoria de rio canjeada");
+            System.out.println("Añadida nueva piscifactoria de rio " + nombreNuevaPiscifactoria);
+            Simulador.registros.escribirLog("Recompensa Piscifactoria de rio usada");
+            Simulador.registros.escribirTranscripcion("Recompensa Piscifactoria de rio usada");
+            for (String string : archivosPiscifactoriaM) {
+                reducirQuantity(new File(string));
+            }
+        } else {
+            System.out.println("No tienes todas las partes para canjear la piscifactoria de rio");
+            System.out.println("Partes disponibles: " + partesDiponibles);
+            System.out.println("Partes necesarias: " + partesTotales);
+        }
     }
 
     /**
      * Canjea una recompensa de Tanque mar
      */
     private void canjearTanqueM(String archivo) {
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         ArrayList<Piscifactoria> piscis_m = new ArrayList<>();
         for (Piscifactoria piscifactoria : Simulador.piscifactorias) {
             if (piscifactoria instanceof PiscifactoriaMar) {
                 piscis_m.add(piscifactoria);
             }
         }
-        int i=1;
+        int i = 1;
         System.out.println("0: Cancelar");
         for (Piscifactoria piscifactoria : piscis_m) {
-            System.out.println(i+": "+piscifactoria.getNombrePiscifactoria());
+            System.out.println(i + ": " + piscifactoria.getNombrePiscifactoria());
             i++;
         }
         String snum1;
@@ -570,9 +671,10 @@ public class Rewards {
         if (i == 0) {
             System.out.println("Accion cancelada");
         } else {
-            piscis_m.get(i-1).getTanques().add(new TanqueRio<>(piscis_m.get(i-1).getTanques().size() + 1));
+            piscis_m.get(i - 1).getTanques().add(new TanqueRio<>(piscis_m.get(i - 1).getTanques().size() + 1));
             reducirQuantity(new File(archivo));
-            System.out.println("Tanque mar canjeado y añadido a piscifactoria "+piscis_m.get(i-1).getNombrePiscifactoria());
+            System.out.println(
+                    "Tanque mar canjeado y añadido a piscifactoria " + piscis_m.get(i - 1).getNombrePiscifactoria());
             Simulador.registros.escribirLog("Recompensa Tanque mar usada");
             Simulador.registros.escribirTranscripcion("Recompensa Tanque mar usada");
         }
@@ -582,17 +684,17 @@ public class Rewards {
      * Canjea una recompensa de Tanque río
      */
     private void canjearTanqueR(String archivo) {
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         ArrayList<Piscifactoria> piscis_r = new ArrayList<>();
         for (Piscifactoria piscifactoria : Simulador.piscifactorias) {
             if (piscifactoria instanceof PiscifactoriaRio) {
                 piscis_r.add(piscifactoria);
             }
         }
-        int i=1;
+        int i = 1;
         System.out.println("0: Cancelar");
         for (Piscifactoria piscifactoria : piscis_r) {
-            System.out.println(i+": "+piscifactoria.getNombrePiscifactoria());
+            System.out.println(i + ": " + piscifactoria.getNombrePiscifactoria());
             i++;
         }
         String snum1;
@@ -604,9 +706,10 @@ public class Rewards {
         if (i == 0) {
             System.out.println("Accion cancelada");
         } else {
-            piscis_r.get(i-1).getTanques().add(new TanqueRio<>(piscis_r.get(i-1).getTanques().size() + 1));
+            piscis_r.get(i - 1).getTanques().add(new TanqueRio<>(piscis_r.get(i - 1).getTanques().size() + 1));
             reducirQuantity(new File(archivo));
-            System.out.println("Tanque río canjeado y añadido a piscifactoria "+piscis_r.get(i-1).getNombrePiscifactoria());
+            System.out.println(
+                    "Tanque río canjeado y añadido a piscifactoria " + piscis_r.get(i - 1).getNombrePiscifactoria());
             Simulador.registros.escribirLog("Recompensa Tanque rio usada");
             Simulador.registros.escribirTranscripcion("Recompensa Tanque rio usada");
         }
@@ -621,15 +724,19 @@ public class Rewards {
     void canjearRecompensa(File file) {
         String nombre = file.getName();
         if (nombre.startsWith("almacen_")) {
-            // canjearAlmacen();
+            if (Simulador.almacenCentral.isActivo()) {
+                System.out.println("El almacen central ya esta activo");
+            } else {
+                canjearAlmacen();
+            }
         } else if (nombre.startsWith("pisci_m_")) {
-            // canjearPisciM();
+            canjearPisciM();
         } else if (nombre.startsWith("pisci_r_")) {
-            // canjearPisciR();
+            canjearPisciR();
         } else if (nombre.startsWith("tanque_m")) {
-            canjearTanqueM(REWARDS_DIRECTORY+"tanque_m.xml");
+            canjearTanqueM(REWARDS_DIRECTORY + "tanque_m.xml");
         } else if (nombre.startsWith("tanque_r")) {
-            canjearTanqueR(REWARDS_DIRECTORY+"tanque_r.xml");
+            canjearTanqueR(REWARDS_DIRECTORY + "tanque_r.xml");
         } else {
             System.out.println("Ese archivo no puede ser canjeado");
         }

@@ -208,11 +208,16 @@ public class Simulador implements Serializable {
             case 15:
                 rewards.generarMonedas(5);
                 rewards.generarAlmacen('b');
+                rewards.generarAlmacen('c');
+                rewards.generarAlmacen('d');
                 rewards.generarComida(2);
                 rewards.generarPiscifactoriaMar('a');
+                rewards.generarPiscifactoriaMar('b');
+                rewards.generarPiscifactoriaRio('a');
                 rewards.generarPiscifactoriaRio('b');
                 rewards.generarTanqueMar();
                 rewards.generarTanqueRio();
+                rewards.generarAlmacen('a');
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);

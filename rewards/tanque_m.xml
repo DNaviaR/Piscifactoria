@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<reward>
-  <name>Tanque de mar</name>
-  <origin>Diego</origin>
-  <desc>Materiales para la construcción, de forma gratuita, de un tanque de una piscifactoría de mar.</desc>
-  <rarity>3</rarity>
-  <give>
-    <building code="3">Tanque de mar</building>
-    <part>A</part>
-    <total>A</total>
-  </give>
-  <quantity>7</quantity>
+<reward> 
+  <name>Tanque de mar</name>  
+  <origin>Diego</origin>  
+  <desc>Materiales para la construcción, de forma gratuita, de un tanque de una piscifactoría de mar.</desc>  
+  <rarity>3</rarity>  
+  <give> 
+    <building code="3">Tanque de mar</building>  
+    <part>A</part>  
+    <total>A</total> 
+  </give>  
+  <quantity>10</quantity> 
 </reward>
