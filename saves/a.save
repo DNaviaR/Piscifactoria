@@ -26,9 +26,9 @@
     "Trucha arcoíris"
   ],
   "empresa": "a",
-  "dia": 0,
+  "dia": 2,
   "monedas": 100,
-  "orca": "0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0",
+  "orca": "0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,5,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0",
   "comida": {
     "almacen": {
       "disponible": false,
@@ -44,12 +44,127 @@
       "tipo": 0,
       "capacidad": 25,
       "comida": {
-        "general": 25
+        "general": 24
       },
       "tanques": [
         {
-          "pez": "",
+          "pez": "Tilapia del Nilo",
           "num": 1,
+          "datos": {
+            "vivos": 6,
+            "maduros": 4,
+            "fertiles": 4
+          },
+          "peces": [
+            {
+              "edad": 1,
+              "sexo": false,
+              "vivo": true,
+              "maduro": true,
+              "fertil": true,
+              "ciclo": 0,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": true,
+              "vivo": true,
+              "maduro": true,
+              "fertil": true,
+              "ciclo": 2,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": true,
+              "vivo": true,
+              "maduro": true,
+              "fertil": true,
+              "ciclo": 2,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": false,
+              "vivo": true,
+              "maduro": true,
+              "fertil": true,
+              "ciclo": 0,
+              "alimentado": false
+            },
+            {
+              "edad": 0,
+              "sexo": true,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": 0,
+              "alimentado": false
+            },
+            {
+              "edad": 0,
+              "sexo": false,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": 0,
+              "alimentado": false
+            }
+          ]
+        },
+        {
+          "pez": "",
+          "num": 2,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": []
+        },
+        {
+          "pez": "",
+          "num": 3,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": []
+        },
+        {
+          "pez": "",
+          "num": 4,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": []
+        },
+        {
+          "pez": "",
+          "num": 5,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": []
+        },
+        {
+          "pez": "",
+          "num": 6,
+          "datos": {
+            "vivos": 0,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": []
+        },
+        {
+          "pez": "",
+          "num": 7,
           "datos": {
             "vivos": 0,
             "maduros": 0,

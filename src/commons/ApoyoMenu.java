@@ -977,7 +977,7 @@ public class ApoyoMenu {
      */
     public static void upgrade(List<Piscifactoria> piscifactorias) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1.-Comprar edificios\n2.-Mejorar edificios\n3.-Cancelar");
+        System.out.println("1.-Comprar edificios\n2.-Mejorar edificios\n3.-Canjear recompensas\n4.-Cancelar");
         System.out.println("Seleccione una opción: ");
         int opcion = sc.nextInt();
         switch (opcion) {
@@ -1026,6 +1026,10 @@ public class ApoyoMenu {
                 }
                 break;
             case 3:
+                Rewards rwa=new Rewards();
+                canjearRecompensas(rwa);
+                break;
+            case 4:
                 System.out.println("Cancelando...");
                 break;
             default:
@@ -1303,43 +1307,38 @@ public class ApoyoMenu {
         }
     }
 
-    public static void canjearRecompensas() {
+    public static void canjearRecompensas(Rewards rwa) {
         Scanner sc = new Scanner(System.in);
-        SAXReader reader = null;
-        try {
-            reader = new SAXReader();
-            File rewards = new File("rewards");
-            if (rewards.exists() && rewards.isDirectory()) {
-                File[] archivos = rewards.listFiles();
-                if (archivos != null && archivos.length > 0) {
-                    int i = 1;
-                    System.out.println("Recompensas");
-                    System.out.println("---------------");
-                    for (File archivo : archivos) {
-                        String nombre = "";
-                        Document document = reader.read(archivo);
-                        Element raiz = document.getRootElement();
-                        for (Element elemento : raiz.elements()) {
-                            if ("name".equals(elemento.getName())) {
-                                nombre=elemento.getText();
-                            }
-                        }
-                        System.out.println(i + ": " + nombre);
-                        i++;
-                    }
-                    String snum1;
-                    do {
-                        System.out.println("Seleccione una opcion");
-                        snum1 = sc.nextLine();
-                    } while (!ApoyoMenu.IsInteger(snum1));
-                    i = Integer.parseInt(snum1);
-                    // archivos[i - 1];
+        File rewards = new File("rewards");
+        if (rewards.exists() && rewards.isDirectory()) {
+            File[] archivos = rewards.listFiles();
+            if (archivos != null && archivos.length > 0) {
+                int i = 1;
+                System.out.println("Recompensas");
+                System.out.println("---------------");
+                System.out.println("0: Cancelar");
+                for (File archivo : archivos) {
+                    String nombre = rwa.buscarNombre(archivo);
+                    System.out.println(i + ": " + nombre);
+                    i++;
+                }
+                String snum1;
+                do {
+                    System.out.println("Seleccione una opcion");
+                    snum1 = sc.nextLine();
+                } while (!ApoyoMenu.IsInteger(snum1));
+                i = Integer.parseInt(snum1);
+                if (i == 0) {
+                    System.out.println("Accion cancelada");
                 } else {
+                    File file=archivos[i-1];
+                    rwa.canjearRecompensa(file);
                 }
             } else {
+                System.out.println("No hay recompensas para canjear");
             }
-        } catch (Exception e) {
-            Simulador.escribirError("Error en el proceso principal");
+        } else {
+            System.out.println("No hay recompensas para canjear");
         }
     }
 }

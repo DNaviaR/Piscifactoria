@@ -61,7 +61,7 @@ public class Simulador implements Serializable {
     /**
      * Lista de piscifactorías que forman parte del simulador.
      */
-    protected ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
+    public static ArrayList<Piscifactoria> piscifactorias = new ArrayList<>();
     /**
      * Monedas utilizadas en el simulador.
      */
@@ -106,7 +106,7 @@ public class Simulador implements Serializable {
         piscifactorias.get(0).getAlmacen().setEspacioOcupado(piscifactorias.get(0).getAlmacen().getEspacioMaximo());
         monedas.setMonedas(100);
         registrosIniciales(nombrePartida, primeraPiscifactoria);
-        rewards=new Rewards();
+        rewards = new Rewards();
     }
 
     /**
@@ -130,7 +130,6 @@ public class Simulador implements Serializable {
                             "12. Mejorar\n" +
                             "13. Pasar varios días\n" +
                             "14. Salir\n" +
-                            "15. Canjear Recompensas\n" +
                             "Dia:" + dias + "\t" +
                             "Monedas: " + monedas);
             String snum1;
@@ -207,7 +206,13 @@ public class Simulador implements Serializable {
                 Simulador.registros.cerrarRegistros();
                 break;
             case 15:
-                ApoyoMenu.canjearRecompensas();
+                rewards.generarMonedas(5);
+                rewards.generarAlmacen('b');
+                rewards.generarComida(2);
+                rewards.generarPiscifactoriaMar('a');
+                rewards.generarPiscifactoriaRio('b');
+                rewards.generarTanqueMar();
+                rewards.generarTanqueRio();
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
@@ -254,7 +259,7 @@ public class Simulador implements Serializable {
                         crearPartida();
                     } else {
                         this.load(archivos[i - 1]);
-                        rewards=new Rewards();
+                        rewards = new Rewards();
                     }
                 } else {
                     crearPartida();

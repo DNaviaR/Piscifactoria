@@ -5,7 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -13,6 +16,11 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+
+import piscifactoria.Piscifactoria;
+import piscifactoria.PiscifactoriaMar;
+import piscifactoria.PiscifactoriaRio;
+import piscifactoria.TanqueRio;
 
 /**
  * Clase que gestiona las recompensas
@@ -53,7 +61,7 @@ public class Rewards {
             if (quantityElement != null) {
                 int cantidadActual = Integer.parseInt(quantityElement.getTextTrim());
                 quantityElement.setText(Integer.toString(cantidadActual + 1));
-                guardarDocumentoXML(document, nombreArchivo);
+                guardarDocumentoXML(document, REWARDS_DIRECTORY+nombreArchivo+".xml");
             } else {
                 Simulador.escribirError("Error al modificar la etiqueta quantity del archivo rewards");
             }
@@ -142,7 +150,7 @@ public class Rewards {
                     give.addElement("food").addAttribute("type", "general").addText(Integer.toString(foodType));
                 }
             }
-            guardarDocumentoXML(document, "comida_" + numero);
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"comida_" + numero+".xml");
             Simulador.registros.escribirTranscripcion("Recompensa comida_" + nombre + " creada");
         }
     }
@@ -206,7 +214,7 @@ public class Rewards {
                     give.addElement("coins").addText(Integer.toString(coins));
                 }
             }
-            guardarDocumentoXML(document, "monedas_" + numero);
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"monedas_" + numero+".xml");
             Simulador.registros.escribirTranscripcion("Recompensa monedas_" + nombre + " creada");
         }
     }
@@ -240,7 +248,7 @@ public class Rewards {
                     give.addElement("total").addText("ABCD");
                 }
             }
-            guardarDocumentoXML(document, "almacen_" + Character.toLowerCase(letra));
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"almacen_" + Character.toLowerCase(letra)+".xml");
             Simulador.registros.escribirTranscripcion("Recompensa almacen_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -274,7 +282,7 @@ public class Rewards {
                     give.addElement("total").addText("AB");
                 }
             }
-            guardarDocumentoXML(document, "pisci_m_" + Character.toLowerCase(letra));
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"pisci_m_" + Character.toLowerCase(letra)+".xml");
             Simulador.registros.escribirTranscripcion("Recompensa pisci_m_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -308,7 +316,7 @@ public class Rewards {
                     give.addElement("total").addText("AB");
                 }
             }
-            guardarDocumentoXML(document, "pisci_r_" + Character.toLowerCase(letra));
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"pisci_r_" + Character.toLowerCase(letra)+".xml");
             Simulador.registros.escribirTranscripcion("Recompensa pisci_r_" + Character.toLowerCase(letra) + " creada");
         }
     }
@@ -341,7 +349,7 @@ public class Rewards {
                     give.addElement("total").addText("A");
                 }
             }
-            guardarDocumentoXML(document, "tanque_m");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"tanque_m.xml");
             Simulador.registros.escribirTranscripcion("Recompensa tanque_m creada");
         }
     }
@@ -374,7 +382,7 @@ public class Rewards {
                     give.addElement("total").addText("A");
                 }
             }
-            guardarDocumentoXML(document, "tanque_r");
+            guardarDocumentoXML(document, REWARDS_DIRECTORY+"tanque_r.xml");
             Simulador.registros.escribirTranscripcion("Recompensa tanque_r creada");
         }
     }
@@ -389,7 +397,7 @@ public class Rewards {
         XMLWriter writer = null;
         try {
             writer = new XMLWriter(
-                    new OutputStreamWriter(new FileOutputStream(REWARDS_DIRECTORY + nombreArchivo + ".xml"), "UTF-8"),
+                    new OutputStreamWriter(new FileOutputStream(nombreArchivo), "UTF-8"),
                     OutputFormat.createPrettyPrint());
             writer.write(document);
             writer.flush();
@@ -404,6 +412,226 @@ public class Rewards {
             } catch (Exception e) {
                 Simulador.escribirError("Error al cerrar el XMLWriter");
             }
+        }
+    }
+
+    /**
+     * Busca el contenido de la etiqueta "name"
+     * 
+     * @param archivo El XML en el que buscar
+     * @return El contenido de la etiqueta "name"
+     */
+    String buscarNombre(File archivo) {
+        SAXReader reader = null;
+        String nombre = "";
+        try {
+            reader = new SAXReader();
+            Document document = reader.read(archivo);
+            Element raiz = document.getRootElement();
+            for (Element elemento : raiz.elements()) {
+                if ("name".equals(elemento.getName())) {
+                    nombre = elemento.getText();
+                }
+            }
+        } catch (Exception e) {
+            Simulador.escribirError("Error al buscar el nombre del archivo XML");
+        }
+        return nombre;
+    }
+    /**
+     * Busca el contenido de la etiqueta "quantity"
+     * 
+     * @param archivo El XML en el que buscar
+     */
+    void reducirQuantity(File archivo) {
+        SAXReader reader = null;
+        int quantity = 0;
+        try {
+            reader = new SAXReader();
+            Document document = reader.read(archivo);
+            Element raiz = document.getRootElement();
+            for (Element elemento : raiz.elements()) {
+                if ("quantity".equals(elemento.getName())) {
+                    quantity = Integer.parseInt(elemento.getText())-1;
+                    if (quantity==0) {
+                        archivo.delete();
+                    }else{
+                        elemento.setText(Integer.toString(quantity));
+                        guardarDocumentoXML(document, archivo.getPath());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Simulador.escribirError("Error al buscar el nombre del archivo XML");
+        }
+    }
+
+    /**
+     * Canjea una recompensa de comida
+     * 
+     * @param archivo archivo a canjear
+     */
+    private void canjearComida(File archivo) {
+        SAXReader reader = null;
+        try {
+            reader = new SAXReader();
+            Document document = reader.read(archivo);
+            Element raiz = document.getRootElement();
+            Element giveElement = raiz.element("give");
+            if (giveElement != null) {
+                Element food = giveElement.element("food");
+                if (food != null) {
+                    int cantidad = Integer.parseInt(food.getText());
+                    if (Simulador.almacenCentral.isActivo()) {
+                        Simulador.almacenCentral.masComida(cantidad);
+                    } else {
+                        ApoyoMenu.repartirEquitativamente(Simulador.piscifactorias);
+                    }
+                    reducirQuantity(archivo);
+                    Simulador.registros.escribirTranscripcion("Recompensa " + archivo.getName() + " usada");
+                    Simulador.registros.escribirLog("Recompensa " + archivo.getName() + " usada");
+                }
+            }
+        } catch (Exception e) {
+            Simulador.escribirError("Error al canjear comida");
+        }
+    }
+
+    /**
+     * Canjea una recompensa de monedas
+     * 
+     * @param archivo archivo a canjear
+     */
+    private void canjearMonedas(File archivo) {
+        SAXReader reader = null;
+        try {
+            reader = new SAXReader();
+            Document document = reader.read(archivo);
+            Element raiz = document.getRootElement();
+            Element giveElement = raiz.element("give");
+            if (giveElement != null) {
+                Element coins = giveElement.element("coins");
+                if (coins != null) {
+                    int cantidad = Integer.parseInt(coins.getText());
+                    Simulador.monedas.ingresar(cantidad);
+                    Simulador.registros.escribirTranscripcion("Recompensa " + archivo.getName() + " usada");
+                    Simulador.registros.escribirLog("Recompensa " + archivo.getName() + " usada");
+                }
+            }
+        } catch (Exception e) {
+            Simulador.escribirError("Error al canjear monedas");
+        }
+    }
+
+    /**
+     * Canjea una recompensa de Almacen central
+     */
+    private void canjearAlmacen() {
+
+    }
+
+    /**
+     * Canjea una recompensa de Piscifactoria mar
+     */
+    private void canjearPisciM() {
+
+    }
+
+    /**
+     * Canjea una recompensa de Piscifactoria río
+     */
+    private void canjearPisciR() {
+
+    }
+
+    /**
+     * Canjea una recompensa de Tanque mar
+     */
+    private void canjearTanqueM(String archivo) {
+        Scanner sc=new Scanner(System.in);
+        ArrayList<Piscifactoria> piscis_m = new ArrayList<>();
+        for (Piscifactoria piscifactoria : Simulador.piscifactorias) {
+            if (piscifactoria instanceof PiscifactoriaMar) {
+                piscis_m.add(piscifactoria);
+            }
+        }
+        int i=1;
+        System.out.println("0: Cancelar");
+        for (Piscifactoria piscifactoria : piscis_m) {
+            System.out.println(i+": "+piscifactoria.getNombrePiscifactoria());
+            i++;
+        }
+        String snum1;
+        do {
+            System.out.println("Seleccione una opcion");
+            snum1 = sc.nextLine();
+        } while (!ApoyoMenu.IsInteger(snum1));
+        i = Integer.parseInt(snum1);
+        if (i == 0) {
+            System.out.println("Accion cancelada");
+        } else {
+            piscis_m.get(i-1).getTanques().add(new TanqueRio<>(piscis_m.get(i-1).getTanques().size() + 1));
+            reducirQuantity(new File(archivo));
+            System.out.println("Tanque mar canjeado y añadido a piscifactoria "+piscis_m.get(i-1).getNombrePiscifactoria());
+            Simulador.registros.escribirLog("Recompensa Tanque mar usada");
+            Simulador.registros.escribirTranscripcion("Recompensa Tanque mar usada");
+        }
+    }
+
+    /**
+     * Canjea una recompensa de Tanque río
+     */
+    private void canjearTanqueR(String archivo) {
+        Scanner sc=new Scanner(System.in);
+        ArrayList<Piscifactoria> piscis_r = new ArrayList<>();
+        for (Piscifactoria piscifactoria : Simulador.piscifactorias) {
+            if (piscifactoria instanceof PiscifactoriaRio) {
+                piscis_r.add(piscifactoria);
+            }
+        }
+        int i=1;
+        System.out.println("0: Cancelar");
+        for (Piscifactoria piscifactoria : piscis_r) {
+            System.out.println(i+": "+piscifactoria.getNombrePiscifactoria());
+            i++;
+        }
+        String snum1;
+        do {
+            System.out.println("Seleccione una opcion");
+            snum1 = sc.nextLine();
+        } while (!ApoyoMenu.IsInteger(snum1));
+        i = Integer.parseInt(snum1);
+        if (i == 0) {
+            System.out.println("Accion cancelada");
+        } else {
+            piscis_r.get(i-1).getTanques().add(new TanqueRio<>(piscis_r.get(i-1).getTanques().size() + 1));
+            reducirQuantity(new File(archivo));
+            System.out.println("Tanque río canjeado y añadido a piscifactoria "+piscis_r.get(i-1).getNombrePiscifactoria());
+            Simulador.registros.escribirLog("Recompensa Tanque rio usada");
+            Simulador.registros.escribirTranscripcion("Recompensa Tanque rio usada");
+        }
+    }
+
+    /**
+     * Obtiene el tipo de recompensa que se quiere canjear
+     * y se llama a su método correspondiente
+     * 
+     * @param file La recompensa a canjear
+     */
+    void canjearRecompensa(File file) {
+        String nombre = file.getName();
+        if (nombre.startsWith("almacen_")) {
+            // canjearAlmacen();
+        } else if (nombre.startsWith("pisci_m_")) {
+            // canjearPisciM();
+        } else if (nombre.startsWith("pisci_r_")) {
+            // canjearPisciR();
+        } else if (nombre.startsWith("tanque_m")) {
+            canjearTanqueM(REWARDS_DIRECTORY+"tanque_m.xml");
+        } else if (nombre.startsWith("tanque_r")) {
+            canjearTanqueR(REWARDS_DIRECTORY+"tanque_r.xml");
+        } else {
+            System.out.println("Ese archivo no puede ser canjeado");
         }
     }
 }
