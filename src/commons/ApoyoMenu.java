@@ -5,12 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
 import pez.Pez;
 import pez.PezMar;
 import pez.PezRio;
@@ -1307,6 +1301,10 @@ public class ApoyoMenu {
         }
     }
 
+    /**
+     * Permite canjear una recompensa de la lista de recompensas disponibles
+     * @param rwa El objeto rewards
+     */
     public static void canjearRecompensas(Rewards rwa) {
         Scanner sc = new Scanner(System.in);
         File rewards = new File("rewards");

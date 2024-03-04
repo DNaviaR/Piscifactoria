@@ -4,22 +4,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaMar;
 import piscifactoria.PiscifactoriaRio;
@@ -406,7 +401,7 @@ public class Rewards {
             writer.flush();
             Simulador.registros.escribirLog("Recompensa creada");
         } catch (IOException e) {
-            e.printStackTrace();
+            Simulador.escribirError("Error al guardar el XML");
         } finally {
             try {
                 if (writer != null) {
