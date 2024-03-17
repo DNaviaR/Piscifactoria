@@ -2,13 +2,9 @@ package piscifactoria;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.*;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-
 import almacen.Almacen;
 import pez.Pez;
 
