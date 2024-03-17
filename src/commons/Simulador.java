@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import almacen.AlmacenCentral;
+import bd.Conexion;
+import bd.DAOPedidos;
+import bd.GeneradorBD;
 import estadisticas.Estadisticas;
 import piscifactoria.Piscifactoria;
 import piscifactoria.PiscifactoriaRio;
@@ -78,7 +81,14 @@ public class Simulador implements Serializable {
      * Nombre de la partida
      */
     private String nombrePartida;
-    private transient Rewards rewards;
+    /**
+     * Clase que gestiona las rewards
+     */
+    public static Rewards rewards;
+    /**
+     * Clase que gestiona los pedidos
+     */
+    private transient DAOPedidos daoPedidos = new DAOPedidos();
 
     /**
      * Inicializa los elementos del sistema
@@ -102,6 +112,7 @@ public class Simulador implements Serializable {
             rewardsFile.mkdir();
         }
         registros.iniciar(nombrePartida, "transcripciones/", "logs/");
+        GeneradorBD generadorBD = new GeneradorBD();
         piscifactorias.add(new PiscifactoriaRio(primeraPiscifactoria));
         piscifactorias.get(0).getAlmacen().setEspacioOcupado(piscifactorias.get(0).getAlmacen().getEspacioMaximo());
         monedas.setMonedas(100);
@@ -129,7 +140,9 @@ public class Simulador implements Serializable {
                             "11. Vaciar tanque\n" +
                             "12. Mejorar\n" +
                             "13. Pasar varios días\n" +
-                            "14. Salir\n" +
+                            "14. Listar pedidos completados\n" +
+                            "15. Completar pedido\n" +
+                            "16. Salir\n" +
                             "Dia:" + dias + "\t" +
                             "Monedas: " + monedas);
             String snum1;
@@ -139,7 +152,7 @@ public class Simulador implements Serializable {
             } while (!ApoyoMenu.IsInteger(snum1));
             condition = Integer.parseInt(snum1);
             opcion(condition);
-        } while (condition != 14);
+        } while (condition != 16);
     }
 
     /**
@@ -148,6 +161,7 @@ public class Simulador implements Serializable {
      * @param condicion La opcion del menu seleccionada
      */
     void opcion(int condicion) {
+        Scanner sc = new Scanner(System.in);
         switch (condicion) {
             case 1:
                 ApoyoMenu.showGeneralStatus(piscifactorias);
@@ -168,6 +182,7 @@ public class Simulador implements Serializable {
                 ApoyoMenu.nextDay(piscifactorias);
                 dias++;
                 Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
+                generarPedido();
                 guardarPartida();
                 break;
             case 7:
@@ -189,35 +204,39 @@ public class Simulador implements Serializable {
                 ApoyoMenu.upgrade(piscifactorias);
                 break;
             case 13:
-                Scanner sc = new Scanner(System.in);
                 System.out.println("¿Cuantos dias quieres avanzar?");
                 int avanzarDias = sc.nextInt();
                 for (int i = 0; i < avanzarDias; i++) {
                     ApoyoMenu.nextDay(piscifactorias);
                     dias++;
                     Simulador.registros.escribirTranscripcion(">>>Inicio del dia " + Simulador.dias);
+                    generarPedido();
                     guardarPartida();
                 }
                 break;
-            case 14:
+            case 15:
                 guardarPartida();
                 System.out.println("Saliendo...");
                 Simulador.registros.escribirLog("Cierre de la partida.");
                 Simulador.registros.cerrarRegistros();
+                Conexion.cerrarConexion();
                 break;
-            case 15:
-                rewards.generarMonedas(5);
-                rewards.generarAlmacen('b');
-                rewards.generarAlmacen('c');
-                rewards.generarAlmacen('d');
-                rewards.generarComida(2);
-                rewards.generarPiscifactoriaMar('a');
-                rewards.generarPiscifactoriaMar('b');
-                rewards.generarPiscifactoriaRio('a');
-                rewards.generarPiscifactoriaRio('b');
-                rewards.generarTanqueMar();
-                rewards.generarTanqueRio();
-                rewards.generarAlmacen('a');
+            case 14:
+                daoPedidos.listarPedidosCompletados();
+                break;
+            case 16:
+                daoPedidos.listarPedidos();
+                System.out.println("¿Que pedido quieres completar?");
+                String snum1;
+                do {
+                    System.out.println("Seleccione una opcion");
+                    snum1 = sc.nextLine();
+                } while (!ApoyoMenu.IsInteger(snum1));
+                int idPedido = Integer.parseInt(snum1);
+                daoPedidos.datosPedido(idPedido);
+                break;
+            case 97:
+                daoPedidos.eliminarPedidos();
                 break;
             case 98:
                 ApoyoMenu.caso98(piscifactorias);
@@ -245,7 +264,6 @@ public class Simulador implements Serializable {
         try {
             File saves = new File("saves");
             if (saves.exists() && saves.isDirectory()) {
-                // Listar archivos dentro del directorio
                 File[] archivos = saves.listFiles();
                 if (archivos != null && archivos.length > 0) {
                     int i = 1;
@@ -275,8 +293,12 @@ public class Simulador implements Serializable {
             }
             menu();
         } catch (Exception e) {
+            e.printStackTrace();
             escribirError("Error en el proceso principal");
             registros.cerrarRegistros();
+        } finally {
+            daoPedidos.cerrarPedidos();
+            Conexion.cerrarConexion();
         }
     }
 
@@ -412,6 +434,15 @@ public class Simulador implements Serializable {
             } catch (IOException e) {
                 Simulador.escribirError("Error al cerrar el reader");
             }
+        }
+    }
+
+    /**
+     * Genera un pedido cada 10 dias
+     */
+    private void generarPedido() {
+        if (dias % 10 == 0) {
+            daoPedidos.insertPedidos();
         }
     }
 

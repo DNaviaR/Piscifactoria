@@ -1303,6 +1303,7 @@ public class ApoyoMenu {
 
     /**
      * Permite canjear una recompensa de la lista de recompensas disponibles
+     * 
      * @param rwa El objeto rewards
      */
     public static void canjearRecompensas(Rewards rwa) {
@@ -1343,6 +1344,40 @@ public class ApoyoMenu {
             }
         } else {
             System.out.println("No hay recompensas para canjear");
+        }
+    }
+
+    /**
+     * Genera una recompensa de la lista de recompensas disponibles
+     */
+    public static void generarRecompensa() {
+        Random rd = new Random();
+        int porcentaje = rd.nextInt(101);
+        if (porcentaje < 50) {
+            porcentaje = rd.nextInt(101);
+            if (porcentaje < 60) {
+                Simulador.rewards.generarComida(1);
+            } else if (porcentaje >= 60 && porcentaje < 90) {
+                Simulador.rewards.generarComida(2);
+            } else {
+                Simulador.rewards.generarComida(3);
+            }
+        } else if (porcentaje >= 50 && porcentaje < 90) {
+            porcentaje = rd.nextInt(101);
+            if (porcentaje < 60) {
+                Simulador.rewards.generarMonedas(1);
+            } else if (porcentaje >= 60 && porcentaje < 90) {
+                Simulador.rewards.generarMonedas(2);
+            } else {
+                Simulador.rewards.generarMonedas(3);
+            }
+        } else {
+            porcentaje = rd.nextInt(101);
+            if (porcentaje < 60) {
+                Simulador.rewards.generarTanqueRio();
+            } else {
+                Simulador.rewards.generarTanqueMar();
+            }
         }
     }
 }

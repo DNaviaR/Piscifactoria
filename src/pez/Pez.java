@@ -354,7 +354,6 @@ public abstract class Pez implements Cloneable {
      * @param peces La lista de peces
      */
     public void nuevoPez(List<Pez> peces, List<Pez> nuevosPeces) {
-
         boolean sexoNuevoPez = obtenerSexosTanque(peces);
         try {
             Pez nuevoPez = (Pez) peces.get(0).clone();

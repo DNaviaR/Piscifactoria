@@ -1,0 +1,100 @@
+{
+  "implementados": [
+    "Carpa",
+    "Carpa plateada",
+    "Carpín de tres espinas",
+    "Lucio del norte",
+    "Pejerrey ",
+    "Perca europea",
+    "Salmón chinook",
+    "Tilapia del Nilo",
+    "Abadejo",
+    "Arenque del Atlántico",
+    "Besugo",
+    "Caballa",
+    "Cobia",
+    "Corvina",
+    "Lenguado europeo",
+    "Lubina rayada",
+    "Róbalo",
+    "Rodaballo",
+    "Sargo",
+    "Bagre de canal",
+    "Dorada",
+    "Lubina europea",
+    "Salmón atlántico",
+    "Trucha arcoíris"
+  ],
+  "empresa": "pepa",
+  "dia": 1,
+  "monedas": 1100,
+  "orca": "0,3,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0;0,0,0",
+  "comida": {
+    "almacen": {
+      "disponible": false,
+      "capacidad": 200,
+      "comida": {
+        "general": 0
+      }
+    }
+  },
+  "piscifactorias": [
+    {
+      "nombre": "pepo",
+      "tipo": 0,
+      "capacidad": 25,
+      "comida": {
+        "general": 19
+      },
+      "tanques": [
+        {
+          "pez": "Carpa",
+          "num": 1,
+          "datos": {
+            "vivos": 4,
+            "maduros": 0,
+            "fertiles": 0
+          },
+          "peces": [
+            {
+              "edad": 1,
+              "sexo": false,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": 0,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": true,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": -1,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": true,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": -1,
+              "alimentado": false
+            },
+            {
+              "edad": 1,
+              "sexo": false,
+              "vivo": true,
+              "maduro": false,
+              "fertil": false,
+              "ciclo": 0,
+              "alimentado": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
